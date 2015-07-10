@@ -30,7 +30,6 @@
                 if (this.model.eg) {
                     //displaying No data message
                     this.domNode.innerHTML = this.model.eg;
-                    debugger;
                 } else {
                     //parsing properties
                     // this.properties = this.getProperties(); ming
@@ -109,7 +108,7 @@
                 var gridData = this.getDataParser();
                 var mMyData = {};
 
-                window.gridData = gridData;
+                // window.gridData = gridData;
 
                 var lMetricName = gridData.getColHeaders(0).getHeader(0).getName();
 
@@ -137,19 +136,31 @@
                         if (lValueNotFound) {
                             lDictValues[lElement]=lElement;
                         } else {
-                            lDictValues[lElement]=lElement + '-' + lAttributeName + '-';
+                            lDictValues[lElement]=lElement + '-' + lAttributeName;
+                            //to avoid duplicated attribute names
                         }
                     }
                     mDictAttributes[lAttributeName] = lDictValues;
                 }
+
+                //Ming: build a list of nodes for each row
+
+                // for (var i = 0; i < gridData.getTotalRows(); i++) {
+                //   for (var j=0; j < gridData.getRowTitles().size(); j++){
+                //     var attrName = gridData.getRowTitles().getTitle(j).getName();
+                //
+                //   }
+                // }
+
+
                 var debugNegVal = 0;
                 for (var lSrcIdx = 0; lSrcIdx < (gridData.getRowTitles().size() - 1); lSrcIdx++) {
                     var lTrgtIdx = lSrcIdx + 1;
                     var lMoreLinks = [];
 
                     //Ming
-                    var attrNameSrc = gridData.getRowTitles().getTitle(lSrcIdx).getName();
-                    var attrNameTrg = gridData.getRowTitles().getTitle(lTrgtIdx).getName();
+                    // var attrNameSrc = gridData.getRowTitles().getTitle(lSrcIdx).getName();
+                    // var attrNameTrg = gridData.getRowTitles().getTitle(lTrgtIdx).getName();
 
                     for (var i = 0; i < gridData.getTotalRows(); i++) {
                         var lNewLink = {};
@@ -164,9 +175,12 @@
 
                         var lNewSrcName = mDictAttributes[lAttribute_Src_Name][lAttribute_Src];
                         var lNewTrgtName = mDictAttributes[lAttribute_Trgt_Name][lAttribute_Trgt];
+                        lNewLink['source'] = lNewSrcName;
+                        lNewLink['target'] = lNewTrgtName;
+                        // lNewLink['source'] = attrNameSrc +"::"+ lNewSrcName;
+                        // lNewLink['target'] = attrNameTrg +"::"+ lNewTrgtName;
+                        // lNewLink['thruNodes'] = [];
 
-                        lNewLink['source'] = attrNameSrc +"::"+ lNewSrcName;
-                        lNewLink['target'] = attrNameTrg +"::"+ lNewTrgtName;
 
                         //Ming
                         // lNewLink['value'] = lMetricValue;
@@ -190,30 +204,29 @@
                         var lElementNewName = lAttrDic[lElementNm];
                         var lNode = {};
                         lNode['name'] = lElementNewName;
-                        lNode['index'] = lAttrName +"::"+ lElementNewName;
                         mNodeNames.push(lNode);
                     }
                 }
                 mMyData['nodes'] = mNodeNames;
                 mMyData['links'] = [].concat(lData_Links); //Ming: used to hightlight a perticular portion of a flow
 
-                If 2 Links have the same source and target, sum the value and only keep one
-                var lSummarisedArray = [];
-                $.each(lData_Links, function(iIdx, iObj){
-                    var lExistingPair = false;
-                    $.each(lSummarisedArray, function(iIdx, iObjS){
-                        if (iObj.source === iObjS.source && iObj.target === iObjS.target) {
-                            iObjS.value = iObj.value + iObjS.value;
-                            lExistingPair = true;
-                        }
-                    });
-                    if (!lExistingPair) {
-                        var newiObj = jQuery.extend(true, {}, iObj); //Deep copy
-                        lSummarisedArray.push(newiObj);
-                    }
-                });
-                mMyData['links'] = [].concat(lSummarisedArray);
-                mMyData['links'] = [].concat(mMyData['links0']);
+                /////If 2 Links have the same source and target, sum the value and only keep one
+                // var lSummarisedArray = [];
+                // $.each(lData_Links, function(iIdx, iObj){
+                //     var lExistingPair = false;
+                //     $.each(lSummarisedArray, function(iIdx, iObjS){
+                //         if (iObj.source === iObjS.source && iObj.target === iObjS.target) {
+                //             iObjS.value = iObj.value + iObjS.value;
+                //             lExistingPair = true;
+                //         }
+                //     });
+                //     if (!lExistingPair) {
+                //         var newiObj = jQuery.extend(true, {}, iObj); //Deep copy
+                //         lSummarisedArray.push(newiObj);
+                //     }
+                // });
+                // mMyData['links'] = [].concat(lSummarisedArray);
+                // mMyData['links'] = [].concat(mMyData['links0']);
 
                 // Add all default values
                 // window.mMyData = mMyData;
@@ -251,10 +264,10 @@
                     .size([width, height]);
 
                 var source = function(x){
-                  return x.source.index;
+                  return x.source.name;
                 };
                 var target = function(x){
-                  return x.target.index;
+                  return x.target.name;
                 };
 
                 ////////////////////////////////////////////////////////////
@@ -263,7 +276,7 @@
                 // window.data=graph;
 
                 var nodeMap = {};
-                graph.nodes.forEach(function(x) { nodeMap[x.index] = x; });
+                graph.nodes.forEach(function(x) { nodeMap[x.name] = x; });
                 var mapping = function(x) {
                     return {
                         source: nodeMap[x.source],
@@ -312,9 +325,10 @@
                     .text(function(d) {
                         return d.source.name + " → " +
                             d.target.name + "\n" + format(d.value); });//TODO sum it.First discuss with tk
+
                 var setSimilarLinks = function(link, val){
-                  var src = link.source.index,
-                      trg = link.target.index;
+                  var src = link.source.name,
+                      trg = link.target.name;
                   $("svg g .link").each(function(){
                     var $this=$(this);
                     if ($this.attr("source") == src &&
@@ -370,18 +384,18 @@
                 node.on("mouseover",function(d){ //Ming
                   $("svg g .link").each(function(){
                     var $this=$(this);
-                    if ($this.attr("source") == d.index ||
-                        $this.attr("target") == d.index) {
+                    if ($this.attr("source") == d.name ||
+                        $this.attr("target") == d.name) {
                       $this.attr("id", "highlight-link");
-                      //TODO USING class selector! Assign a attribute name(node index) to a link iff it pass through this node
+                      //TODO USING class selector! Assign a attribute name(node name) to a link iff it pass through this node
                     }
                   });
                 });
                 node.on("mouseout",function(d){
                   $("svg g .link").each(function(){
                     var $this=$(this);
-                    if ($this.attr("source") == d.index ||
-                        $this.attr("target") == d.index) {
+                    if ($this.attr("source") == d.name ||
+                        $this.attr("target") == d.name) {
                       $this.attr("id", null);
                     }
                   });
