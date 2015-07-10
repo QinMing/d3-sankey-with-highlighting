@@ -309,8 +309,6 @@
                       return x.thru;
                     })
                     .attr("d", sankey.link())
-                    .attr("source", source)//Ming  //TODO RM
-                    .attr("target", target)//Ming
                     .style("stroke-linecap", "butt")
                     .style("stroke-width", function(d) { return Math.max(1, d.dy); })
                     .sort(function(a, b) { return b.dy - a.dy; });
