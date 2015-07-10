@@ -119,10 +119,10 @@
                 for(var lAttrIdx = 0; lAttrIdx < gridData.getRowTitles().size(); lAttrIdx++) {
                     var lAttributeName = gridData.getRowTitles().getTitle(lAttrIdx).getName();
                     var lAttributeValues = gridData.getRowTitles().getTitle(lAttrIdx).getHeaderValues();
-
                     var lDictValues = {};
                     for(var lElementIdx = 0 ; lElementIdx < lAttributeValues.length; lElementIdx++) {
                         var lElement = lAttributeValues[lElementIdx]['n'];
+                        lElement.replace(' ', '-'); //Ming: in order to add it to classes
                         var lValueNotFound = true;
                         for(var lAttrName in mDictAttributes) {
                             var lAttrDic = mDictAttributes[lAttrName];
@@ -143,26 +143,24 @@
                     mDictAttributes[lAttributeName] = lDictValues;
                 }
 
-                //Ming: build a list of nodes for each row
-
-                // for (var i = 0; i < gridData.getTotalRows(); i++) {
-                //   for (var j=0; j < gridData.getRowTitles().size(); j++){
-                //     var attrName = gridData.getRowTitles().getTitle(j).getName();
-                //
-                //   }
-                // }
-
-
                 var debugNegVal = 0;
-                for (var lSrcIdx = 0; lSrcIdx < (gridData.getRowTitles().size() - 1); lSrcIdx++) {
-                    var lTrgtIdx = lSrcIdx + 1;
-                    var lMoreLinks = [];
+                for (var i = 0; i < gridData.getTotalRows(); i++) {
+                    // var lMoreLinks = [];
 
                     //Ming
                     // var attrNameSrc = gridData.getRowTitles().getTitle(lSrcIdx).getName();
                     // var attrNameTrg = gridData.getRowTitles().getTitle(lTrgtIdx).getName();
 
-                    for (var i = 0; i < gridData.getTotalRows(); i++) {
+                    var thru = '|';
+                    for (var lSrcIdx = 0; lSrcIdx < gridData.getRowTitles().size(); lSrcIdx++) {
+                        var lAttribute_Src_Name = gridData.getRowTitles().getTitle(lSrcIdx).getName();
+                        var lAttribute_Src = gridData.getRowHeaders(i).getHeader(lSrcIdx).getName();
+                        var lNewSrcName = mDictAttributes[lAttribute_Src_Name][lAttribute_Src];
+                        thru += lNewSrcName + '|'
+
+                    }
+                    for (var lSrcIdx = 0; lSrcIdx < (gridData.getRowTitles().size() - 1); lSrcIdx++) {
+                        var lTrgtIdx = lSrcIdx + 1;
                         var lNewLink = {};
 
                         var lAttribute_Src_Name = gridData.getRowTitles().getTitle(lSrcIdx).getName();
@@ -170,7 +168,6 @@
 
                         var lAttribute_Src = gridData.getRowHeaders(i).getHeader(lSrcIdx).getName();
                         var lAttribute_Trgt = gridData.getRowHeaders(i).getHeader(lTrgtIdx).getName();
-
                         var lMetricValue = gridData.getMetricValue(i, 0).getRawValue();
 
                         var lNewSrcName = mDictAttributes[lAttribute_Src_Name][lAttribute_Src];
@@ -179,21 +176,17 @@
                         lNewLink['target'] = lNewTrgtName;
                         // lNewLink['source'] = attrNameSrc +"::"+ lNewSrcName;
                         // lNewLink['target'] = attrNameTrg +"::"+ lNewTrgtName;
-                        // lNewLink['thruNodes'] = [];
 
+                        lNewLink['thru'] = thru;
 
-                        //Ming
-                        // lNewLink['value'] = lMetricValue;
                         if (lMetricValue <0){
                           debugNegVal ++;
                           lNewLink['value'] = 0;
                         }else{
                           lNewLink['value'] = lMetricValue;
                         }
-                        lMoreLinks.push(lNewLink);
+                        lData_Links.push(lNewLink);
                     }
-
-                    lData_Links = lData_Links.concat(lMoreLinks);
                 }
                 console.log("nagative values:",debugNegVal);
 
@@ -281,6 +274,7 @@
                     return {
                         source: nodeMap[x.source],
                         target: nodeMap[x.target],
+                        thru: x.thru,
                         value: x.value
                     };
                 };
@@ -311,8 +305,11 @@
                     .data(graph.links)
                     .enter().append("path")
                     .attr("class", "link")
+                    .attr("thru", function(x){
+                      return x.thru;
+                    })
                     .attr("d", sankey.link())
-                    .attr("source", source)//Ming
+                    .attr("source", source)//Ming  //TODO RM
                     .attr("target", target)//Ming
                     .style("stroke-linecap", "butt")
                     .style("stroke-width", function(d) { return Math.max(1, d.dy); })
@@ -382,22 +379,26 @@
                       return str;
                     });
                 node.on("mouseover",function(d){ //Ming
-                  $("svg g .link").each(function(){
-                    var $this=$(this);
-                    if ($this.attr("source") == d.name ||
-                        $this.attr("target") == d.name) {
-                      $this.attr("id", "highlight-link");
-                      //TODO USING class selector! Assign a attribute name(node name) to a link iff it pass through this node
-                    }
+                  $("svg g > path[thru*='|" + d.name + "|']").each(function(){
+                    $(this).attr("id", "highlight-link");
+                    // console.log($(this).attr("source") , d.name);
+                    // var $this=$(this);
+                    // if ($this.attr("source") == d.name ||
+                        // $this.attr("target") == d.name) {
+                      // $this.attr("id", "highlight-link");
+                    // }
                   });
                 });
+                debugger;
                 node.on("mouseout",function(d){
-                  $("svg g .link").each(function(){
-                    var $this=$(this);
-                    if ($this.attr("source") == d.name ||
-                        $this.attr("target") == d.name) {
-                      $this.attr("id", null);
-                    }
+                  $("svg g > path[thru*='|" + d.name + "|']").each(function(){
+                    $(this).attr("id", null);
+                    // var $this=$(this);
+                    // console.log($this.attr("source") , d.name);
+                    // if ($this.attr("source") == d.name ||
+                    //     $this.attr("target") == d.name) {
+                    //   $this.attr("id", null);
+                    // }
                   });
                 });
 
