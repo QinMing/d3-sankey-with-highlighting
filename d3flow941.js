@@ -195,28 +195,25 @@
                     }
                 }
                 mMyData['nodes'] = mNodeNames;
-
-
                 mMyData['links'] = [].concat(lData_Links); //Ming: used to hightlight a perticular portion of a flow
 
-
-                // If 2 Links have the same source and target, sum the value and only keep one
-                // var lSummarisedArray = [];
-                // $.each(lData_Links, function(iIdx, iObj){
-                //     var lExistingPair = false;
-                //     $.each(lSummarisedArray, function(iIdx, iObjS){
-                //         if (iObj.source === iObjS.source && iObj.target === iObjS.target) {
-                //             iObjS.value = iObj.value + iObjS.value;
-                //             lExistingPair = true;
-                //         }
-                //     });
-                //     if (!lExistingPair) {
-                //         var newiObj = jQuery.extend(true, {}, iObj); //Deep copy
-                //         lSummarisedArray.push(newiObj);
-                //     }
-                // });
-                // mMyData['links'] = [].concat(lSummarisedArray);
-                // mMyData['links'] = [].concat(mMyData['links0']);
+                If 2 Links have the same source and target, sum the value and only keep one
+                var lSummarisedArray = [];
+                $.each(lData_Links, function(iIdx, iObj){
+                    var lExistingPair = false;
+                    $.each(lSummarisedArray, function(iIdx, iObjS){
+                        if (iObj.source === iObjS.source && iObj.target === iObjS.target) {
+                            iObjS.value = iObj.value + iObjS.value;
+                            lExistingPair = true;
+                        }
+                    });
+                    if (!lExistingPair) {
+                        var newiObj = jQuery.extend(true, {}, iObj); //Deep copy
+                        lSummarisedArray.push(newiObj);
+                    }
+                });
+                mMyData['links'] = [].concat(lSummarisedArray);
+                mMyData['links'] = [].concat(mMyData['links0']);
 
                 // Add all default values
                 // window.mMyData = mMyData;
@@ -226,7 +223,7 @@
                     .attr("id", lD3ID)
                     // .append("p");
                 // page.append("p").text("ddddddddddd");
-                //TODO add options
+                //TODO add checkboxes
 
                 var units = lMetricName;
                 var settingsBarHeight = 30;
@@ -260,9 +257,11 @@
                   return x.target.index;
                 };
 
+                ////////////////////////////////////////////////////////////
                 // load the data
                 graph = mMyData;
                 // window.data=graph;
+
                 var nodeMap = {};
                 graph.nodes.forEach(function(x) { nodeMap[x.index] = x; });
                 var mapping = function(x) {
@@ -278,7 +277,6 @@
 
                 sankey
                     .nodes(graph.nodes)
-                    // .links(graph.links0)
                     .links(graph.links)
                     .layout(32);
 
