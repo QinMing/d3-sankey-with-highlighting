@@ -204,22 +204,14 @@
                 mMyData['links'] = [].concat(lData_Links); //Ming: used to hightlight a perticular portion of a flow
 
                 /////If 2 Links have the same source and target, sum the value and only keep one
-                // var lSummarisedArray = [];
-                // $.each(lData_Links, function(iIdx, iObj){
-                //     var lExistingPair = false;
-                //     $.each(lSummarisedArray, function(iIdx, iObjS){
-                //         if (iObj.source === iObjS.source && iObj.target === iObjS.target) {
-                //             iObjS.value = iObj.value + iObjS.value;
-                //             lExistingPair = true;
-                //         }
-                //     });
-                //     if (!lExistingPair) {
-                //         var newiObj = jQuery.extend(true, {}, iObj); //Deep copy
-                //         lSummarisedArray.push(newiObj);
-                //     }
-                // });
-                // mMyData['links'] = [].concat(lSummarisedArray);
-                // mMyData['links'] = [].concat(mMyData['links0']);
+                var summarisedValue_key = function(src, dst){
+                    return src + ' → ' + dst;
+                };
+                var summarisedValue = {};
+                lData_Links.forEach( function(link){
+                    var key = summarisedValue_key(link.source, link.target);
+                    summarisedValue[key] = summarisedValue[key]+link.value || link.value;
+                });
 
                 // Add all default values
                 // window.mMyData = mMyData;
@@ -279,7 +271,6 @@
                     };
                 };
                 graph.links = graph.links.map(mapping);
-                // graph.links0 = graph.links0.map(mapping);
 
 
                 sankey
@@ -287,25 +278,14 @@
                     .links(graph.links)
                     .layout(32);
 
-
-                //link0, the original links without summation
-                // var link = svg.append("g").selectAll(".link0")
-                //     .data(graph.links0)
-                //     .enter().append("path")
-                //     .attr("class", "link0")
-                //     .attr("d", sankey.link())
-                //     .attr("source", source)//Ming
-                //     .attr("target", target)//Ming
-                //     .style("stroke-linecap", "butt")
-                //     .style("stroke-width", function(d) { return Math.max(1, d.dy); })
-                //     .sort(function(a, b) { return b.dy - a.dy; });
-
                 // add in the links
                 var link = svg.append("g").selectAll(".link")
                     .data(graph.links)
                     .enter().append("path")
                     .attr("class", "link")
-                    .attr("thru", function(x){
+                    .attr("source", source)//Ming
+                    .attr("target", target)//Ming
+                    .attr("thru", function(x){//Ming
                       return x.thru;
                     })
                     .attr("d", sankey.link())
@@ -313,26 +293,22 @@
                     .style("stroke-width", function(d) { return Math.max(1, d.dy); })
                     .sort(function(a, b) { return b.dy - a.dy; });
 
-
-
                 // add the link titles
                 link.append("title")
                     .text(function(d) {
-                        return d.source.name + " → " +
-                            d.target.name + "\n" + format(d.value); });//TODO sum it.First discuss with tk
+                        var key = summarisedValue_key(d.source.name, d.target.name);
+                        return key + "\n" + format(summarisedValue[key]);
+                    });
 
                 var setSimilarLinks = function(link, val){
                   var src = link.source.name,
                       trg = link.target.name;
-                  $("svg g .link").each(function(){
-                    var $this=$(this);
-                    if ($this.attr("source") == src &&
-                        $this.attr("target") == trg) {
-                      $this.attr("id", val);
-                    }
-                  });
+                  $("svg g .link[source='"+src+"'][target='"+trg+"']")
+                    .each(function(){
+                      $(this).attr("id", val);
+                    });
                 }
-                link.on("mouseover",function(d){ //Ming
+                link.on("mouseover",function(d){
                   setSimilarLinks(d, "highlight-link");
                 });
                 link.on("mouseout", function(d){
@@ -364,39 +340,37 @@
                         return d3.rgb(d.color).darker(2); })
                     .append("title")
                     .text(function(d) {
-                      var str = d.name + "\n" + format(d.value) + "\n\n";
-                      var readLinks = function(arr){
-                        for (var i in arr){
-                          var l = arr[i];
-                          str += formatNumber(l.value) +" : "+ l.source.name +
-                            " → " + l.target.name +  "\n";
+                        var str = d.name + "\n" + format(d.value) + "\n";
+                        var readLinks = function(srcName, dstName){
+                            var key = summarisedValue_key(srcName,dstName);
+                            str += "\n" + formatNumber(summarisedValue[key]) +
+                                " : " + key;
                         }
-                      }
-                      readLinks(d.sourceLinks);
-                      readLinks(d.targetLinks);
-                      return str;
+                        var occur = {};
+                        d.targetLinks.forEach(function(link){
+                            if (!occur[link.source.name]){
+                              occur[link.source.name] = true;
+                              readLinks(link.source.name, d.name);
+                            }
+                        });
+                        occur = {};
+                        d.sourceLinks.forEach(function(link){
+                            //this d is the source
+                            if (!occur[link.target.name]){
+                              occur[link.target.name] = true;
+                              readLinks(d.name, link.target.name);
+                            }
+                        });
+                        return str;
                     });
                 node.on("mouseover",function(d){ //Ming
                   $("svg g > path[thru*='|" + d.name + "|']").each(function(){
                     $(this).attr("id", "highlight-link");
-                    // console.log($(this).attr("source") , d.name);
-                    // var $this=$(this);
-                    // if ($this.attr("source") == d.name ||
-                        // $this.attr("target") == d.name) {
-                      // $this.attr("id", "highlight-link");
-                    // }
                   });
                 });
-                debugger;
                 node.on("mouseout",function(d){
                   $("svg g > path[thru*='|" + d.name + "|']").each(function(){
                     $(this).attr("id", null);
-                    // var $this=$(this);
-                    // console.log($this.attr("source") , d.name);
-                    // if ($this.attr("source") == d.name ||
-                    //     $this.attr("target") == d.name) {
-                    //   $this.attr("id", null);
-                    // }
                   });
                 });
 
