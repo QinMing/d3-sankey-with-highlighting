@@ -218,25 +218,34 @@
                 //D3 Visualisation
                 var page = d3.select(this.domNode)
                     .attr("id", lD3ID);
-                var selectBox = page.append("select")
-                  .attr("multiple", "")
-                  .attr("data-placeholder", "choose attribute names to display")
-                  .style("width","100px")
+                // var selectBox = page.append("select")
+                //   .attr("multiple", "")
+                //   // .attr("data-placeholder", "choose attribute names to display")
+                //   // .style("width","100px")
+                //
+                // for (var i = 0; i < gridData.getRowTitles().size(); i++) {
+                //     var attributeName = gridData.getRowTitles().getTitle(i).getName();
+                //     selectBox.append("option")
+                //       .attr("value", i)
+                //       .text(attributeName);
+                // }
 
-                //TODO try checkboxes
-
+                //Make the select box
+                var selectBox = page.append("form")
+                  .style("overflow", "scroll")
+                  .style("width", width)
+                  .style("height", height)
+                
                 for (var i = 0; i < gridData.getRowTitles().size(); i++) {
                     var attributeName = gridData.getRowTitles().getTitle(i).getName();
-                    selectBox.append("option")
+                    selectBox.append("input")
+                      .attr("type", "checkbox")
                       .attr("value", i)
-                      .text(attributeName);
+                      .attr("checked", "");
+                    selectBox.append("a").text(attributeName + " ");
                 }
-                    // .append("option");
-
                 var units = lMetricName;
-                var settingsBarHeight = 30;
-                mHeight -= settingsBarHeight;
-                var margin = {top: 20, right: 10, bottom: 33, left: 10},
+                var margin = {top: 50, right: 10, bottom: 33, left: 10},
                     width = mWidth - margin.left - margin.right,
                     height = mHeight - margin.top - margin.bottom;
 
