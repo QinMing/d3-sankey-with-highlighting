@@ -157,7 +157,6 @@
                         var lAttribute_Src = gridData.getRowHeaders(i).getHeader(lSrcIdx).getName();
                         var lNewSrcName = mDictAttributes[lAttribute_Src_Name][lAttribute_Src];
                         thru += lNewSrcName + '|'
-
                     }
                     for (var lSrcIdx = 0; lSrcIdx < (gridData.getRowTitles().size() - 1); lSrcIdx++) {
                         var lTrgtIdx = lSrcIdx + 1;
@@ -217,16 +216,27 @@
                 // window.mMyData = mMyData;
 
                 //D3 Visualisation
-                d3.select(this.domNode)
-                    .attr("id", lD3ID)
-                    // .append("p");
-                // page.append("p").text("ddddddddddd");
-                //TODO add checkboxes
+                var page = d3.select(this.domNode)
+                    .attr("id", lD3ID);
+                var selectBox = page.append("select")
+                  .attr("multiple", "")
+                  .attr("data-placeholder", "choose attribute names to display")
+                  .style("width","100px")
+
+                //TODO try checkboxes
+
+                for (var i = 0; i < gridData.getRowTitles().size(); i++) {
+                    var attributeName = gridData.getRowTitles().getTitle(i).getName();
+                    selectBox.append("option")
+                      .attr("value", i)
+                      .text(attributeName);
+                }
+                    // .append("option");
 
                 var units = lMetricName;
                 var settingsBarHeight = 30;
                 mHeight -= settingsBarHeight;
-                var margin = {top: 8, right: 10, bottom: 33, left: 10},
+                var margin = {top: 20, right: 10, bottom: 33, left: 10},
                     width = mWidth - margin.left - margin.right,
                     height = mHeight - margin.top - margin.bottom;
 
@@ -235,7 +245,7 @@
                     color = d3.scale.category20();
 
                 // append the svg canvas to the page
-                var page = d3.selectAll($('#' + lD3ID).toArray());
+                // var page = d3.selectAll($('#' + lD3ID).toArray());
                 var svg = page.append("svg")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
