@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE StyleCatalog SYSTEM "styleCatalog.dtd">
+<StyleCatalog version="2.0">
+    <Styles>
+        <Style name="d3flow941VisualizationStyle" description="Style to render d3flow941 visualization"
+               transform="ReportAjaxMojoVisualizationTransform">
+            <ActualParameters>
+                <ActualParameter name="mojoClassName" type="1" value="plugins.d3flow941.d3flow941"/>
+                <ActualParameter name="reportXMLStyle" type="1" value="VisualizationDataStyle"/>
+                <ActualParameter name="documentStyle" type="1" value="RWGridJsonStyle" />
+            </ActualParameters>
+            <Layouts>
+                <Layout layout_source="AppLayoutSourceFile" order="1">
+                    <![CDATA[/WEB-INF/xml/layouts/MojoVisualizationLayout.xml]]>
+                </Layout>
+            </Layouts>
+        </Style>
+        <Style name="d3flow941PropertiesStyle" transform="VisualizationPropertiesTransform"
+               description="" >
+            <Layouts>
+                <Layout layout_source="AppLayoutSourceFile">
+                    <![CDATA[@d3flow941:/WEB-INF/xml/layouts/d3flow941Properties.xml]]>
+                </Layout>
+            </Layouts>
+        </Style>
+    </Styles>
+</StyleCatalog>

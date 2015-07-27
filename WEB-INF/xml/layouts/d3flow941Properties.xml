@@ -1,0 +1,42 @@
+<!DOCTYPE mstrlayout:layout SYSTEM "mstrlayout.dtd">
+<mstrlayout:layout>
+	<table>
+		<tr>
+			<td>
+			    Graph Title:
+			</td>
+			<td>
+				<mstrlayout:render name="Textbox">
+					<mstrlayout:argument type="string" value="graphTitle" />
+					<mstrlayout:argument type="string" value="" />
+					<mstrlayout:argument type="string" value="AmCharts Integration" /> <!--default value -->
+				</mstrlayout:render>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Graph Type:
+			</td>
+			<td>
+				<mstrlayout:render name="SelectBox">
+					<mstrlayout:argument type="string" value="graphType" />
+					<mstrlayout:argument type="string" value="serial^Serial Chart|funnel^Funnel Chart|pyramid^Pyramid Chart|3Dfunnel^3D Funnel|logarithmic^Logarithmic Scale "/>
+					<mstrlayout:argument type="string" value="serial" /> <!--default value -->
+				</mstrlayout:render>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Graph Theme:
+			</td>
+			<td>
+				<!--we do not support Chalk since it does requires to add additional font and css settings - can be done but not needed for now-->
+				<mstrlayout:render name="SelectBox">
+					<mstrlayout:argument type="string" value="graphTheme" />
+					<mstrlayout:argument type="string" value="none^None|patterns^Patterns|dark^Dark|light^Light"/>
+					<mstrlayout:argument type="string" value="none" /> <!--default value -->
+				</mstrlayout:render>
+			</td>
+		</tr>
+	</table>
+</mstrlayout:layout>
