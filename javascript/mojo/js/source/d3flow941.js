@@ -179,11 +179,11 @@
                 var mNodeNames = [];
                 for(var lAttrName in mDictAttributes) {
                     var lAttrDic = mDictAttributes[lAttrName];
-                    for(var lElementNm in lAttrDic) {
-                        var lElementNewName = lAttrDic[lElementNm];
-                        var lNode = {};
-                        lNode['name'] = lElementNewName;
-                        mNodeNames.push(lNode);
+                    for(var lElementName in lAttrDic) {
+                        mNodeNames.push({
+                            'name': lAttrDic[lElementName],
+                            'dispName': lElementName
+                        });
                     }
                 }
                 mMyData['nodes'] = mNodeNames;
@@ -277,12 +277,6 @@
                     });
 
                 var setSimilarLinks = function(link, val){
-                  // var src = link.source.name,
-                  //     trg = link.target.name;
-                  // $("svg g .link[source='"+src+"'][target='"+trg+"']")
-                  //   .each(function(){
-                  //     $(this).attr("id", val);
-                  //   });
                   $("svg g .link[thru='" + link.thru + "']").each(function(){
                     $(this).attr("id", val);
                   });
@@ -328,7 +322,7 @@
                         return d3.rgb(d.color).darker(2); })
                     .append("title")
                     .text(function(d) {
-                        var str = d.name + "\n" + format(d.value) + "\n";
+                        var str = d.dispName + "\n" + format(d.value) + "\n";
                         var readLinks = function(srcName, dstName){
                             var key = summarisedValue_key(srcName,dstName);
                             str += "\n" + formatNumber(summarisedValue[key]) +
@@ -369,7 +363,7 @@
                     .attr("dy", ".35em")
                     .attr("text-anchor", "end")
                     .attr("transform", null)
-                    .text(function(d) { return d.name; })
+                    .text(function(d) { return d.dispName; })
                     .style("font-family", "arial")
                     .filter(function(d) { return d.x < width / 2; })
                     .attr("x", 6 + sankey.nodeWidth())
