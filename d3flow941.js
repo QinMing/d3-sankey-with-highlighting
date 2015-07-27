@@ -33,7 +33,6 @@
                 } else {
                     //parsing properties
                     // this.properties = this.getProperties(); ming
-                    // loading required code
                     this.loadScripts();
                 }
             },
@@ -102,13 +101,9 @@
                 // link items: {source: XXX, target: YYY, value: VVV}
                 // nodes items: {name: XXX}
 
-                // gridData.getRowTitles().size() // Nb Attributes
-                //var lAttributeName = gridData.getRowTitles().getTitle(i).getName(); // Attrbiute Name
-                // var gridData = this.dataInterface;
                 var gridData = this.getDataParser();
                 var mMyData = {};
 
-                // window.gridData = gridData;
 
                 var lMetricName = gridData.getColHeaders(0).getHeader(0).getName();
 
@@ -145,11 +140,6 @@
 
                 var debugNegVal = 0;
                 for (var i = 0; i < gridData.getTotalRows(); i++) {
-                    // var lMoreLinks = [];
-
-                    //Ming
-                    // var attrNameSrc = gridData.getRowTitles().getTitle(lSrcIdx).getName();
-                    // var attrNameTrg = gridData.getRowTitles().getTitle(lTrgtIdx).getName();
 
                     var thru = '|';
                     for (var lSrcIdx = 0; lSrcIdx < gridData.getRowTitles().size(); lSrcIdx++) {
@@ -173,9 +163,6 @@
                         var lNewTrgtName = mDictAttributes[lAttribute_Trgt_Name][lAttribute_Trgt];
                         lNewLink['source'] = lNewSrcName;
                         lNewLink['target'] = lNewTrgtName;
-                        // lNewLink['source'] = attrNameSrc +"::"+ lNewSrcName;
-                        // lNewLink['target'] = attrNameTrg +"::"+ lNewTrgtName;
-
                         lNewLink['thru'] = thru;
 
                         if (lMetricValue <0){
@@ -202,7 +189,7 @@
                 mMyData['nodes'] = mNodeNames;
                 mMyData['links'] = [].concat(lData_Links); //Ming: used to hightlight a perticular portion of a flow
 
-                /////If 2 Links have the same source and target, sum the value and only keep one
+                //If multiple Links have the same source and target, sum the value and only keep one
                 var summarisedValue_key = function(src, dst){
                     return src + ' → ' + dst;
                 };
@@ -212,37 +199,9 @@
                     summarisedValue[key] = summarisedValue[key]+link.value || link.value;
                 });
 
-                // Add all default values
-                // window.mMyData = mMyData;
-
                 //D3 Visualisation
                 var page = d3.select(this.domNode)
                     .attr("id", lD3ID);
-                // var selectBox = page.append("select")
-                //   .attr("multiple", "")
-                //   // .attr("data-placeholder", "choose attribute names to display")
-                //   // .style("width","100px")
-                //
-                // for (var i = 0; i < gridData.getRowTitles().size(); i++) {
-                //     var attributeName = gridData.getRowTitles().getTitle(i).getName();
-                //     selectBox.append("option")
-                //       .attr("value", i)
-                //       .text(attributeName);
-                // }
-
-                //Make the select box
-                // var selectBox = page.append("form")
-                //   .style("overflow", "scroll")
-                //   .style("width", width)
-                //   .style("height", height)
-                // for (var i = 0; i < gridData.getRowTitles().size(); i++) {
-                //     var attributeName = gridData.getRowTitles().getTitle(i).getName();
-                //     selectBox.append("input")
-                //       .attr("type", "checkbox")
-                //       .attr("value", i)
-                //       .attr("checked", "");
-                //     selectBox.append("a").text(attributeName + " ");
-                // }
 
                 var units = lMetricName;
                 var margin = {top: 20, right: 20, bottom: 20, left: 20},
@@ -278,13 +237,8 @@
                   return x.target.name;
                 };
 
-                ////////////////////////////////////////////////////////////
-                // load the data
-                graph = mMyData;
-                // window.data=graph;
-
                 var nodeMap = {};
-                graph.nodes.forEach(function(x) { nodeMap[x.name] = x; });
+                mMyData.nodes.forEach(function(x) { nodeMap[x.name] = x; });
                 var mapping = function(x) {
                     return {
                         source: nodeMap[x.source],
@@ -293,17 +247,17 @@
                         value: x.value
                     };
                 };
-                graph.links = graph.links.map(mapping);
+                mMyData.links = mMyData.links.map(mapping);
 
 
                 sankey
-                    .nodes(graph.nodes)
-                    .links(graph.links)
+                    .nodes(mMyData.nodes)
+                    .links(mMyData.links)
                     .layout(32);
 
                 // add in the links
                 var link = svg.append("g").selectAll(".link")
-                    .data(graph.links)
+                    .data(mMyData.links)
                     .enter().append("path")
                     .attr("class", "link")
                     .attr("source", source)//Ming
@@ -340,7 +294,7 @@
 
                 // add in the nodes
                 var node = svg.append("g").selectAll(".node")
-                    .data(graph.nodes)
+                    .data(mMyData.nodes)
                     .enter().append("g")
                     .attr("class", "node")
                     .attr("transform", function(d) {
@@ -351,7 +305,16 @@
                             console.log(this);
                             d3.event.sourceEvent.stopPropagation();
                             this.parentNode.appendChild(this); })
-                        .on("drag", dragmove));
+                        .on("drag", function(d){
+                            d3.select(this).attr("transform",
+                                "translate(" + (
+                                    d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
+                                ) + "," + (
+                                    d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+                                ) + ")");
+                            sankey.relayout();
+                            link.attr("d", sankey.link());
+                        }));
 
                 // add the rectangles for the nodes
                 node.append("rect")
@@ -386,7 +349,7 @@
                         });
                         return str;
                     });
-                node.on("mouseover",function(d){ //Ming
+                node.on("mouseover",function(d){
                   $("svg g > path[thru*='|" + d.name + "|']").each(function(){
                     $(this).attr("id", "highlight-link");
                   });
@@ -410,18 +373,6 @@
                     .attr("x", 6 + sankey.nodeWidth())
                     .attr("text-anchor", "start");
 
-                // the function for moving the nodes
-                function dragmove(d) {
-		                //onsole.log(d);
-                    d3.select(this).attr("transform",
-                        "translate(" + (
-                            d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
-                        ) + "," + (
-                            d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
-                        ) + ")");
-                    sankey.relayout();
-                    link.attr("d", sankey.link());
-                }
                 console.log('end');
                 //IE SVG refresh bug: re-insert SVG node to update/redraw contents.
                 // var svgNode = this.domNode.firstChild;
