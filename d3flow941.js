@@ -117,7 +117,7 @@
                     var lDictValues = {};
                     for(var lElementIdx = 0 ; lElementIdx < lAttributeValues.length; lElementIdx++) {
                         var lElement = lAttributeValues[lElementIdx]['n'];
-                        lElement.replace(' ', '-'); //Ming: in order to add it to classes
+                        //lElement.replace(' ', '-'); //Ming: in order to add it to classes
                         var lValueNotFound = true;
                         for(var lAttrName in mDictAttributes) {
                             var lAttrDic = mDictAttributes[lAttrName];
@@ -249,7 +249,6 @@
                 };
                 mMyData.links = mMyData.links.map(mapping);
 
-
                 sankey
                     .nodes(mMyData.nodes)
                     .links(mMyData.links)
@@ -258,7 +257,7 @@
                 // add in the links
                 var link = svg.append("g").selectAll(".link")
                     .data(mMyData.links)
-                    .enter().append("path")
+                  .enter().append("path")
                     .attr("class", "link")
                     .attr("source", source)//Ming
                     .attr("target", target)//Ming
@@ -278,12 +277,15 @@
                     });
 
                 var setSimilarLinks = function(link, val){
-                  var src = link.source.name,
-                      trg = link.target.name;
-                  $("svg g .link[source='"+src+"'][target='"+trg+"']")
-                    .each(function(){
-                      $(this).attr("id", val);
-                    });
+                  // var src = link.source.name,
+                  //     trg = link.target.name;
+                  // $("svg g .link[source='"+src+"'][target='"+trg+"']")
+                  //   .each(function(){
+                  //     $(this).attr("id", val);
+                  //   });
+                  $("svg g .link[thru='" + link.thru + "']").each(function(){
+                    $(this).attr("id", val);
+                  });
                 }
                 link.on("mouseover",function(d){
                   setSimilarLinks(d, "highlight-link");
