@@ -6,7 +6,7 @@
     }
     mstrmojo.requiresCls("mstrmojo.Vis", "mstrmojo._LoadsScript");
 
-    mstrmojo.plugins.d3flow941.d3flow941 = mstrmojo.declare(// superclass
+    mstrmojo.plugins.d3flow941.d3flow941 = mstrmojo.declare(
         mstrmojo.Vis,
         [mstrmojo._LoadsScript],
         {
@@ -20,11 +20,11 @@
 
             properties: {},
 
-            postBuildRendering: function postBuildRendering() {
+            postBuildRendering: function () {
                 if (this._super) {
                     this._super();
                 }
-                this.domNode.style.width = parseInt(this.width, 10) + 'px';
+                this.domNode.style.width  = parseInt(this.width, 10) + 'px';
                 this.domNode.style.height = parseInt(this.height, 10) + 'px';
                 //if eg exists then we do not have data
                 if (this.model.eg) {
@@ -231,21 +231,21 @@
                 // }
 
                 //Make the select box
-                var selectBox = page.append("form")
-                  .style("overflow", "scroll")
-                  .style("width", width)
-                  .style("height", height)
-                
-                for (var i = 0; i < gridData.getRowTitles().size(); i++) {
-                    var attributeName = gridData.getRowTitles().getTitle(i).getName();
-                    selectBox.append("input")
-                      .attr("type", "checkbox")
-                      .attr("value", i)
-                      .attr("checked", "");
-                    selectBox.append("a").text(attributeName + " ");
-                }
+                // var selectBox = page.append("form")
+                //   .style("overflow", "scroll")
+                //   .style("width", width)
+                //   .style("height", height)
+                // for (var i = 0; i < gridData.getRowTitles().size(); i++) {
+                //     var attributeName = gridData.getRowTitles().getTitle(i).getName();
+                //     selectBox.append("input")
+                //       .attr("type", "checkbox")
+                //       .attr("value", i)
+                //       .attr("checked", "");
+                //     selectBox.append("a").text(attributeName + " ");
+                // }
+
                 var units = lMetricName;
-                var margin = {top: 50, right: 10, bottom: 33, left: 10},
+                var margin = {top: 20, right: 20, bottom: 20, left: 20},
                     width = mWidth - margin.left - margin.right,
                     height = mHeight - margin.top - margin.bottom;
 
@@ -256,8 +256,10 @@
                 // append the svg canvas to the page
                 // var page = d3.selectAll($('#' + lD3ID).toArray());
                 var svg = page.append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
+                    .attr("width", mWidth - 2)//debug
+                    .attr("height", mHeight - 2)
+                    // .attr("width", width + margin.left + margin.right)
+                    // .attr("height", height + margin.top + margin.bottom)
                     .append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -266,6 +268,8 @@
                     .nodeWidth(36)
                     .nodePadding(10)
                     .size([width, height]);
+                    //NOTE debug
+                    // .size([width-20, height-20]);
 
                 var source = function(x){
                   return x.source.name;
