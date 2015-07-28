@@ -322,13 +322,13 @@
           $("svg g .link[thru='" + link.thru + "']").each(function () {
             $(this).attr("id", val);
           });
-        }
+        };
         link.on("mouseover", function (d) {
           setSimilarLinks(d, "highlight-link");
         });
         link.on("mouseout", function (d) {
           setSimilarLinks(d, null);
-        })
+        });
 
         // add in the nodes
         var node = svg.append("g").selectAll(".node")
