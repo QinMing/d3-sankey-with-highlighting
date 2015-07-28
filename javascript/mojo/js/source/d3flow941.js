@@ -52,9 +52,9 @@
                 var me = this;
                 // load required external JS files and after that run renderGraph method
                 this.requiresExternalScripts(externalLibraries, function () {
-                    $(document).ready(function () {
-                        $('head').append('<link href="../plugins/d3flow941/style/global.css" rel="stylesheet" id="styleSheet" />');
-                    });
+                    // $(document).ready(function () {
+                    //     $('head').append('<link href="../plugins/d3flow941/style/global.css" rel="stylesheet" id="styleSheet" />');
+                    // });
                     me.renderGraph();
                 });
             },
@@ -139,6 +139,7 @@
                 }
 
                 var debugNegVal = 0;
+                var debugZeroVal = 0;
                 for (var i = 0; i < gridData.getTotalRows(); i++) {
 
                     var thru = '|';
@@ -150,7 +151,7 @@
                     }
                     for (var lSrcIdx = 0; lSrcIdx < (gridData.getRowTitles().size() - 1); lSrcIdx++) {
                         var lTrgtIdx = lSrcIdx + 1;
-                        var lNewLink = {};
+
 
                         var lAttribute_Src_Name = gridData.getRowTitles().getTitle(lSrcIdx).getName();
                         var lAttribute_Trgt_Name = gridData.getRowTitles().getTitle(lTrgtIdx).getName();
@@ -161,20 +162,22 @@
 
                         var lNewSrcName = mDictAttributes[lAttribute_Src_Name][lAttribute_Src];
                         var lNewTrgtName = mDictAttributes[lAttribute_Trgt_Name][lAttribute_Trgt];
-                        lNewLink['source'] = lNewSrcName;
-                        lNewLink['target'] = lNewTrgtName;
-                        lNewLink['thru'] = thru;
 
-                        if (lMetricValue <0){
-                          debugNegVal ++;
-                          lNewLink['value'] = 0;
-                        }else{
+                        if (lMetricValue <=0){
+                          if (lMetricValue == 0) debugZeroVal ++;
+                          else debugNegVal ++;
+                        }else{ //July 27: remove empty links
+                          var lNewLink = {};
+                          lNewLink['source'] = lNewSrcName;
+                          lNewLink['target'] = lNewTrgtName;
+                          lNewLink['thru'] = thru;
                           lNewLink['value'] = lMetricValue;
+                          lData_Links.push(lNewLink);
                         }
-                        lData_Links.push(lNewLink);
                     }
                 }
                 console.log("nagative values:",debugNegVal);
+                console.log("zero values:",debugZeroVal);
 
                 var mNodeNames = [];
                 for(var lAttrName in mDictAttributes) {
@@ -254,6 +257,14 @@
                     .links(mMyData.links)
                     .layout(32);
 
+                console.log(mMyData.nodes);
+                //July 27 : remove empty nodes
+                mMyData.nodes = mMyData.nodes.filter(function(x){
+                    return x.value > 0;
+                });
+                console.log(mMyData.nodes);
+
+
                 // add in the links
                 var link = svg.append("g").selectAll(".link")
                     .data(mMyData.links)
@@ -298,7 +309,7 @@
                     .call(d3.behavior.drag()
                         .origin(function(d) { return d; })
                         .on("dragstart", function(e) {
-                            console.log(this);
+                            // console.log(this);
                             d3.event.sourceEvent.stopPropagation();
                             this.parentNode.appendChild(this); })
                         .on("drag", function(d){
