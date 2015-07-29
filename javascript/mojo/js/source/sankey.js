@@ -4,7 +4,9 @@ d3.sankey = function() {
       nodePadding = 8,
       size = [1, 1],
       nodes = [],
-      links = [];
+      links = [],
+      lightlinks = [],
+      ky = 0;
 
   sankey.nodeWidth = function(_) {
     if (!arguments.length) return nodeWidth;
@@ -47,6 +49,7 @@ d3.sankey = function() {
 
   sankey.relayout = function() {
     computeLinkDepths();
+    light_computeLink();
     return sankey;
   };
 
@@ -172,7 +175,7 @@ d3.sankey = function() {
     }
 
     function initializeNodeDepth() {
-      var ky = d3.min(nodesByBreadth, function(nodes) {
+      ky = d3.min(nodesByBreadth, function(nodes) {
         return (size[1] - (nodes.length - 1) * nodePadding) / d3.sum(nodes, value);
       });
 
@@ -256,6 +259,15 @@ d3.sankey = function() {
     }
   }
 
+  function ascendingSourceDepth(a, b) {
+    return a.source.y - b.source.y;
+    //Ming: this is why the order of the links is random when there exist multiple links between two nodes
+  }
+
+  function ascendingTargetDepth(a, b) {
+    return a.target.y - b.target.y;
+  }
+
   function computeLinkDepths() {
     nodes.forEach(function(node) {
       node.sourceLinks.sort(ascendingTargetDepth);
@@ -272,14 +284,6 @@ d3.sankey = function() {
         ty += link.dy;
       });
     });
-
-    function ascendingSourceDepth(a, b) {
-      return a.source.y - b.source.y;
-    }
-
-    function ascendingTargetDepth(a, b) {
-      return a.target.y - b.target.y;
-    }
   }
 
   function center(node) {
@@ -288,6 +292,78 @@ d3.sankey = function() {
 
   function value(link) {
     return link.value;
+  }
+
+  //////////////////////////////
+  // Ming : for the aggregated link
+  ////////////////////////////
+
+  sankey.lightlinks = function(_) {
+    if (!arguments.length) return lightlinks;
+    lightlinks = _;
+    return sankey;
+  };
+
+  sankey.lightlink = function () {
+    return this.link();
+  };
+
+  sankey.light_clear = function () {
+    lightlinks = [];
+    return sankey;
+  };
+
+  sankey.light_generate = function (origin) {
+    lightlink = [];
+    if (origin.source){ //is a link
+      lightlink.push({
+        target: origin.target,
+        source: origin.source,
+        value: origin.value
+      });
+    } else if (origin.sourceLinks){ // is a node
+      console.error('no no no ');
+    }
+    return sankey;
+  };
+
+  function light_computeLink() {
+
+    //computeNodeLinks (do this first)
+    nodes.forEach(function(node) {
+      node.lightsourceLinks = [];
+      node.lighttargetLinks = [];
+    });
+    lightlinks.forEach(function(link) {
+      var source = link.source,
+          target = link.target;
+      if (typeof source === "number") source = link.source = nodes[link.source];
+      if (typeof target === "number") target = link.target = nodes[link.target];
+      source.lightsourceLinks.push(link);
+      target.lighttargetLinks.push(link);
+    });
+
+    // in initializeNodeDepth
+    lightlinks.forEach(function(link) {
+      link.dy = link.value * ky;
+    });
+
+    //computeLinkDepths
+    nodes.forEach(function(node) {
+      node.lightsourceLinks.sort(ascendingTargetDepth);
+      node.lighttargetLinks.sort(ascendingSourceDepth);
+    });
+    nodes.forEach(function(node) {
+      var sy = 0, ty = 0;
+      node.lightsourceLinks.forEach(function(link) {
+        link.sy = sy;
+        sy += link.dy;
+      });
+      node.lighttargetLinks.forEach(function(link) {
+        link.ty = ty;
+        ty += link.dy;
+      });
+    });
   }
 
   return sankey;

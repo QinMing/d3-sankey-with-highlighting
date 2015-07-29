@@ -43,10 +43,12 @@
           },
                     // {url: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"},//ming
 
-                    //{url: "../plugins/d3flow941/javascript/mojo/js/source/sankey.js"},
           {
-            url: "https://rawgit.com/mstr-dev/Visualization-Plugins/master/D3Flow/javascript/mojo/js/source/sankey.js"
+            url: "../plugins/d3flow941/javascript/mojo/js/source/sankey.js"
           },
+          // {
+          //   url: "https://rawgit.com/mstr-dev/Visualization-Plugins/master/D3Flow/javascript/mojo/js/source/sankey.js"
+          // },
                     //Ming: temporary fix for Desktop V10
 
           {
@@ -180,7 +182,7 @@
               lAttribute_Trgt];
 
             if (lMetricValue <= 0) {
-              if (lMetricValue == 0) debugZeroVal++;
+              if (lMetricValue === 0) debugZeroVal++;
               else debugNegVal++;
             } else { //July 27: remove empty links
               var lNewLink = {};
@@ -206,7 +208,7 @@
           }
         }
         mMyData['nodes'] = mNodeNames;
-        mMyData['links'] = [].concat(lData_Links); //Ming: used to hightlight a perticular portion of a flow
+        mMyData['links'] = [].concat(lData_Links); //Ming: used to highlight a perticular portion of a flow
 
         //If multiple Links have the same source and target, sum the value and only keep one
         var summarisedValue_key = function (src, dst) {
@@ -218,6 +220,8 @@
           summarisedValue[key] = summarisedValue[key] + link.value ||
             link.value;
         });
+
+        lightlinks = [lData_Links[0]];
 
         //D3 Visualisation
         var page = d3.select(this.domNode)
@@ -291,7 +295,6 @@
         });
         console.log(mMyData.nodes);
 
-
         // add in the links
         var link = svg.append("g").selectAll(".link")
           .data(mMyData.links)
@@ -324,6 +327,8 @@
           });
         };
         link.on("mouseover", function (d) {
+          debugger;
+          handleHighlight(svg, sankey, d);
           setSimilarLinks(d, "highlight-link");
         });
         link.on("mouseout", function (d) {
@@ -377,7 +382,7 @@
               var key = summarisedValue_key(srcName, dstName);
               str += "\n" + formatNumber(summarisedValue[key]) +
                 " : " + key;
-            }
+            };
             var occur = {};
             d.targetLinks.forEach(function (link) {
               if (!occur[link.source.name]) {
@@ -429,6 +434,24 @@
         //IE SVG refresh bug: re-insert SVG node to update/redraw contents.
         // var svgNode = this.domNode.firstChild;
         // this.domNode.insertBefore(svgNode, svgNode);
+
+        function handleHighlight(svg, sankey, origin) {
+          // add highlight-link
+          sankey.light_generate(origin);
+          var link = svg.append("g").selectAll(".link")
+            .data(sankey.lightlinks())
+            .enter().append("path")
+            .attr("class", "link")
+            .attr("id", "highlight-link")
+            .attr("d", sankey.lightlink())
+            .style("stroke-linecap", "butt")
+            .style("stroke-width", function (d) {
+              return Math.max(1, d.dy);
+            })
+            .sort(function (a, b) {
+              return b.dy - a.dy;
+            });
+        }
       }
     }
   );
