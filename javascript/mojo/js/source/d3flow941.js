@@ -70,7 +70,7 @@
        * @returns properties
        */
       getProperties: function () {
-        var prop = new Object();
+        var prop = {};
         prop.title = prop.defTitle = 'd3flow Integration for 9.4.1';
         prop.type = prop.defType = 'serial';
         prop.theme = prop.defTheme = 'none';
@@ -124,7 +124,7 @@
             lAttrIdx).getHeaderValues();
           var lDictValues = {};
           for (var lElementIdx = 0; lElementIdx < lAttributeValues.length; lElementIdx++) {
-            var lElement = lAttributeValues[lElementIdx]['n'];
+            var lElement = lAttributeValues[lElementIdx].n;
             //lElement.replace(' ', '-'); //Ming: in order to add it to classes
             var lValueNotFound = true;
             for (var lAttrName in mDictAttributes) {
@@ -158,7 +158,7 @@
               lSrcIdx).getName();
             var lNewSrcName = mDictAttributes[lAttribute_Src_Name][
               lAttribute_Src];
-            thru += lNewSrcName + '|'
+            thru += lNewSrcName + '|';
           }
           for (var lSrcIdx = 0; lSrcIdx < (gridData.getRowTitles().size() -
               1); lSrcIdx++) {
@@ -318,7 +318,7 @@
         link.append("title")
           .text(function (d) {
             var key = summarisedValue_key(d.source.name, d.target.name);
-            return key + "\n" + format(summarisedValue[key]);
+            return key + "\n" + formatNumber(summarisedValue[key]);
           });
 
         var setSimilarLinks = function (link, val) {
@@ -377,7 +377,7 @@
           })
           .append("title")
           .text(function (d) {
-            var str = d.dispName + "\n" + format(d.value) + "\n";
+            var str = d.dispName + "\n" + formatNumber(d.value) + "\n";
             var readLinks = function (srcName, dstName) {
               var key = summarisedValue_key(srcName, dstName);
               str += "\n" + formatNumber(summarisedValue[key]) +
