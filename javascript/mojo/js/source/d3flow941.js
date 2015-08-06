@@ -99,19 +99,33 @@
           $('#' + lD3ID).empty();
         }
 
-        var mWidth = parseInt(this.domNode.style.width, 10),
-          mHeight = parseInt(this.domNode.style.height, 10);
+        var mWidth = parseInt(this.domNode.style.width, 10);
+        var mHeight = parseInt(this.domNode.style.height, 10);
+        var gridData = this.getDataParser();
+        var metricName = gridData.getColHeaders(0).getHeader(0).getName();
+
+        var data = {
+          nodes: [],
+          flows: [],
+        };
+        for (var i = 0; i < gridData.getTotalRows(); i++) {
+          var value = gridData.getMetricValue(i, 0).getRawValue();
+          if (value < 0) console.error('Error, negative value');
+          var f = {
+            value: value,
+            thru: [],
+          };
+          for (var j = 0; j < gridData.getRowTitles().size(); j++) {
+            var attr = gridData.getRowTitles().getTitle(j).getName();
+          }
+        }
+
 
         //Data Expected is an array of Objects key-value pairs like this:
         //  {links: [], nodes: []}
         // link items: {source: XXX, target: YYY, value: VVV}
         // nodes items: {name: XXX}
 
-        var gridData = this.getDataParser();
-        var mMyData = {};
-
-
-        var lMetricName = gridData.getColHeaders(0).getHeader(0).getName();
 
         var lData_Links = [];
 
