@@ -1,11 +1,16 @@
+//Author: Ming Qin at Yahoo! Inc.
+//Forked from Mike Bostock's [D3 Sankey plugin](https://github.com/d3/d3-plugins/tree/master/sankey)
+
 d3.sankey = function() {
   var sankey = {},
       nodeWidth = 24,
       nodePadding = 8,
       size = [1, 1],
       nodes = [],
+      flows = [],
       links = [],
-      lightlinks = [],
+      dlinks = [], //dynamic links
+      linkDict = {},
       ky = 0;
 
   sankey.nodeWidth = function(_) {
@@ -49,12 +54,13 @@ d3.sankey = function() {
 
   sankey.relayout = function() {
     computeLinkDepths();
-    light_computeLink();
+    computeDlinks();
+    // console.log(links[0].dy,links[0].sy,links[0].ty);
     return sankey;
   };
 
   sankey.link = function() {
-    var curvature = .5;
+    var curvature = 0.5;
 
     function link(d) {
       var x0 = d.source.x + d.source.dx,
@@ -64,10 +70,10 @@ d3.sankey = function() {
           x3 = xi(1 - curvature),
           y0 = d.source.y + d.sy + d.dy / 2,
           y1 = d.target.y + d.ty + d.dy / 2;
-      return "M" + x0 + "," + y0
-           + "C" + x2 + "," + y0
-           + " " + x3 + "," + y1
-           + " " + x1 + "," + y1;
+      return "M" + x0 + "," + y0 +
+             "C" + x2 + "," + y0 +
+             " " + x3 + "," + y1 +
+             " " + x1 + "," + y1;
     }
 
     link.curvature = function(_) {
@@ -80,7 +86,7 @@ d3.sankey = function() {
   };
 
   // Populate the sourceLinks and targetLinks for each node.
-  // Also, if the source and target are not objects, assume they are indices in array.
+  // Also, if the source and target are not objects, assume they are indices.
   function computeNodeLinks() {
     nodes.forEach(function(node) {
       node.sourceLinks = [];
@@ -89,8 +95,8 @@ d3.sankey = function() {
     links.forEach(function(link) {
       var source = link.source,
           target = link.target;
-      if (typeof source === "number") source = link.source = nodes[link.source];
-      if (typeof target === "number") target = link.target = nodes[link.target];
+      // if (typeof source === "number") source = link.source = nodes[link.source];
+      // if (typeof target === "number") target = link.target = nodes[link.target];
       source.sourceLinks.push(link);
       target.targetLinks.push(link);
     });
@@ -111,28 +117,32 @@ d3.sankey = function() {
   // nodes with no incoming links are assigned breadth zero, while
   // nodes with no outgoing links are assigned the maximum breadth.
   function computeNodeBreadths() {
-    var remainingNodes = nodes,
-        nextNodes,
-        x = 0;
+      var remainingNodes = nodes,
+          nextNodes,
+          x = 0;
 
-    while (remainingNodes.length) {
-      nextNodes = [];
-      remainingNodes.forEach(function(node) {
-        node.x = x;
-        node.dx = nodeWidth;
-        node.sourceLinks.forEach(function(link) {
+      function pick_node(node) {
+          node.x = x;
+          node.dx = nodeWidth;
+          node.sourceLinks.forEach(push_if_didnt);
+      }
+
+      function push_if_didnt(link) {
           if (nextNodes.indexOf(link.target) < 0) {
-            nextNodes.push(link.target);
+              nextNodes.push(link.target);
           }
-        });
-      });
-      remainingNodes = nextNodes;
-      ++x;
-    }
+      }
 
-    //
-    moveSinksRight(x);
-    scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
+      while (remainingNodes.length) {
+          nextNodes = [];
+          remainingNodes.forEach(pick_node);
+          remainingNodes = nextNodes;
+          ++x;
+      }
+
+      //
+      moveSinksRight(x);
+      scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }
 
   function moveSourcesRight() {
@@ -168,7 +178,7 @@ d3.sankey = function() {
     initializeNodeDepth();
     resolveCollisions();
     for (var alpha = 1; iterations > 0; --iterations) {
-      relaxRightToLeft(alpha *= .99);
+      relaxRightToLeft(alpha *= 0.99);
       resolveCollisions();
       relaxLeftToRight(alpha);
       resolveCollisions();
@@ -253,19 +263,10 @@ d3.sankey = function() {
         }
       });
     }
-
-    function ascendingDepth(a, b) {
-      return a.y - b.y;
-    }
   }
 
-  function ascendingSourceDepth(a, b) {
-    return a.source.y - b.source.y;
-    //Ming: this is why the order of the links is random when there exist multiple links between two nodes
-  }
-
-  function ascendingTargetDepth(a, b) {
-    return a.target.y - b.target.y;
+  function ascendingDepth(a, b) {
+    return a.y - b.y;
   }
 
   function computeLinkDepths() {
@@ -286,6 +287,14 @@ d3.sankey = function() {
     });
   }
 
+  function ascendingSourceDepth(a, b) {
+    return a.source.y - b.source.y;
+  }
+
+  function ascendingTargetDepth(a, b) {
+    return a.target.y - b.target.y;
+  }
+
   function center(node) {
     return node.y + node.dy / 2;
   }
@@ -295,74 +304,126 @@ d3.sankey = function() {
   }
 
   //////////////////////////////
-  // Ming : for the aggregated link
+  // Ming : for the dynamic links
   ////////////////////////////
 
-  sankey.lightlinks = function(_) {
-    if (!arguments.length) return lightlinks;
-    lightlinks = _;
-    return sankey;
-  };
+  //will modify linkDict, links, flows
+  sankey.flows = function(_) {
+    flows = _;
+    if (!nodes.length) console.error('sankey.nodes() must be called before flows()');
+    linkDict = {};
 
-  sankey.lightlink = function () {
-    return this.link();
-  };
+    flows.forEach(function (f, ind) {
 
-  sankey.light_clear = function () {
-    lightlinks = [];
-    return sankey;
-  };
-
-  sankey.light_generate = function (origin) {
-    lightlink = [];
-    if (origin.source){ //is a link
-      lightlink.push({
-        target: origin.target,
-        source: origin.source,
-        value: origin.value
+      //build index in nodes
+      f.thru.forEach(function (n){
+        n = normalizeNode(n);
+        if (!n.flows){
+          n.flows = {};
+        }
+        n.flows[ind] = true;
       });
-    } else if (origin.sourceLinks){ // is a node
-      console.error('no no no ');
+
+      //extract links
+      for (var i = 0; i < f.thru.length - 1; i++) {
+        var key = stPair(f.thru[i], f.thru[i + 1]);
+        if (linkDict[key]) {
+          linkDict[key].value += f.value;
+          linkDict[key].flows.push(f);
+        } else {
+          linkDict[key] = {
+            source: f.thru[i],
+            target: f.thru[i + 1],
+            value: f.value,
+            flows: [f],
+          };
+        }
+
+      }
+    });
+    nodes.forEach(function (n){
+      var sets = n.flows;
+      n.flows = [];
+      for (var i in sets){
+        n.flows.push(flows[i]);
+      }
+    });
+
+    links = [];
+    for (var key in linkDict) {
+      var l = linkDict[key];
+      l.source = normalizeNode(l.source);
+      l.target = normalizeNode(l.target);
+      links.push(l);
     }
+
     return sankey;
   };
 
-  function light_computeLink() {
+  //will modify dlinks
+  sankey.dflows = function(dflows) {
+    var dict = {};
+    dflows.forEach(function (f) {
+      for (var i = 0; i < f.thru.length - 1; i++) {
+        var key = stPair(f.thru[i], f.thru[i + 1]);
+        if (dict[key]) {
+          dict[key].value += f.value;
+        } else {
+          dict[key] = {
+            source: f.thru[i],
+            target: f.thru[i + 1],
+            value: f.value,
+            sy: linkDict[key].sy,
+            ty: linkDict[key].ty,
+          };
+        }
+      }
+    });
+    dlinks = [];
+    for (var key in dict) {
+      var l = dict[key];
+      l.source = normalizeNode(l.source);
+      l.target = normalizeNode(l.target);
+      l.dy = l.value * ky;
+      dlinks.push(dict[key]);
+    }
+    // debugger;
+    this.relayout();
+    return sankey;
+  };
 
-    //computeNodeLinks (do this first)
-    nodes.forEach(function(node) {
-      node.lightsourceLinks = [];
-      node.lighttargetLinks = [];
-    });
-    lightlinks.forEach(function(link) {
-      var source = link.source,
-          target = link.target;
-      if (typeof source === "number") source = link.source = nodes[link.source];
-      if (typeof target === "number") target = link.target = nodes[link.target];
-      source.lightsourceLinks.push(link);
-      target.lighttargetLinks.push(link);
-    });
+  sankey.dlinks = function() {
+    return dlinks;
+  };
 
-    // in initializeNodeDepth
-    lightlinks.forEach(function(link) {
-      link.dy = link.value * ky;
-    });
+  function stPair(s, t) {
+    if (typeof s === 'number') {
+      return nodes[s].name + '|' + nodes[t].name ;
+    } else if (typeof s === 'object') {
+      return s.name + '|' + t.name;
+    } else if (typeof s === 'string'){
+      return s + '|' + t;
+    } else {
+      console.error('wrong type');
+    }
+  }
 
-    //computeLinkDepths
-    nodes.forEach(function(node) {
-      node.lightsourceLinks.sort(ascendingTargetDepth);
-      node.lighttargetLinks.sort(ascendingSourceDepth);
-    });
-    nodes.forEach(function(node) {
-      var sy = 0, ty = 0;
-      node.lightsourceLinks.forEach(function(link) {
-        link.sy = sy;
-        sy += link.dy;
-      });
-      node.lighttargetLinks.forEach(function(link) {
-        link.ty = ty;
-        ty += link.dy;
-      });
+  function normalizeNode(n) {
+    if (typeof n === "number"){
+      return nodes[n];
+    } else if (typeof n === "object"){
+      return n;
+    } else{
+      console.error('not implemented');
+      return null;
+    }
+  }
+
+  function computeDlinks() {
+    dlinks.forEach(function (l) {
+      var slink = linkDict[stPair(l.source, l.target)];
+      l.sy = slink.sy;
+      l.ty = slink.ty;
     });
   }
 

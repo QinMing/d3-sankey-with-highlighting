@@ -297,22 +297,22 @@
 
         // add in the links
         var link = svg.append("g").selectAll(".link")
-          .data(mMyData.links)
+            .data(mMyData.links)
           .enter().append("path")
-          .attr("class", "link")
-          .attr("source", source) //Ming
-          .attr("target", target) //Ming
-          .attr("thru", function (x) { //Ming
-            return x.thru;
-          })
-          .attr("d", sankey.link())
-          .style("stroke-linecap", "butt")
-          .style("stroke-width", function (d) {
-            return Math.max(1, d.dy);
-          })
-          .sort(function (a, b) {
-            return b.dy - a.dy;
-          });
+            .attr("class", "link")
+            .attr("source", source) //Ming
+            .attr("target", target) //Ming
+            .attr("thru", function (x) { //Ming
+              return x.thru;
+            })
+            .attr("d", sankey.link())
+            .style("stroke-linecap", "butt")
+            .style("stroke-width", function (d) {
+              return Math.max(1, d.dy);
+            })
+            .sort(function (a, b) {
+              return b.dy - a.dy;
+            });
 
         // add the link titles
         link.append("title")
