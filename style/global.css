@@ -9,12 +9,6 @@ ellipse {
   fill: #fff;
 }
 
-path {
-  fill: none;
-  stroke: #fff;
-  stroke-linecap: butt;
-}
-
 .mid {
   stroke-width: 4px;
 }
@@ -34,15 +28,17 @@ path {
   text-shadow: 0 1px 0 #fff;
 }
 
-.link {
-  fill: none;
-  stroke: #000;
-  stroke-opacity: .2;
+path.link {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .2;
+    stroke-linecap: butt;
 }
 
-.link:hover, #highlight-link {
-  stroke: #45699f;
-  stroke-opacity: .8;
+path.highlight {
+    stroke: #45699f;
+    stroke-opacity: .8;
+    z-index: 1;
 }
 
 #RwMenuModel_WEB-INFxmllayoutsblocksInsertDHTMLWidgetMenuLayoutxml   #mnuInsertWgD3Flow {
