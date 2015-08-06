@@ -1,6 +1,6 @@
 //Author: Ming Qin at Yahoo! Inc.
 
-d3.drawSankey = function (svg, inputdata) {
+d3.drawSankey = function (svg, inputdata, options) {
 
   function drawNode(nodes) {
     var node = graph.insert("g", ":first-child").selectAll(".node")
@@ -89,13 +89,13 @@ d3.drawSankey = function (svg, inputdata) {
   }
 
   var margin = {
-      top: 1,
-      right: 1,
-      bottom: 1,
-      left: 1
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10,
     },
-    width = 500 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = options.width - margin.left - margin.right - 15,
+    height = options.height - margin.top - margin.bottom - 15;
 
   var formatNumber = d3.format(",.0f"),
     color = d3.scale.category20();

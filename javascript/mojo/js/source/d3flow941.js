@@ -97,19 +97,25 @@
         //   $('#' + lD3ID).empty();
         // }
 
-        var mWidth = parseInt(this.domNode.style.width, 10);
-        var mHeight = parseInt(this.domNode.style.height, 10);
         var gridData = this.getDataParser();
         // var metricName = gridData.getColHeaders(0).getHeader(0).getName();
-
+        var negValNotified = false;
         var nodeDict = {};
         var data = {
           nodes: [],
           flows: [],
         };
+
         for (var i = 0; i < gridData.getTotalRows(); i++) {
           var value = gridData.getMetricValue(i, 0).getRawValue();
-          if (value < 0) console.error('Error, negative value');
+          if (value <= 0) {
+            console.error('Warning: negative value');
+            if (!negValNotified) {
+              alert('Warning: negative value(s) in the metric. Assuming zero.');
+              negValNotified = true;
+            }
+            continue;
+          }
           var f = {
             value: value,
             thru: [],
@@ -131,7 +137,10 @@
           data.flows.push(f);
         }
         var svg = d3.select(this.domNode).append('svg');
-        d3.drawSankey(svg, data);
+        d3.drawSankey(svg, data, {
+          width : parseInt(this.domNode.style.width, 10),
+          height: parseInt(this.domNode.style.height, 10),
+        });
       }
     }
   );
