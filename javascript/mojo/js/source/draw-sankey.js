@@ -41,7 +41,7 @@ d3.drawSankey = function (svg, inputdata, options) {
       })
       .append("title")
       .text(function (d) {
-        var text = formatNumber(d.value) + '   ' + d.disp + '\n';
+        var text = formatNumber(d.value) + '\t' + d.disp + '\n';
         return flowTooltips(text, d);
       });
 
@@ -89,7 +89,7 @@ d3.drawSankey = function (svg, inputdata, options) {
     var maxlen = Math.max.apply(null, len);
     var fmt = d3.format('<' + maxlen + ',.2f');
     d.flows.forEach(function (f){
-      text += '\n' + fmt(f.value) + '   ';
+      text += '\n' + fmt(f.value) + '\t';
       f.thru.forEach(function (n, ind){
         if (ind !== 0) text += ' → ';
         text += n.disp || n;
@@ -149,7 +149,7 @@ d3.drawSankey = function (svg, inputdata, options) {
     })
     .append("title")
     .text(function (d) {
-      var text = formatNumber(d.value) + '   ' +
+      var text = formatNumber(d.value) + '\t' +
         d.source.disp + " → " + d.target.disp + '\n';
       return flowTooltips(text, d);
     });
