@@ -315,9 +315,20 @@ d3.sankey = function() {
 
     flows.forEach(function (f, ind) {
 
+      //normalizeNode in f.thru
+      f.thru = f.thru.map(function (n) {
+        if (typeof n === "number"){
+          return nodes[n];
+        } else if (typeof n === "object"){
+          return n;
+        } else {
+          console.error('not supported node type');
+          return null;
+        }
+      });
+
       //build index in nodes
-      f.thru.forEach(function (n){
-        n = normalizeNode(n);
+      f.thru.forEach(function (n) {
         if (!n.flows){
           n.flows = {};
         }
@@ -341,7 +352,7 @@ d3.sankey = function() {
 
       }
     });
-    nodes.forEach(function (n){
+    nodes.forEach(function (n) {
       var sets = n.flows;
       n.flows = [];
       for (var i in sets){
@@ -352,8 +363,6 @@ d3.sankey = function() {
     links = [];
     for (var key in linkDict) {
       var l = linkDict[key];
-      l.source = normalizeNode(l.source);
-      l.target = normalizeNode(l.target);
       links.push(l);
     }
 
@@ -382,8 +391,6 @@ d3.sankey = function() {
     dlinks = [];
     for (var key in dict) {
       var l = dict[key];
-      l.source = normalizeNode(l.source);
-      l.target = normalizeNode(l.target);
       l.dy = l.value * ky;
       dlinks.push(dict[key]);
     }
@@ -405,17 +412,6 @@ d3.sankey = function() {
       return s + '|' + t;
     } else {
       console.error('wrong type');
-    }
-  }
-
-  function normalizeNode(n) {
-    if (typeof n === "number"){
-      return nodes[n];
-    } else if (typeof n === "object"){
-      return n;
-    } else{
-      console.error('not implemented');
-      return null;
     }
   }
 
