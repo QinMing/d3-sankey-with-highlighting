@@ -109,9 +109,8 @@
         for (var i = 0; i < gridData.getTotalRows(); i++) {
           var value = gridData.getMetricValue(i, 0).getRawValue();
           if (value <= 0) {
-            console.error('Warning: negative value');
+            console.error('Warning: negative value(s) in the metric. Assuming zero.');
             if (!negValNotified) {
-              alert('Warning: negative value(s) in the metric. Assuming zero.');
               negValNotified = true;
             }
             continue;

@@ -15,6 +15,7 @@ d3.drawSankey = function (svg, inputdata, options) {
           return d;
         })
         .on("dragstart", function () {
+          d3.event.sourceEvent.stopPropagation();
           this.parentNode.appendChild(this);
         })
         .on("drag", dragmove));
@@ -40,7 +41,16 @@ d3.drawSankey = function (svg, inputdata, options) {
       })
       .append("title")
       .text(function (d) {
-        return d.disp + "\n" + formatNumber(d.value);
+        var text = formatNumber(d.value) + ' \t ' + d.disp + '\n';
+        d.flows.forEach(function (f){
+          text += '\n' + formatNumber(f.value) + ' \t ';
+          f.thru.forEach(function (n, ind){
+            if (ind !== 0) text += ' → ';
+            if (typeof n ==='object') text += n.disp;
+            else text += n;
+          });
+        });
+        return text;
       });
 
     node.append("text")
@@ -64,8 +74,12 @@ d3.drawSankey = function (svg, inputdata, options) {
   }
 
   function dragmove(d) {
-    d3.select(this).attr("transform", "translate(" + d.x + "," + (d.y = Math.max(
-      0, Math.min(height - d.dy, d3.event.y))) + ")");
+    d3.select(this).attr("transform",
+      "translate(" + (
+        d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
+      ) + "," + (
+        d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+      ) + ")");
     sankey.relayout();
     link.attr("d", sankey.link());
     dlink.attr("d", sankey.link());
@@ -88,6 +102,9 @@ d3.drawSankey = function (svg, inputdata, options) {
     return link;
   }
 
+  var formatNumber = d3.format(",.2f");
+  var color = d3.scale.category20();
+
   var margin = {
       top: 10,
       right: 10,
@@ -96,9 +113,6 @@ d3.drawSankey = function (svg, inputdata, options) {
     },
     width = options.width - margin.left - margin.right - 15,
     height = options.height - margin.top - margin.bottom - 15;
-
-  var formatNumber = d3.format(",.0f"),
-    color = d3.scale.category20();
 
   var graph = svg
     .attr("width", width + margin.left + margin.right)
@@ -127,7 +141,17 @@ d3.drawSankey = function (svg, inputdata, options) {
     })
     .append("title")
     .text(function (d) {
-      return d.source.disp + " → " + d.target.disp + "\n" + formatNumber(d.value);
+      var text = formatNumber(d.value) + ' \t ' +
+        d.source.disp + " → " + d.target.disp + '\n';
+      d.flows.forEach(function (f){
+        text += '\n' + formatNumber(f.value) + ' \t ';
+        f.thru.forEach(function (n, ind){
+          if (ind !== 0) text += ' → ';
+          if (typeof n ==='object') text += n.disp;
+          else text += n;
+        });
+      });
+      return text;
     });
 
   var dlink;
