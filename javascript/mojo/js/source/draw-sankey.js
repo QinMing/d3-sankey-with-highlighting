@@ -41,16 +41,8 @@ d3.drawSankey = function (svg, inputdata, options) {
       })
       .append("title")
       .text(function (d) {
-        var text = formatNumber(d.value) + ' \t ' + d.disp + '\n';
-        d.flows.forEach(function (f){
-          text += '\n' + formatNumber(f.value) + ' \t ';
-          f.thru.forEach(function (n, ind){
-            if (ind !== 0) text += ' → ';
-            if (typeof n ==='object') text += n.disp;
-            else text += n;
-          });
-        });
-        return text;
+        var text = formatNumber(d.value) + '   ' + d.disp + '\n';
+        return flowTooltips(text, d);
       });
 
     node.append("text")
@@ -73,18 +65,6 @@ d3.drawSankey = function (svg, inputdata, options) {
     return node;
   }
 
-  function dragmove(d) {
-    d3.select(this).attr("transform",
-      "translate(" + (
-        d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
-      ) + "," + (
-        d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
-      ) + ")");
-    sankey.relayout();
-    link.attr("d", sankey.link());
-    dlink.attr("d", sankey.link());
-  }
-
   function drawLink(data, d_attr, opt) {
     var link = graph.insert("g", ":first-child")
       .attr('id', opt || 'normal')
@@ -100,6 +80,34 @@ d3.drawSankey = function (svg, inputdata, options) {
         return b.dy - a.dy;
       });
     return link;
+  }
+
+  function flowTooltips(text, d) {
+    var len = d.flows.map(function (f){
+      return formatNumber(f.value).length;
+    });
+    var maxlen = Math.max.apply(null, len);
+    var fmt = d3.format('<' + maxlen + ',.2f');
+    d.flows.forEach(function (f){
+      text += '\n' + fmt(f.value) + '   ';
+      f.thru.forEach(function (n, ind){
+        if (ind !== 0) text += ' → ';
+        text += n.disp || n;
+      });
+    });
+    return text;
+  }
+
+  function dragmove(d) {
+    d3.select(this).attr("transform",
+      "translate(" + (
+        d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
+      ) + "," + (
+        d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+      ) + ")");
+    sankey.relayout();
+    link.attr("d", sankey.link());
+    dlink.attr("d", sankey.link());
   }
 
   var formatNumber = d3.format(",.2f");
@@ -141,17 +149,9 @@ d3.drawSankey = function (svg, inputdata, options) {
     })
     .append("title")
     .text(function (d) {
-      var text = formatNumber(d.value) + ' \t ' +
+      var text = formatNumber(d.value) + '   ' +
         d.source.disp + " → " + d.target.disp + '\n';
-      d.flows.forEach(function (f){
-        text += '\n' + formatNumber(f.value) + ' \t ';
-        f.thru.forEach(function (n, ind){
-          if (ind !== 0) text += ' → ';
-          if (typeof n ==='object') text += n.disp;
-          else text += n;
-        });
-      });
-      return text;
+      return flowTooltips(text, d);
     });
 
   var dlink;
