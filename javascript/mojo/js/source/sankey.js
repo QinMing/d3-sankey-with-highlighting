@@ -315,7 +315,7 @@ d3.sankey = function() {
 
     flows.forEach(function (f, ind) {
 
-      //normalizeNode in f.thru
+      //normalize nodes in f.thru
       f.thru = f.thru.map(function (n) {
         if (typeof n === "number"){
           return nodes[n];
@@ -327,7 +327,7 @@ d3.sankey = function() {
         }
       });
 
-      //build index in nodes
+      //build index in nodes, pointing back to f
       f.thru.forEach(function (n) {
         if (!n.flows){
           n.flows = {};
