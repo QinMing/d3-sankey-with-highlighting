@@ -418,13 +418,9 @@ d3.sankey = function() {
   }
 
   function computeDlinks() {
-    // dlinks.forEach(function (l) {
-    //   var slink = linkDict[stPair(l.source, l.target)];
-    //   l.sy = slink.sy;
-    //   l.ty = slink.ty;
-    // });
-
-    dflows.forEach(function (f) {
+    // dflows.reverse().forEach(function (f) {
+    for (var k = dflows.length-1 ; k>=0; k--){
+      var f = dflows[k];
       for (var i = 1; i < f.thru.length - 1; i++) {
         var center, commonBot, commonTop, ddy0, ddy1, dsy1, dty0, dy0, dy1,
           key0, key1, link0, link1, dlink0, dlink1, childsy1, ty0;
@@ -459,7 +455,7 @@ d3.sankey = function() {
         }
         dlink1.ty = link1.ty - (link1.sy - dlink1.sy);
       }
-    });
+    }
   }
 
   return sankey;
