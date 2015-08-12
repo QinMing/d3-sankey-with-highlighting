@@ -9,8 +9,10 @@ d3.sankey = function() {
       nodes = [],
       flows = [],
       links = [],
-      dlinks = [], //dynamic links
       linkDict = {},
+      dflows = [], //dynamic links
+      dlinks = [],
+      dlinkDict = {},
       ky = 0;
 
   sankey.nodeWidth = function(_) {
@@ -370,15 +372,16 @@ d3.sankey = function() {
   };
 
   //will modify dlinks
-  sankey.dflows = function(dflows) {
-    var dict = {};
+  sankey.dflows = function(_) {
+    dflows = _;
+    dlinkDict = {};
     dflows.forEach(function (f) {
       for (var i = 0; i < f.thru.length - 1; i++) {
         var key = stPair(f.thru[i], f.thru[i + 1]);
-        if (dict[key]) {
-          dict[key].value += f.value;
+        if (dlinkDict[key]) {
+          dlinkDict[key].value += f.value;
         } else {
-          dict[key] = {
+          dlinkDict[key] = {
             source: f.thru[i],
             target: f.thru[i + 1],
             value: f.value,
@@ -389,12 +392,11 @@ d3.sankey = function() {
       }
     });
     dlinks = [];
-    for (var key in dict) {
-      var l = dict[key];
+    for (var key in dlinkDict) {
+      var l = dlinkDict[key];
       l.dy = l.value * ky;
-      dlinks.push(dict[key]);
+      dlinks.push(dlinkDict[key]);
     }
-    // debugger;
     this.relayout();
     return sankey;
   };
@@ -416,10 +418,47 @@ d3.sankey = function() {
   }
 
   function computeDlinks() {
-    dlinks.forEach(function (l) {
-      var slink = linkDict[stPair(l.source, l.target)];
-      l.sy = slink.sy;
-      l.ty = slink.ty;
+    // dlinks.forEach(function (l) {
+    //   var slink = linkDict[stPair(l.source, l.target)];
+    //   l.sy = slink.sy;
+    //   l.ty = slink.ty;
+    // });
+
+    dflows.forEach(function (f) {
+      for (var i = 1; i < f.thru.length - 1; i++) {
+        var center, commonBot, commonTop, ddy0, ddy1, dsy1, dty0, dy0, dy1,
+          key0, key1, link0, link1, dlink0, dlink1, childsy1, ty0;
+        key0 = stPair(f.thru[i - 1], f.thru[i]);
+        key1 = stPair(f.thru[i], f.thru[i + 1]);
+        link0 = linkDict[key0];
+        link1 = linkDict[key1];
+        dlink0 = dlinkDict[key0];
+        dlink1 = dlinkDict[key1];
+        ty0 = link0.ty;
+        dy0 = link0.dy;
+        sy1 = link1.sy;
+        dy1 = link1.dy;
+        ddy0 = dlink0.dy;
+        ddy1 = dlink1.dy;
+        // compute the ideal position of both links on two sides
+        commonTop = Math.max(ty0, sy1);
+        commonBot = Math.min(ty0 + dy0, sy1 + dy1);
+        center = (commonTop + commonBot) / 2;
+        dty0 = center - (ddy0 / 2);
+        dsy1 = center - (ddy1 / 2);
+        // limit the position
+        dty0 = Math.max(dty0, ty0);
+        dty0 = Math.min(dty0, ty0 + dy0 - ddy0);
+        dsy1 = Math.max(dsy1, sy1);
+        dsy1 = Math.min(dsy1, sy1 + dy1 - ddy1);
+        // set y
+        dlink0.ty = dty0;
+        dlink1.sy = dsy1;
+        if (!dlink0.sy){
+          dlink0.sy = link0.sy - (link0.ty - dlink0.ty);
+        }
+        dlink1.ty = link1.ty - (link1.sy - dlink1.sy);
+      }
     });
   }
 
