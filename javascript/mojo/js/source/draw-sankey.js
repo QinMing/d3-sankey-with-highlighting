@@ -34,7 +34,7 @@ d3.drawSankey = function (svg, inputdata, options) {
       })
       .on("mouseover", function (d) {
         sankey.dflows(d.flows);
-        dlink = drawLink(sankey.dlinks(), sankey.link(), 'highlight');
+        dlink = drawLink(sankey.dlinks(), 'highlight');
       })
       .on("mouseout", function (d) {
         graph.selectAll("g#highlight").remove();
@@ -65,14 +65,14 @@ d3.drawSankey = function (svg, inputdata, options) {
     return node;
   }
 
-  function drawLink(data, d_attr, opt) {
+  function drawLink(data, opt) {
     var link = graph.insert("g", ":first-child")
       .attr('id', opt || 'normal')
       .selectAll(".link")
       .data(data)
       .enter().append("path")
       .attr("class", "link" + (" " + opt || ""))
-      .attr("d", d_attr)
+      .attr("d", sankey.link())
       .style("stroke-width", function (d) {
         return Math.max(1, d.dy);
       })
@@ -138,11 +138,11 @@ d3.drawSankey = function (svg, inputdata, options) {
     .layout(32);
 
   var node = drawNode(sankey.nodes());
-  var link = drawLink(sankey.links(), sankey.link());
+  var link = drawLink(sankey.links());
   link
     .on("mouseover", function (d) {
       sankey.dflows(d.flows);
-      dlink = drawLink(sankey.dlinks(), sankey.link(), 'highlight');
+      dlink = drawLink(sankey.dlinks(), 'highlight');
     })
     .on("mouseout", function (d) {
       graph.selectAll("g#highlight").remove();
