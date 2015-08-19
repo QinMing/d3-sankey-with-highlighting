@@ -2,6 +2,8 @@
 **d3.js Sankey flow chart** intergration and improvements.
 
 # Links
-Demo [yo/rev-flow](yo/rev-flow)
-Documentation [yo/ming-visual](yo/ming-visual)
+
+Demo [yo/rev-flow](http://yo/rev-flow)
+
+Documentation [yo/ming-visual](http://yo/rev-flow)
 
