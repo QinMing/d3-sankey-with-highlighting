@@ -3,4 +3,4 @@
 
 # Documentation
 Please visit
-(yo/ming-visual)
+[](yo/ming-visual)
