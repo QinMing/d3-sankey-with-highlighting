@@ -5,5 +5,5 @@
 
 Demo [yo/rev-flow](http://yo/rev-flow)
 
-Documentation [yo/ming-visual](http://yo/rev-flow)
+Documentation [yo/ming-visual](http://yo/ming-visual)
 
