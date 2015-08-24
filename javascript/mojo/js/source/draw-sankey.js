@@ -149,7 +149,7 @@ d3.drawSankey = function (canvas, inputdata, options) {
     .on("mouseout", function (d) {
       graph.selectAll("g#highlight").remove();
       canvas.select('#tooltip-container')
-        .style('display', 'none');
+        // .style('display', 'none');
     })
     .on('mousemove', function (d) {
       // console.log(d3.event.pageX, d3.event.pageY);
@@ -165,9 +165,62 @@ d3.drawSankey = function (canvas, inputdata, options) {
       return flowTooltips(text, d);
     });
 
-  canvas.append('div')
-    .attr('id', 'tooltip-container')
-    .html(
-      '<table class="tooltip"><tbody><tr><th colspan="2">4</th></tr><tr class="tooltip-name-data1"><td class="name"><span style="background-color:#1f77b4"></span>data1</td><td class="value">60</td></tr><tr class="tooltip-name-data2"><td class="name"><span style="background-color:#ff7f0e"></span>data2</td><td class="value">130</td></tr><tr class="tooltip-name-data3"><td class="name"><span style="background-color:#2ca02c"></span>data3</td><td class="value">250</td></tr><tr class="tooltip-name-data4"><td class="name"><span style="background-color:#d62728"></span>data4</td><td class="value">130</td></tr><tr class="tooltip-name-data5"><td class="name"><span style="background-color:#9467bd"></span>data5</td><td class="value">160</td></tr><tr class="tooltip-name-data6"><td class="name"><span style="background-color:#8c564b"></span>data6</td><td class="value">60</td></tr></tbody></table>'
-    );
+  // var tooltip = {
+  //   lead: {
+  //     name: 'node name',
+  //     value: '1111',
+  //   },
+  //   flows: [{
+  //     name: 'node name',
+  //     value: '1111',
+  //   }],
+  // };
+  var tooltip = [
+    {
+      name: 'node name',
+      value: '1111',
+      head: true
+    },
+    {
+      name: 'node -> node',
+      value: '333',
+    },
+  ];
+
+  var tbody = canvas
+    .append('div')
+      .attr('id', 'tooltip-container')
+    .append('table')
+      .attr('class', 'tooltip')
+    .append('tbody');
+
+  var tr = tbody.selectAll('tr')
+      .data(tooltip);
+
+  tr.exit().remove();
+  var newtr = tr.enter().append('tr');
+
+  newtr.append('td')
+    .attr('class', 'name')
+    .classed('head', function(d){
+      return 'class' in d;
+    })
+    .text(function(d){
+      return d.name;
+    });
+
+  newtr.append('td')
+    .attr('class', 'value')
+    .classed('head', function(d){
+      return 'class' in d;
+    })
+    .text(function(d){
+      return d.value;
+    });
+
+
+
+    // .html(
+    //   '<table class="tooltip"><tbody><tr><th colspan="2">4</th></tr><tr class="tooltip-name-data1"><td class="name"><span style="background-color:#1f77b4"></span>data1</td><td class="value">60</td></tr><tr class="tooltip-name-data2"><td class="name"><span style="background-color:#ff7f0e"></span>data2</td><td class="value">130</td></tr><tr class="tooltip-name-data3"><td class="name"><span style="background-color:#2ca02c"></span>data3</td><td class="value">250</td></tr><tr class="tooltip-name-data4"><td class="name"><span style="background-color:#d62728"></span>data4</td><td class="value">130</td></tr><tr class="tooltip-name-data5"><td class="name"><span style="background-color:#9467bd"></span>data5</td><td class="value">160</td></tr><tr class="tooltip-name-data6"><td class="name"><span style="background-color:#8c564b"></span>data6</td><td class="value">60</td></tr></tbody></table>'
+    // );
 };
