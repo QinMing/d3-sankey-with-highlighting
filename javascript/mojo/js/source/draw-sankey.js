@@ -1,6 +1,6 @@
 //Author: Ming Qin at Yahoo! Inc.
 
-d3.drawSankey = function (svg, inputdata, options) {
+d3.drawSankey = function (canvas, inputdata, options) {
 
   function drawNode(nodes) {
     var node = graph.insert("g", ":first-child").selectAll(".node")
@@ -83,14 +83,14 @@ d3.drawSankey = function (svg, inputdata, options) {
   }
 
   function flowTooltips(text, d) {
-    var len = d.flows.map(function (f){
+    var len = d.flows.map(function (f) {
       return formatNumber(f.value).length;
     });
     var maxlen = Math.max.apply(null, len);
     var fmt = d3.format('<' + maxlen + ',.2f');
-    d.flows.forEach(function (f){
+    d.flows.forEach(function (f) {
       text += '\n' + fmt(f.value) + '\t';
-      f.thru.forEach(function (n, ind){
+      f.thru.forEach(function (n, ind) {
         if (ind !== 0) text += ' → ';
         text += n.disp || n;
       });
@@ -122,11 +122,12 @@ d3.drawSankey = function (svg, inputdata, options) {
     width = options.width - margin.left - margin.right - 15,
     height = options.height - margin.top - margin.bottom - 15;
 
-  var graph = svg
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+  var graph = canvas
+    .append('svg')
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var sankey = d3.sankey()
     .nodeWidth(15)
@@ -137,6 +138,7 @@ d3.drawSankey = function (svg, inputdata, options) {
     .flows(inputdata.flows)
     .layout(32);
 
+  var dlink;
   var node = drawNode(sankey.nodes());
   var link = drawLink(sankey.links());
   link
@@ -146,6 +148,15 @@ d3.drawSankey = function (svg, inputdata, options) {
     })
     .on("mouseout", function (d) {
       graph.selectAll("g#highlight").remove();
+      canvas.select('#tooltip-container')
+        .style('display', 'none');
+    })
+    .on('mousemove', function (d) {
+      // console.log(d3.event.pageX, d3.event.pageY);
+      canvas.select('#tooltip-container')
+        .style('display', 'block')
+        .style('top', d3.event.pageY + 'px')
+        .style('left', d3.event.pageX + 'px');
     })
     .append("title")
     .text(function (d) {
@@ -154,5 +165,9 @@ d3.drawSankey = function (svg, inputdata, options) {
       return flowTooltips(text, d);
     });
 
-  var dlink;
+  canvas.append('div')
+    .attr('id', 'tooltip-container')
+    .html(
+      '<table class="tooltip"><tbody><tr><th colspan="2">4</th></tr><tr class="tooltip-name-data1"><td class="name"><span style="background-color:#1f77b4"></span>data1</td><td class="value">60</td></tr><tr class="tooltip-name-data2"><td class="name"><span style="background-color:#ff7f0e"></span>data2</td><td class="value">130</td></tr><tr class="tooltip-name-data3"><td class="name"><span style="background-color:#2ca02c"></span>data3</td><td class="value">250</td></tr><tr class="tooltip-name-data4"><td class="name"><span style="background-color:#d62728"></span>data4</td><td class="value">130</td></tr><tr class="tooltip-name-data5"><td class="name"><span style="background-color:#9467bd"></span>data5</td><td class="value">160</td></tr><tr class="tooltip-name-data6"><td class="name"><span style="background-color:#8c564b"></span>data6</td><td class="value">60</td></tr></tbody></table>'
+    );
 };
