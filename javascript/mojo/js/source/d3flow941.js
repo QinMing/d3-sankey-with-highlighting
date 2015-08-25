@@ -30,28 +30,26 @@
           this.domNode.innerHTML = this.model.eg;
         } else {
           //parsing properties
-          // this.properties = this.getProperties(); ming
+          // this.properties = this.getProperties();
           this.loadScripts();
         }
       },
 
       loadScripts: function () {
-        // array of required JS files
         var externalLibraries = [
           {
             url: "http://d3js.org/d3.v3.min.js"
-                    // {url: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"},//ming
+            // url: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"
           },
           {
             url: "../plugins/d3flow941/javascript/mojo/js/source/sankey.js"
           },
           {
             url: "../plugins/d3flow941/javascript/mojo/js/source/draw-sankey.js"
-          //   url: "https://rawgit.com/mstr-dev/Visualization-Plugins/master/D3Flow/javascript/mojo/js/source/sankey.js"  //Ming: temporary fix for Desktop V10
           },
-          {
-            url: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
-          }
+          // {
+          //   url: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
+          // }
                 ];
         var me = this;
         // load required external JS files and after that run renderGraph method
@@ -91,15 +89,10 @@
       errorDetails: "This visualization requires one or more attributes and one metric.",
 
       renderGraph: function (type) {
-        // var lMstrID = this.domNode.parentNode.parentNode.id;
-        // var lD3ID = "D3Flow-" + lMstrID;
-        // if ($('#' + lD3ID).length) {
-        //   $('#' + lD3ID).empty();
-        // }
 
         var gridData = this.getDataParser();
-        // var metricName = gridData.getColHeaders(0).getHeader(0).getName();
-        var negValNotified = false;
+        // var metricName = gridData.getColHeaders(0).getHeader(0).getName();//not needed
+        var negValFound = false;
         var nodeDict = {};
         var data = {
           nodes: [],
@@ -110,8 +103,8 @@
           var value = gridData.getMetricValue(i, 0).getRawValue();
           if (value <= 0) {
             console.error('Warning: negative value(s) in the metric. Assuming zero.');
-            if (!negValNotified) {
-              negValNotified = true;
+            if (!negValFound) {
+              negValFound = true;
             }
             continue;
           }
