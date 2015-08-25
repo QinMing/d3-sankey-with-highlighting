@@ -177,9 +177,6 @@ d3.drawSankey = function (canvas, inputdata, options) {
       .attr('class', 'tooltip')
     .append('tbody');
 
-  // var tooltipRow = tbody.selectAll('tr')
-  //     .data(tooltips);
-
   //@input d: data, could be node or link
   function updateTooltip(d){
     tooltips = [d.tooltip];
