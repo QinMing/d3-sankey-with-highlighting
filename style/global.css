@@ -54,7 +54,7 @@ path.highlight {
 /*Tooltips */
 /*Credit: style sheets based on c3js.org with MIT license*/
 #tooltip-container {
-  position: absolute;
+  position: fixed;
   pointer-events: none;
 }
 .tooltip {
@@ -65,7 +65,7 @@ path.highlight {
   -webkit-box-shadow: 7px 7px 12px -9px rgb(119,119,119);
      -moz-box-shadow: 7px 7px 12px -9px rgb(119,119,119);
           box-shadow: 7px 7px 12px -9px rgb(119,119,119);
-  opacity: 0.8;
+  opacity: 0.85;
 }
 .tooltip tr {
   border:1px solid #CCC;
