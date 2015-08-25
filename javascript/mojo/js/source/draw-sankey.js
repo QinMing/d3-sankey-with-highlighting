@@ -18,7 +18,18 @@ d3.drawSankey = function (canvas, inputdata, options) {
           d3.event.sourceEvent.stopPropagation();
           this.parentNode.appendChild(this);
         })
-        .on("drag", dragmove));
+        .on("drag", function dragmove(d) {
+          d3.select(this).attr("transform",
+            "translate(" + (
+              d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
+            ) + "," + (
+              d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+            ) + ")");
+          sankey.relayout();
+          link.attr("d", sankey.link());
+          dlink.attr("d", sankey.link());
+        })
+      );
 
     node.append("rect")
       .attr("height", function (d) {
@@ -31,13 +42,6 @@ d3.drawSankey = function (canvas, inputdata, options) {
       })
       .style("stroke", function (d) {
         return d3.rgb(d.color).darker(2);
-      })
-      .on("mouseover", function (d) {
-        sankey.dflows(d.flows);
-        dlink = drawLink(sankey.dlinks(), 'highlight');
-      })
-      .on("mouseout", function (d) {
-        graph.selectAll("g#highlight").remove();
       });
 
     node.append("text")
@@ -77,18 +81,6 @@ d3.drawSankey = function (canvas, inputdata, options) {
     return link;
   }
 
-  function dragmove(d) {
-    d3.select(this).attr("transform",
-      "translate(" + (
-        d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
-      ) + "," + (
-        d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
-      ) + ")");
-    sankey.relayout();
-    link.attr("d", sankey.link());
-    dlink.attr("d", sankey.link());
-  }
-
   var formatNumber = d3.format(",.2f");
   var color = d3.scale.category20();
 
@@ -120,27 +112,51 @@ d3.drawSankey = function (canvas, inputdata, options) {
   var dlink;
   var node = drawNode(sankey.nodes());
   var link = drawLink(sankey.links());
+  // .on("mouseover", function (d) {
+  //   sankey.dflows(d.flows);
+  //   dlink = drawLink(sankey.dlinks(), 'highlight');
+  // })
+  // .on("mouseout", function (d) {
+  //   graph.selectAll("g#highlight").remove();
+  // });
+  node
+    .on("mouseover", function (d) {
+      sankey.dflows(d.flows);
+      dlink = drawLink(sankey.dlinks(), 'highlight');
+
+      updateTooltip(d);
+      canvas.select('#tooltip-container')
+        .style('display', 'block');
+    })
+    .on("mouseout", function (d) {
+      graph.selectAll("g#highlight").remove();
+
+      canvas.select('#tooltip-container')
+        .style('display', 'none');
+    })
+    .on('mousemove', function (d) {
+      canvas.select('#tooltip-container')
+        .style('top', d3.event.pageY + 'px')
+        .style('left', d3.event.pageX + 'px');
+    });
 
   link
     .on("mouseover", function (d) {
       sankey.dflows(d.flows);
       dlink = drawLink(sankey.dlinks(), 'highlight');
 
-      tooltips = [d.tooltip];
-      d.flows.forEach(function(f){
-        tooltips.push(f.tooltip);
-      });
-      updateTooltip();
+      updateTooltip(d);
+      canvas.select('#tooltip-container')
+        .style('display', 'block');
     })
     .on("mouseout", function (d) {
       graph.selectAll("g#highlight").remove();
+
       canvas.select('#tooltip-container')
-        // .style('display', 'none');
+        .style('display', 'none');
     })
     .on('mousemove', function (d) {
-      // console.log(d3.event.pageX, d3.event.pageY);
       canvas.select('#tooltip-container')
-        .style('display', 'block')
         .style('top', d3.event.pageY + 'px')
         .style('left', d3.event.pageX + 'px');
     });
@@ -176,7 +192,6 @@ d3.drawSankey = function (canvas, inputdata, options) {
   });
 
   var tooltips = [];
-
   var tbody = canvas
     .append('div')
       .attr('id', 'tooltip-container')
@@ -187,7 +202,13 @@ d3.drawSankey = function (canvas, inputdata, options) {
   // var tooltipRow = tbody.selectAll('tr')
   //     .data(tooltips);
 
-  function updateTooltip(){
+  //@input d: data, could be node or link
+  function updateTooltip(d){
+    tooltips = [d.tooltip];
+    d.flows.forEach(function(f){
+      tooltips.push(f.tooltip);
+    });
+
     tbody.selectAll('*').remove();
     tooltips.forEach(function(tip){
       var tr = tbody.append('tr');
