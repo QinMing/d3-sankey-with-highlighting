@@ -37,7 +37,9 @@ d3.drawSankey = function (canvas, inputdata, options) {
       })
       .attr("width", sankey.nodeWidth())
       .style("fill", function (d) {
-        d.color = color(d.name);// = color(d.name.replace(/ .*/, ""));
+        if (!d.color){
+          d.color = color(d.name);// = color(d.name.replace(/ .*/, ""));
+        }
         return d.color;
       })
       .style("stroke", function (d) {
@@ -82,7 +84,7 @@ d3.drawSankey = function (canvas, inputdata, options) {
   }
 
   var formatNumber = d3.format(",.2f");
-  var color = d3.scale.category20();
+  var color = d3.scale.category20c(); //a function
 
   var margin = {
       top: 10,
