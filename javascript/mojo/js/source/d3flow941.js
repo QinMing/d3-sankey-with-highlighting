@@ -39,7 +39,7 @@
         var externalLibraries = [
           {
             url: "http://d3js.org/d3.v3.min.js"
-            // url: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"
+              // url: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"
           },
           {
             url: "../plugins/d3flow941/javascript/mojo/js/source/sankey.js"
@@ -102,7 +102,9 @@
         for (var i = 0; i < gridData.getTotalRows(); i++) {
           var value = gridData.getMetricValue(i, 0).getRawValue();
           if (value <= 0) {
-            console.error('Warning: negative value(s) in the metric. Assuming zero.');
+            console.error(
+              'Warning: negative value(s) in the metric. Assuming zero.'
+            );
             if (!negValFound) {
               negValFound = true;
             }
@@ -133,7 +135,7 @@
         }
 
         d3.drawSankey(d3.select(this.domNode), data, {
-          width : parseInt(this.domNode.style.width, 10),
+          width: parseInt(this.domNode.style.width, 10),
           height: parseInt(this.domNode.style.height, 10),
         });
       }
