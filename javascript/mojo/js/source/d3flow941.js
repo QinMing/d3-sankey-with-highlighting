@@ -135,8 +135,8 @@
           }
           data.flows.push(f);
         }
-        var svg = d3.select(this.domNode).append('svg');
-        d3.drawSankey(svg, data, {
+        
+        d3.drawSankey(d3.select(this.domNode), data, {
           width : parseInt(this.domNode.style.width, 10),
           height: parseInt(this.domNode.style.height, 10),
         });
