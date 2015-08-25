@@ -72,13 +72,13 @@ path.highlight {
 }
 .tooltip td.head, .tooltip th {
   background-color: #c7e1ff;
-  font-size:14px;
+  font-size:12px;
   padding:2px 5px;
   text-align:center;
   color:#000;
 }
 .tooltip td {
-  font-size:12px;
+  font-size:11px;
   padding: 3px 6px;
   text-align:left;
   background-color:#fff;
