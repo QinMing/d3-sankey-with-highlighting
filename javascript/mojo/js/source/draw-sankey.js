@@ -38,12 +38,12 @@ d3.drawSankey = function (canvas, inputdata, options) {
       })
       .on("mouseout", function (d) {
         graph.selectAll("g#highlight").remove();
-      })
-      .append("title")
-      .text(function (d) {
-        var text = formatNumber(d.value) + '\t' + d.disp + '\n';
-        return flowTooltips(text, d);
       });
+      // .append("title")
+      // .text(function (d) {
+      //   var text = formatNumber(d.value) + '\t' + d.disp + '\n';
+      //   return flowTooltips(text, d);
+      // });
 
     node.append("text")
       .attr("x", -6)
@@ -80,22 +80,6 @@ d3.drawSankey = function (canvas, inputdata, options) {
         return b.dy - a.dy;
       });
     return link;
-  }
-
-  function flowTooltips(text, d) {
-    var len = d.flows.map(function (f) {
-      return formatNumber(f.value).length;
-    });
-    var maxlen = Math.max.apply(null, len);
-    var fmt = d3.format('<' + maxlen + ',.2f');
-    d.flows.forEach(function (f) {
-      text += '\n' + fmt(f.value) + '\t';
-      f.thru.forEach(function (n, ind) {
-        if (ind !== 0) text += ' → ';
-        text += n.disp || n;
-      });
-    });
-    return text;
   }
 
   function dragmove(d) {
@@ -141,10 +125,17 @@ d3.drawSankey = function (canvas, inputdata, options) {
   var dlink;
   var node = drawNode(sankey.nodes());
   var link = drawLink(sankey.links());
+
   link
     .on("mouseover", function (d) {
       sankey.dflows(d.flows);
       dlink = drawLink(sankey.dlinks(), 'highlight');
+
+      tooltips = [d.tooltip];
+      d.flows.forEach(function(f){
+        tooltips.push(f.tooltip);
+      });
+      updateTooltip();
     })
     .on("mouseout", function (d) {
       graph.selectAll("g#highlight").remove();
@@ -157,35 +148,59 @@ d3.drawSankey = function (canvas, inputdata, options) {
         .style('display', 'block')
         .style('top', d3.event.pageY + 'px')
         .style('left', d3.event.pageX + 'px');
-    })
-    .append("title")
-    .text(function (d) {
-      var text = formatNumber(d.value) + '\t' +
-        d.source.disp + " → " + d.target.disp + '\n';
-      return flowTooltips(text, d);
     });
+    // .append("title")
+    // .text(function (d) {
+    //   var text = formatNumber(d.value) + '\t' +
+    //     d.source.disp + " → " + d.target.disp + '\n';
+    //   return flowTooltips(text, d);
+    // });
 
-  // var tooltip = {
-  //   lead: {
+
+  ///////////////////////
+  //// Tooltips
+
+  sankey.nodes().forEach(function(n){
+    n.tooltip = {
+      name: n.disp,
+      value: formatNumber(n.value),
+      head: true,
+    };
+  });
+  sankey.links().forEach(function(l){
+    l.tooltip = {
+      name: l.source.disp + " → " + l.target.disp,
+      value: formatNumber(l.value),
+      head: true,
+    };
+  });
+  sankey.flows().forEach(function(f){
+    var name = '';
+    f.thru.forEach(function (n, ind) {
+      if (ind !== 0) name += ' → ';
+      name += n.disp || n;
+    });
+    f.tooltip = {
+      name: name,
+      value: formatNumber(f.value),
+    };
+  });
+
+
+  //////////////////////////////
+
+  var tooltips = [];
+  // var tooltips = [
+  //   {
   //     name: 'node name',
   //     value: '1111',
+  //     head: true
   //   },
-  //   flows: [{
-  //     name: 'node name',
-  //     value: '1111',
-  //   }],
-  // };
-  var tooltip = [
-    {
-      name: 'node name',
-      value: '1111',
-      head: true
-    },
-    {
-      name: 'node -> node',
-      value: '333',
-    },
-  ];
+  //   {
+  //     name: 'node -> node',
+  //     value: '333',
+  //   },
+  // ];
 
   var tbody = canvas
     .append('div')
@@ -194,29 +209,44 @@ d3.drawSankey = function (canvas, inputdata, options) {
       .attr('class', 'tooltip')
     .append('tbody');
 
-  var tr = tbody.selectAll('tr')
-      .data(tooltip);
+  // var tooltipRow = tbody.selectAll('tr')
+  //     .data(tooltips);
 
-  tr.exit().remove();
-  var newtr = tr.enter().append('tr');
+  function updateTooltip(){
+    tbody.selectAll('*').remove();
+    tooltips.forEach(function(tip){
+      var tr = tbody.append('tr');
+      tr.append('td')
+        .attr('class', 'name')
+        .classed('head', 'head' in tip)
+        .text(tip.name);
 
-  newtr.append('td')
-    .attr('class', 'name')
-    .classed('head', function(d){
-      return 'class' in d;
-    })
-    .text(function(d){
-      return d.name;
+      tr.append('td')
+        .attr('class', 'value')
+        .classed('head', 'head' in tip)
+        .text(tip.value);
     });
-
-  newtr.append('td')
-    .attr('class', 'value')
-    .classed('head', function(d){
-      return 'class' in d;
-    })
-    .text(function(d){
-      return d.value;
-    });
+    // tooltipRow.exit().remove();
+    // var newtr = tooltipRow.enter().append('tr');
+    //
+    // newtr.append('td')
+    //   .attr('class', 'name')
+    //   .classed('head', function(d){
+    //     return 'head' in d;
+    //   })
+    //   .text(function(d){
+    //     return d.name;
+    //   });
+    //
+    // newtr.append('td')
+    //   .attr('class', 'value')
+    //   .classed('head', function(d){
+    //     return 'head' in d;
+    //   })
+    //   .text(function(d){
+    //     return d.value;
+    //   });
+  }
 
 
 
@@ -224,3 +254,20 @@ d3.drawSankey = function (canvas, inputdata, options) {
     //   '<table class="tooltip"><tbody><tr><th colspan="2">4</th></tr><tr class="tooltip-name-data1"><td class="name"><span style="background-color:#1f77b4"></span>data1</td><td class="value">60</td></tr><tr class="tooltip-name-data2"><td class="name"><span style="background-color:#ff7f0e"></span>data2</td><td class="value">130</td></tr><tr class="tooltip-name-data3"><td class="name"><span style="background-color:#2ca02c"></span>data3</td><td class="value">250</td></tr><tr class="tooltip-name-data4"><td class="name"><span style="background-color:#d62728"></span>data4</td><td class="value">130</td></tr><tr class="tooltip-name-data5"><td class="name"><span style="background-color:#9467bd"></span>data5</td><td class="value">160</td></tr><tr class="tooltip-name-data6"><td class="name"><span style="background-color:#8c564b"></span>data6</td><td class="value">60</td></tr></tbody></table>'
     // );
 };
+
+
+// function flowTooltips(text, d) {
+//   var len = d.flows.map(function (f) {
+//     return formatNumber(f.value).length;
+//   });
+//   var maxlen = Math.max.apply(null, len);
+//   var fmt = d3.format('<' + maxlen + ',.2f');
+//   d.flows.forEach(function (f) {
+//     text += '\n' + fmt(f.value) + '\t';
+//     f.thru.forEach(function (n, ind) {
+//       if (ind !== 0) text += ' → ';
+//       text += n.disp || n;
+//     });
+//   });
+//   return text;
+// }
