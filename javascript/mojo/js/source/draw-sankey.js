@@ -112,55 +112,33 @@ d3.drawSankey = function (canvas, inputdata, options) {
   var dlink;
   var node = drawNode(sankey.nodes());
   var link = drawLink(sankey.links());
-  // .on("mouseover", function (d) {
-  //   sankey.dflows(d.flows);
-  //   dlink = drawLink(sankey.dlinks(), 'highlight');
-  // })
-  // .on("mouseout", function (d) {
-  //   graph.selectAll("g#highlight").remove();
-  // });
   node
-    .on("mouseover", function (d) {
-      sankey.dflows(d.flows);
-      dlink = drawLink(sankey.dlinks(), 'highlight');
-
-      updateTooltip(d);
-      canvas.select('#tooltip-container')
-        .style('display', 'block');
-    })
-    .on("mouseout", function (d) {
-      graph.selectAll("g#highlight").remove();
-
-      canvas.select('#tooltip-container')
-        .style('display', 'none');
-    })
-    .on('mousemove', function (d) {
-      canvas.select('#tooltip-container')
-        .style('top', d3.event.pageY + 'px')
-        .style('left', d3.event.pageX + 'px');
-    });
+    .on("mouseover", funcMouseover)
+    .on("mouseout", funcMouseout)
+    .on('mousemove', funcMousemove);
 
   link
-    .on("mouseover", function (d) {
-      sankey.dflows(d.flows);
-      dlink = drawLink(sankey.dlinks(), 'highlight');
+    .on("mouseover", funcMouseover)
+    .on("mouseout", funcMouseout)
+    .on('mousemove', funcMousemove);
 
-      updateTooltip(d);
-      canvas.select('#tooltip-container')
-        .style('display', 'block');
-    })
-    .on("mouseout", function (d) {
-      graph.selectAll("g#highlight").remove();
-
-      canvas.select('#tooltip-container')
-        .style('display', 'none');
-    })
-    .on('mousemove', function (d) {
-      canvas.select('#tooltip-container')
-        .style('top', d3.event.pageY + 'px')
-        .style('left', d3.event.pageX + 'px');
-    });
-
+  function funcMouseover(d) {
+    sankey.dflows(d.flows);
+    dlink = drawLink(sankey.dlinks(), 'highlight');
+    updateTooltip(d);
+    canvas.select('#tooltip-container')
+      .style('display', 'block');
+  }
+  function funcMouseout(d) {
+    graph.selectAll("g#highlight").remove();
+    canvas.select('#tooltip-container')
+      .style('display', 'none');
+  }
+  function funcMousemove(d) {
+    canvas.select('#tooltip-container')
+      .style('top', d3.event.pageY + 'px')
+      .style('left', d3.event.pageX + 'px');
+  }
 
   ///////////////////////
   //// Tooltips
