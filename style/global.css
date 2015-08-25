@@ -1,7 +1,4 @@
-text {
-    font: 10px sans-serif;
-}
-body {
+/*body {
   background: #000;
 }
 
@@ -15,6 +12,10 @@ ellipse {
 
 .tail {
   stroke-width: 2px;
+}*/
+
+text {
+    font: 10px sans-serif;
 }
 
 .node rect {

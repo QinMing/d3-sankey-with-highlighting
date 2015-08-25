@@ -129,6 +129,7 @@
               data.nodes.push(newnode);
               nodeDict[name] = newnode;
             }
+            // f.thru.push(data.nodes.indexOf(nodeDict[name]));
             f.thru.push(nodeDict[name]);
           }
           data.flows.push(f);
