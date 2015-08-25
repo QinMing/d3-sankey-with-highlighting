@@ -37,7 +37,7 @@ d3.drawSankey = function (canvas, inputdata, options) {
       })
       .attr("width", sankey.nodeWidth())
       .style("fill", function (d) {
-        d.color = color(d.name.replace(/ .*/, ""));
+        d.color = color(d.name);// = color(d.name.replace(/ .*/, ""));
         return d.color;
       })
       .style("stroke", function (d) {
@@ -143,16 +143,21 @@ d3.drawSankey = function (canvas, inputdata, options) {
   ///////////////////////
   //// Tooltips
 
+  function colorDot(d){
+    return '<span style="background-color:'+ d.color +'"></span>';
+  }
+
   sankey.nodes().forEach(function(n){
     n.tooltip = {
-      name: n.disp,
+      name: colorDot(n) + n.disp,
       value: formatNumber(n.value),
       head: true,
     };
   });
   sankey.links().forEach(function(l){
     l.tooltip = {
-      name: l.source.disp + " → " + l.target.disp,
+      name: colorDot(l.source) + l.source.disp +
+        " → " + colorDot(l.target) + l.target.disp,
       value: formatNumber(l.value),
       head: true,
     };
@@ -161,7 +166,7 @@ d3.drawSankey = function (canvas, inputdata, options) {
     var name = '';
     f.thru.forEach(function (n, ind) {
       if (ind !== 0) name += ' → ';
-      name += n.disp || n;
+      name += colorDot(n) + n.disp;
     });
     f.tooltip = {
       name: name,
@@ -190,12 +195,12 @@ d3.drawSankey = function (canvas, inputdata, options) {
       tr.append('td')
         .attr('class', 'name')
         .classed('head', 'head' in tip)
-        .text(tip.name);
+        .html(tip.name);
 
       tr.append('td')
         .attr('class', 'value')
         .classed('head', 'head' in tip)
-        .text(tip.value);
+        .html(tip.value);
     });
   }
 };

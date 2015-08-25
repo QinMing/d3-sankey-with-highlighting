@@ -90,7 +90,7 @@ path.highlight {
 /*little colorful squre*/
 .tooltip td > span {
   display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 2px;
+  height: 11px;
   margin-right: 6px;
 }
