@@ -122,7 +122,10 @@
           for (var j = 0; j < gridData.getRowTitles().size(); j++) {
             var attrTitle = gridData.getRowTitles().getTitle(j).getName();
             var attr = gridData.getRowHeaders(i).getHeader(j).getName();
-            var name = attr + '-' + attrTitle;
+            if (!attr || attr === '') {
+              attr = ' ';
+            }
+            var name = attr + ' - ' + attrTitle;
             if (!nodeDict[name]) {
               var newnode = {
                 name: name,
@@ -135,7 +138,7 @@
           }
           data.flows.push(f);
         }
-        
+
         d3.drawSankey(d3.select(this.domNode), data, {
           width : parseInt(this.domNode.style.width, 10),
           height: parseInt(this.domNode.style.height, 10),
