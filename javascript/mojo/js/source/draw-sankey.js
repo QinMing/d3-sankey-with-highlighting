@@ -115,33 +115,51 @@ d3.drawSankey = function (canvas, inputdata, options) {
   node
     .on("mouseover", funcMouseover)
     .on("mouseout", funcMouseout)
-    .on('mousemove', funcMousemove);
+    .on('mousemove', funcMousemove)
+    .on('dblclick', funcTooltipToggle);
 
   link
     .on("mouseover", funcMouseover)
     .on("mouseout", funcMouseout)
-    .on('mousemove', funcMousemove);
+    .on('mousemove', funcMousemove)
+    .on('dblclick', funcTooltipToggle);
 
   function funcMouseover(d) {
     sankey.dflows(d.flows);
     dlink = drawLink(sankey.dlinks(), 'highlight');
+    if (!tooltipsEnable) return;
     updateTooltip(d);
-    canvas.select('#tooltip-container')
-      .style('display', 'block');
+    canvas.select('#tooltip-container').style('display', 'block');
   }
   function funcMouseout(d) {
     graph.selectAll("g#highlight").remove();
-    canvas.select('#tooltip-container')
-      .style('display', 'none');
+    if (!tooltipsEnable) return;
+    canvas.select('#tooltip-container').style('display', 'none');
   }
   function funcMousemove(d) {
+    if (!tooltipsEnable) return;
     canvas.select('#tooltip-container')
       .style('top', d3.event.pageY + 'px')
       .style('left', d3.event.pageX + 'px');
   }
+  function funcTooltipToggle(d){
+    if (tooltipsEnable){
+      tooltipsEnable = false;
+      canvas.select('#tooltip-container').style('display', 'none');
+    }else{
+      tooltipsEnable = true;
+      updateTooltip(d);
+      canvas.select('#tooltip-container')
+        .style('display', 'block')
+        .style('top', d3.event.pageY + 'px')
+        .style('left', d3.event.pageX + 'px');
+    }
+  }
 
   ///////////////////////
   //// Tooltips
+
+  var tooltipsEnable = true;
 
   function colorDot(d){
     return '<span style="background-color:'+ d.color +'"></span>';
