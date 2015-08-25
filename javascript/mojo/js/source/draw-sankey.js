@@ -127,34 +127,39 @@ d3.drawSankey = function (canvas, inputdata, options) {
   function funcMouseover(d) {
     sankey.dflows(d.flows);
     dlink = drawLink(sankey.dlinks(), 'highlight');
-    if (!tooltipsEnable) return;
+    // if (!tooltipsEnable) return;
     updateTooltip(d);
     canvas.select('#tooltip-container').style('display', 'block');
   }
   function funcMouseout(d) {
     graph.selectAll("g#highlight").remove();
-    if (!tooltipsEnable) return;
+    // if (!tooltipsEnable) return;
     canvas.select('#tooltip-container').style('display', 'none');
   }
   function funcMousemove(d) {
-    if (!tooltipsEnable) return;
+    // if (!tooltipsEnable) return;
     canvas.select('#tooltip-container')
       .style('top', d3.event.pageY + 'px')
       .style('left', d3.event.pageX + 'px');
   }
+  // function funcTooltipToggle0(d){
+  //   if (tooltipsEnable){
+  //     tooltipsEnable = false;
+  //     canvas.select('#tooltip-container').style('display', 'none');
+  //   }else{
+  //     tooltipsEnable = true;
+  //     updateTooltip(d);
+  //     canvas.select('#tooltip-container')
+  //       .style('display', 'block')
+  //       .style('top', d3.event.pageY + 'px')
+  //       .style('left', d3.event.pageX + 'px');
+  //   }
+  // }
   function funcTooltipToggle(d){
-    if (tooltipsEnable){
-      tooltipsEnable = false;
-      canvas.select('#tooltip-container').style('display', 'none');
-    }else{
-      tooltipsEnable = true;
-      updateTooltip(d);
-      canvas.select('#tooltip-container')
-        .style('display', 'block')
-        .style('top', d3.event.pageY + 'px')
-        .style('left', d3.event.pageX + 'px');
-    }
+    tooltipsEnable = !tooltipsEnable;
+    updateTooltip(d);
   }
+
 
   ///////////////////////
   //// Tooltips
@@ -203,10 +208,13 @@ d3.drawSankey = function (canvas, inputdata, options) {
   //@input d: data, could be node or link
   function updateTooltip(d){
     tooltips = [d.tooltip];
-    d.flows.forEach(function(f){
-      tooltips.push(f.tooltip);
-    });
+    if (tooltipsEnable){
+      d.flows.forEach(function(f){
+        tooltips.push(f.tooltip);
+      });
+    }
 
+    //no need to use D3
     tbody.selectAll('*').remove();
     tooltips.forEach(function(tip){
       var tr = tbody.append('tr');
