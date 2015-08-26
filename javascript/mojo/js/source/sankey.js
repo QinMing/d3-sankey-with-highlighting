@@ -437,7 +437,7 @@ d3.sankey = function() {
       var f = dflows[k];
       for (var i = 1; i < f.thru.length - 1; i++) {
         var center, commonBot, commonTop, ddy0, ddy1, dsy1, dty0, dy0, dy1, sy1,
-          key0, key1, link0, link1, dlink0, dlink1, childsy1, ty0;
+          key0, key1, link0, link1, dlink0, dlink1, ty0;
         key0 = stPair(f.thru[i - 1], f.thru[i]);
         key1 = stPair(f.thru[i], f.thru[i + 1]);
         link0 = linkDict[key0];
