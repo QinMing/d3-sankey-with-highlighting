@@ -16,31 +16,41 @@ d3.sankey = function() {
       ky = 0;
 
   sankey.nodeWidth = function(_) {
-    if (!arguments.length) return nodeWidth;
+    if (!arguments.length) {
+      return nodeWidth;
+    }
     nodeWidth = +_;
     return sankey;
   };
 
   sankey.nodePadding = function(_) {
-    if (!arguments.length) return nodePadding;
+    if (!arguments.length) {
+      return nodePadding;
+    }
     nodePadding = +_;
     return sankey;
   };
 
   sankey.nodes = function(_) {
-    if (!arguments.length) return nodes;
+    if (!arguments.length) {
+      return nodes;
+    }
     nodes = _;
     return sankey;
   };
 
   sankey.links = function(_) {
-    if (!arguments.length) return links;
+    if (!arguments.length) {
+      return links;
+    }
     links = _;
     return sankey;
   };
 
   sankey.size = function(_) {
-    if (!arguments.length) return size;
+    if (!arguments.length) {
+      return size;
+    }
     size = _;
     return sankey;
   };
@@ -142,7 +152,6 @@ d3.sankey = function() {
           ++x;
       }
 
-      //
       moveSinksRight(x);
       scaleNodeBreadths((size[0] - nodeWidth) / (x - 1));
   }
@@ -374,7 +383,9 @@ d3.sankey = function() {
 
   //will modify dlinks
   sankey.dflows = function(_) {
-    if (!arguments.length) return dflows;
+    if (!arguments.length) {
+      return dflows;
+    }
     dflows = _;
     dlinkDict = {};
     dflows.forEach(function (f) {
@@ -425,7 +436,7 @@ d3.sankey = function() {
     for (var k = dflows.length-1 ; k>=0; k--){
       var f = dflows[k];
       for (var i = 1; i < f.thru.length - 1; i++) {
-        var center, commonBot, commonTop, ddy0, ddy1, dsy1, dty0, dy0, dy1,
+        var center, commonBot, commonTop, ddy0, ddy1, dsy1, dty0, dy0, dy1, sy1,
           key0, key1, link0, link1, dlink0, dlink1, childsy1, ty0;
         key0 = stPair(f.thru[i - 1], f.thru[i]);
         key1 = stPair(f.thru[i], f.thru[i + 1]);
