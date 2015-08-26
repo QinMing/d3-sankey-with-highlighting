@@ -95,6 +95,7 @@ d3.drawSankey = function (canvas, inputdata, options) {
     width = options.width - margin.left - margin.right - 15,
     height = options.height - margin.top - margin.bottom - 15;
 
+  canvas.html('');
   var graph = canvas
     .append('svg')
       .attr("width", width + margin.left + margin.right)
@@ -200,6 +201,7 @@ d3.drawSankey = function (canvas, inputdata, options) {
   });
 
   var tooltips = [];
+
   var tbody = canvas
     .append('div')
       .attr('id', 'tooltip-container')
