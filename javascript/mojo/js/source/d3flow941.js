@@ -45,7 +45,7 @@
             url: "../plugins/d3flow941/javascript/mojo/js/source/sankey.js"
           },
           {
-            url: "../plugins/d3flow941/javascript/mojo/js/source/draw-sankey.js"
+            url: "../plugins/d3flow941/javascript/mojo/js/source/sankey-driver.js"
           },
           // {
           //   url: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
@@ -140,10 +140,10 @@
           height: parseInt(this.domNode.style.height, 10),
         };
         var margin = {
-          top: 25,
-          left: 25,
-          bottom: 10,
-          right: 10,
+          top: 10,
+          left: 10,
+          bottom: 25,
+          right: 25,
         };
         var driver = new SankeyDriver();
         driver.prepare(d3.select(this.domNode), sz, margin);

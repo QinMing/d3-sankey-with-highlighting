@@ -80,7 +80,7 @@ var SankeyDriver = function (){
             graph.select('g#highlight').selectAll('path').attr("d", sankey.link());
           })
         );
-      nodeEnter.append("rect").append('title');
+      nodeEnter.append("rect");//.append('title');
       nodeEnter.append("text");
 
       node
@@ -101,12 +101,12 @@ var SankeyDriver = function (){
         })
         .style("stroke", function (d) {
           return d3.rgb(d.color).darker(2);
-        })
-        .select("title")
-        .text(function (d) {
-          var text = formatNumber(d.value) + '\t' + d.disp;
-          return text;
         });
+        // .select("title")
+        // .text(function (d) {
+        //   var text = formatNumber(d.value) + '\t' + d.disp;
+        //   return text;
+        // });
 
       node.select("text")
         .attr("x", -6)
@@ -137,8 +137,8 @@ var SankeyDriver = function (){
         .on("mouseover", funcMouseover)
         .on("mouseout", funcMouseout)
         .on('mousemove', funcMousemove)
-        .on('dblclick', funcTooltipToggle)
-        .append("title");
+        .on('dblclick', funcTooltipToggle);
+        // .append("title");
 
       link
         .attr("d", sankey.link())
@@ -149,12 +149,12 @@ var SankeyDriver = function (){
           return b.dy - a.dy;
         });
 
-      link.select('title')
-        .text(function (d) {
-          var text = formatNumber(d.value) + '\t' +
-            d.source.disp + " → " + d.target.disp;
-          return text;
-        });
+      // link.select('title')
+      //   .text(function (d) {
+      //     var text = formatNumber(d.value) + '\t' +
+      //       d.source.disp + " → " + d.target.disp;
+      //     return text;
+      //   });
     }
 
     function drawDLink(data) {
