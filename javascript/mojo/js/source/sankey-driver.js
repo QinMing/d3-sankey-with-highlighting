@@ -5,11 +5,13 @@ var SankeyDriver = function (){
   var sankey = d3.sankey();
   var formatNumber = d3.format(",.3s");//d3.format(",.2f");
   var color = d3.scale.category20c(); //color function
-  var width, height;
+  var canvas, graph, width, height;
   //Caution: width and height must be kept outside of function draw()
   //to avoid closure issues in drag event handler
 
-  this.draw = function (graph, inputdata, opt) {
+  this.draw = function (inputCanvas, inputdata, opt) {
+    canvas = inputCanvas;
+    graph = canvas.select('svg g');
 
     width = opt.width;
     height = opt.height;
@@ -36,6 +38,8 @@ var SankeyDriver = function (){
         .attr("class", "node")
         .on("mouseover", funcMouseover)
         .on("mouseout", funcMouseout)
+        .on('mousemove', funcMousemove)
+        .on('dblclick', funcTooltipToggle)
         .call(d3.behavior.drag()
           .origin(function (d) {
             return d;
@@ -112,8 +116,8 @@ var SankeyDriver = function (){
         .attr("class", "link")
         .on("mouseover", funcMouseover)
         .on("mouseout", funcMouseout)
-        // .on('mousemove', funcMousemove)
-        // .on('dblclick', funcTooltipToggle);
+        .on('mousemove', funcMousemove)
+        .on('dblclick', funcTooltipToggle)
         .append("title");
 
       link
@@ -153,21 +157,92 @@ var SankeyDriver = function (){
     function funcMouseover(d) {
       sankey.dflows(d.flows);
       drawDLink(sankey.dlinks());
-      // updateTooltip(d);
-      // canvas.select('#tooltip-container').style('display', 'block');
+      updateTooltip(d);
+      canvas.select('#tooltip-container').style('display', 'block');
     }
     function funcMouseout() {
       graph.selectAll("g#highlight").remove();
-      // canvas.select('#tooltip-container').style('display', 'none');
+      canvas.select('#tooltip-container').style('display', 'none');
     }
-    // function funcMousemove() {
-    //   canvas.select('#tooltip-container')
-    //     .style('top', d3.event.pageY + 'px')
-    //     .style('left', d3.event.pageX + 'px');
-    // }
-    // function funcTooltipToggle(d){
-    //   tooltipsEnable = !tooltipsEnable;
-    //   updateTooltip(d);
-    // }
+    function funcMousemove() {
+      canvas.select('#tooltip-container')
+        .style('top', d3.event.pageY + 'px')
+        .style('left', d3.event.pageX + 'px');
+    }
+    function funcTooltipToggle(d){
+      tooltipsEnable = !tooltipsEnable;
+      updateTooltip(d);
+    }
+
+    ///////////////////////
+    //// Tooltips
+
+    var tooltipsEnable = true;
+
+    function colorDot(d){
+      return '<span style="background-color:'+ d.color +'"></span>';
+    }
+
+    sankey.nodes().forEach(function(n){
+      n.tooltip = {
+        name: colorDot(n) + n.disp,
+        value: formatNumber(n.value),
+        head: true,
+      };
+    });
+    sankey.links().forEach(function(l){
+      l.tooltip = {
+        name: colorDot(l.source) + l.source.disp +
+          " → " + colorDot(l.target) + l.target.disp,
+        value: formatNumber(l.value),
+        head: true,
+      };
+    });
+    sankey.flows().forEach(function(f){
+      var name = '';
+      f.thru.forEach(function (n, ind) {
+        if (ind !== 0) name += ' → ';
+        name += colorDot(n) + n.disp;
+      });
+      f.tooltip = {
+        name: name,
+        value: formatNumber(f.value),
+      };
+    });
+
+    var tooltips = [];
+
+    var tbody = canvas
+      .append('div')
+        .attr('id', 'tooltip-container')
+      .append('table')
+        .attr('class', 'tooltip')
+      .append('tbody');
+
+    function updateTooltip(d){
+      //"""param d: data, could be node or link"""
+
+      tooltips = [d.tooltip];
+      if (tooltipsEnable){
+        d.flows.forEach(function(f){
+          tooltips.push(f.tooltip);
+        });
+      }
+
+      //no need to use D3
+      tbody.selectAll('*').remove();
+      tooltips.forEach(function(tip){
+        var tr = tbody.append('tr');
+        tr.append('td')
+          .attr('class', 'name')
+          .classed('head', 'head' in tip)
+          .html(tip.name);
+
+        tr.append('td')
+          .attr('class', 'value')
+          .classed('head', 'head' in tip)
+          .html(tip.value);
+      });
+    }
   };
 };
