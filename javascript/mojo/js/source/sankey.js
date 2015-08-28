@@ -321,7 +321,9 @@ d3.sankey = function() {
   //will modify linkDict, links, flows
   sankey.flows = function(_) {
     if (!arguments.length) return flows;
-    if (!nodes.length) console.error('sankey.nodes() must be called before flows(). Or maybe matric has no positive value');
+    if (!nodes.length) console.error(
+      'sankey.nodes() must be called before flows(). ' +
+      'Or maybe matric has no positive value');
     flows = _;
     linkDict = {};
 

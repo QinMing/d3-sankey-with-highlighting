@@ -5,17 +5,36 @@ var SankeyDriver = function (){
   var sankey = d3.sankey();
   var formatNumber = d3.format(",.3s");//d3.format(",.2f");
   var color = d3.scale.category20c(); //color function
-  var canvas, graph, width, height;
+  var graph, width, height;
   //Caution: width and height must be kept outside of function draw()
   //to avoid closure issues in drag event handler
   var tooltips = [];
   var tooltipsEnable = true;
+  var tooltipContainer, tbody;
 
-  this.draw = function (inputCanvas, inputdata, opt) {
-    canvas = inputCanvas;
-    graph = canvas.select('svg g');
-    width = opt.width;
-    height = opt.height;
+  this.prepare = function (canvas, sz, margin) {
+    width = sz.width - margin.left - margin.right;
+    height= sz.height - margin.top - margin.bottom;
+
+    graph = canvas
+      .html('')
+      .append('svg')
+        .attr("width", sz.width)
+        .attr("height", sz.height)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    tooltipContainer = canvas
+      .append('div')
+        .attr('id', 'tooltip-container');
+
+    tbody = tooltipContainer
+      .append('table')
+        .attr('class', 'tooltip')
+      .append('tbody');
+  };
+
+  this.draw = function (inputdata) {
 
     sankey
       .nodeWidth(15)
@@ -159,14 +178,14 @@ var SankeyDriver = function (){
       sankey.dflows(d.flows);
       drawDLink(sankey.dlinks());
       updateTooltip(d);
-      canvas.select('#tooltip-container').style('display', 'block');
+      tooltipContainer.style('display', 'block');
     }
     function funcMouseout() {
       graph.selectAll("g#highlight").remove();
-      canvas.select('#tooltip-container').style('display', 'none');
+      tooltipContainer.style('display', 'none');
     }
     function funcMousemove() {
-      canvas.select('#tooltip-container')
+      tooltipContainer
         .style('top', d3.event.pageY + 'px')
         .style('left', d3.event.pageX + 'px');
     }
@@ -208,14 +227,6 @@ var SankeyDriver = function (){
         value: formatNumber(f.value),
       };
     });
-
-    canvas.selectAll('div#tooltip-container').remove();
-    tbody = canvas
-      .append('div')
-        .attr('id', 'tooltip-container')
-      .append('table')
-        .attr('class', 'tooltip')
-      .append('tbody');
 
     //param d: data, could be node or link
     function updateTooltip(d){
