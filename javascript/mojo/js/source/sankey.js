@@ -67,7 +67,6 @@ d3.sankey = function() {
   sankey.relayout = function() {
     computeLinkDepths();
     computeDlinks();
-    // console.log(links[0].dy,links[0].sy,links[0].ty);
     return sankey;
   };
 
@@ -433,7 +432,6 @@ d3.sankey = function() {
 
   //compute the starting and ending point (y) for each dynamic link
   function computeDlinks() {
-    // dflows.reverse().forEach(function (f) {
     for (var k = dflows.length-1 ; k>=0; k--){
       var f = dflows[k];
       for (var i = 1; i < f.thru.length - 1; i++) {

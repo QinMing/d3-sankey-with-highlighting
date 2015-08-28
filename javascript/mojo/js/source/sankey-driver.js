@@ -8,11 +8,12 @@ var SankeyDriver = function (){
   var canvas, graph, width, height;
   //Caution: width and height must be kept outside of function draw()
   //to avoid closure issues in drag event handler
+  var tooltips = [];
+  var tooltipsEnable = true;
 
   this.draw = function (inputCanvas, inputdata, opt) {
     canvas = inputCanvas;
     graph = canvas.select('svg g');
-
     width = opt.width;
     height = opt.height;
 
@@ -177,8 +178,6 @@ var SankeyDriver = function (){
     ///////////////////////
     //// Tooltips
 
-    var tooltipsEnable = true;
-
     function colorDot(d){
       return '<span style="background-color:'+ d.color +'"></span>';
     }
@@ -210,17 +209,16 @@ var SankeyDriver = function (){
       };
     });
 
-    var tooltips = [];
-
-    var tbody = canvas
+    canvas.selectAll('div#tooltip-container').remove();
+    tbody = canvas
       .append('div')
         .attr('id', 'tooltip-container')
       .append('table')
         .attr('class', 'tooltip')
       .append('tbody');
 
+    //param d: data, could be node or link
     function updateTooltip(d){
-      //"""param d: data, could be node or link"""
 
       tooltips = [d.tooltip];
       if (tooltipsEnable){
