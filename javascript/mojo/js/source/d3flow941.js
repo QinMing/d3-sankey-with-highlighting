@@ -135,32 +135,19 @@
           data.flows.push(f);
         }
 
-        var canvas = d3.select(this.domNode);
         var sz = {
           width: parseInt(this.domNode.style.width, 10),
           height: parseInt(this.domNode.style.height, 10),
         };
-
         var margin = {
           top: 25,
           left: 25,
           bottom: 10,
           right: 10,
         };
-
-        canvas
-          .html('')
-          .append('svg')
-            .attr("width", sz.width)
-            .attr("height", sz.height)
-          .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
         var driver = new SankeyDriver();
-        driver.draw(canvas, data, {
-          width : sz.width - margin.left - margin.right,
-          height: sz.height - margin.top - margin.bottom,
-        });
+        driver.prepare(d3.select(this.domNode), sz, margin);
+        driver.draw(data);
       }
     }
   );
