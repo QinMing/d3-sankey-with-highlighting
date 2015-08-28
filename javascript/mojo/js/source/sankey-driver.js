@@ -9,31 +9,10 @@ var SankeyDriver = function (){
   //Caution: width and height must be kept outside of function draw()
   //to avoid closure issues in drag event handler
 
-  var graph;
-  function prepareGraph(canvas, opt){
-    var margin = {
-      top: 25,
-      bottom: 10,
-      left: 25,
-      right: 10,
-    };
-    width = opt.width - margin.left - margin.right;
-    height = opt.height - margin.top - margin.bottom;
-    canvas.html(''); //Although emptying html is not a D3 style
+  this.draw = function (graph, inputdata, opt) {
 
-    graph = canvas
-      .append('svg')
-        .attr("width", opt.width)
-        .attr("height", opt.height)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  }
-    console.log(width);
-
-  this.draw = function (canvas, inputdata, opt) {
-
-
-    prepareGraph(canvas, opt);
+    width = opt.width;
+    height = opt.height;
 
     sankey
       .nodeWidth(15)
@@ -191,4 +170,4 @@ var SankeyDriver = function (){
     //   updateTooltip(d);
     // }
   };
-}
+};
