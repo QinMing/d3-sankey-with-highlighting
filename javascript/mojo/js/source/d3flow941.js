@@ -80,7 +80,7 @@
         };
 
         for (var i = 0; i < gridData.getTotalRows(); i++) {
-          var value = gridData.getMetricValue(i, 0).getRawValue();
+          var value = gridData.getMetricValue(i, 0).getRawValue();//getValue()
           if (value <= 0) {
             console.error(
               'Warning: negative value(s) in the metric. Assuming zero.'
@@ -89,6 +89,9 @@
               negValFound = true;
             }
             continue;
+          }
+          if (value < 0.5) {
+            value = 0;
           }
           var f = {
             value: value,
