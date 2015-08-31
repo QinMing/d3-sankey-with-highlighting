@@ -3,8 +3,6 @@
 
 **Contributor:** [Ming Qin](http://github.com/QinMing) (Yahoo! Inc)
 
-**Contributor's Contact Info.:** <mingq@yahoo-inc.com>
-
 **Original Author:** [Ming Qin](http://github.com/QinMing) (Yahoo! Inc) and [Mike Bostock](http://github.com/mbostock) (The New York Times)
 
 **Original Visualization Source Link:** <a href = "" target = "blank">Not published yet</a>
