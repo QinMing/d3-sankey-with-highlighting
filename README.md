@@ -1,7 +1,7 @@
 ### Sankey Flow Chart Enhanced at Yahoo!
 #### with Flow-Based API and End-to-End Highlighting
 
-**Contributor:** [Ming Qin](http://github.com/QinMing)(Yahoo! Inc)
+**Contributor:** [Ming Qin](http://github.com/QinMing) (Yahoo! Inc)
 
 **Contributor's Contact Info.:** <mingq@yahoo-inc.com>
 
