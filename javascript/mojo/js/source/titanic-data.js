@@ -13,12 +13,8 @@ var data = {
       "name": "second class"
     },
     {
-      "disp": "Age",
-      "name": "age"
-    },
-    {
-      "disp": "Sex",
-      "name": "sex"
+      "disp": "Crew",
+      "name": "crew"
     },
     {
       "disp": "Perished",
@@ -37,16 +33,8 @@ var data = {
       "name": "child"
     },
     {
-      "disp": "Crew",
-      "name": "crew"
-    },
-    {
       "disp": "Male",
       "name": "male"
-    },
-    {
-      "disp": "Class",
-      "name": "class"
     },
     {
       "disp": "First Class",
@@ -179,15 +167,6 @@ var data = {
         "perished"
       ],
       "value": 3
-    },
-    {
-      "thru": [
-        "class",
-        "age",
-        "sex",
-        "survived"
-      ],
-      "value": 1
     },
     {
       "thru": [
