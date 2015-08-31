@@ -116,33 +116,33 @@
           data.flows.push(f);
         }
 
-        //data finally look like this
+        // data finally look like this
         // {
-        //   nodes: [
-        //     {
-        //       "name": "node0",
-        //       "disp": "A",
-        //     }, {
-        //       "name": "node1",
-        //       "disp": "B",
-        //     }
+        //     nodes: [
+        //       {
+        //         "name": "node0",
+        //         "disp": "A",
+        //       }, {
+        //         "name": "node1",
+        //         "disp": "B",
+        //       }
         //
-        //     ......
+        //       ......
         //
-        //   ],
+        //     ],
         //
-        //   flows: [
-        //     {
-        //       value: 50,
-        //       thru: [ 0, 3 ] //indices of nodes, or 'name' of nodes, or node objects.
-        //     }, {
-        //       value: 30,
-        //       thru: [ 1, 2, 3 ]
-        //     }
+        //     flows: [
+        //       {
+        //         value: 50,
+        //         thru: [ "node0", "node1"]
+        //       }, {
+        //         value: 30,
+        //         thru: [ 0, 1, 2 ]
+        //       }
         //
-        //     ......
+        //       ......
         //
-        //   ]
+        //     ]
         // }
 
         var sz = {
