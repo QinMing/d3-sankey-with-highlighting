@@ -3,7 +3,7 @@
 
 var SankeyDriver = function (){
   var sankey = d3.sankey();
-  var formatNumber = d3.format(",.3s");//d3.format(",.2f");
+  var formatNumber = d3.format(',d');//(",.3s");//d3.format(",.2f");
   var color = d3.scale.category20c();
   var graph, width, height;
   //Caution: width and height must be kept outside of function draw()

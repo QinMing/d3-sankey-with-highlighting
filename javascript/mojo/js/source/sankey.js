@@ -315,7 +315,7 @@ d3.sankey = function() {
   }
 
   //////////////////////////////
-  // The Dynamically Highlighted Links
+  // The Flow API
   ////////////////////////////
 
   //will modify linkDict, links, flows
