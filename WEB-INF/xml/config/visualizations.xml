@@ -1,5 +1,5 @@
 <visualizations>
   <visualization-list name="ajax">
-    <visualization id="D3FlowY" desc="D3 Flow for 9.4.1" is-mojo="true" scope="3" projects="" style-name="D3FlowYVisualizationStyle" propsEditor="D3FlowYPropertiesStyle" attribute-minimum="2" metric-minimum="1"/>
+    <visualization id="d3flow941" desc="D3 Flow at Yahoo" is-mojo="true" scope="3" projects="" style-name="d3flow941VisualizationStyle" propsEditor="d3flow941PropertiesStyle" attribute-minimum="2" metric-minimum="1"/>
   </visualization-list>
 </visualizations>
