@@ -1,4 +1,4 @@
-var data = {
+var titanicData = {
   "nodes": [
     {
       "disp": "Third Class",
