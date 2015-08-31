@@ -63,13 +63,13 @@ The [original plugin](http://bost.ocks.org/mike/sankey/) take `nodes` and `links
     ]
 }
 ```
-Compared to links, the flow structure is easier to construct because our raw data are in a multi-attribute table, where each row corresponds to a `flow`. In this sense, the plugin is also very suitable for visualizing parallel sets. The data in the screenshot come from this [parallel set visualization](https://www.jasondavies.com/parallel-sets/), but note that it's highlighting is very different.
+Compared to links, the flow structure is easier to construct because our raw data are in a multi-attribute table, where each row corresponds to a `flow`. Besides flows retain more information than links, so that the end-to-end highlighting is made possible. Whenever the mouse hover over an element, there is a certain subset of `flows` going through it. Then some new links (called `dlinks`) are dynamically computed from this flow subset, and placed on the canvas. The `dlinks` are positioned so as to make the highlighted flows look visually consistent. Although the positioning algorithm is coarse and can be improved.
 
-Given the flow structure, the end-to-end highlighting is implemented. Whenever the mouse hover over an element, there are a certain subset of `flows` going through it. Then some new links (called `dlinks`) are dynamically computed from this flow subset, and placed on the canvas. The `dlinks` are positioned so as to make the highlighted flow looks consistent. But the positioning algorithm is coarse and can be improved.
+The plugin is also very suitable for visualizing parallel sets. The data in the screenshot come from this [parallel set visualization](https://www.jasondavies.com/parallel-sets/), but note that their highlighting are very different.
 
 _2. Rich tooltips_
 
-Double click on the diagram to hide this feature.
+Double click on the diagram to switch between the rich and the simple modes. The rich mode shows the subset of flows.
 
 _3. Settings_
 You can customize the default tooltip style and number formats in the "visualization properties"
