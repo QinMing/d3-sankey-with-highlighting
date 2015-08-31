@@ -9,10 +9,6 @@
 
 **Original Author:** [Ming Qin](http://github.com/QinMing)(Yahoo! Inc) and [Mike Bostock](http://github.com/mbostock)(The New York Times)
 
-**Original Author's Orgnization:** Yahoo! Inc.
-
-**Original Author's Contact Info.:** <mingq@yahoo-inc.com>
-
 **Original Visualization Source Link:** <a href = "" target = "blank">Not published yet</a>
 
 The original visualization is then developed on top of [D3’s Sankey plugin](http://bost.ocks.org/mike/sankey/) by [Mike Bostock](http://github.com/mbostock) (<mike@ocks.org>) at The New York Times.
