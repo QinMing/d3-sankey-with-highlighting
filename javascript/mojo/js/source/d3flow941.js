@@ -90,9 +90,7 @@
             }
             continue;
           }
-          if (value < 0.5) {
-            value = 0;
-          }
+
           var f = {
             value: value,
             thru: [],

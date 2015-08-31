@@ -20,8 +20,8 @@
 			<td>
 				<mstrlayout:render name="SelectBox">
 					<mstrlayout:argument type="string" value="numFormat" />
-					<mstrlayout:argument type="string" value="^Default|s^SI-prefix|f^Fixed|p^Percentage|d^Integer"/>
-					<mstrlayout:argument type="string" value="s" /> <!--default value -->
+					<mstrlayout:argument type="string" value="^Default|g^General|f^Fixed|s^SI-prefix|p^Percentage|d^Integer"/>
+					<mstrlayout:argument type="string" value="f" /> <!--default value -->
 				</mstrlayout:render>
 			</td>
 		</tr>
@@ -33,7 +33,7 @@
 				<mstrlayout:render name="Textbox">
 					<mstrlayout:argument type="string" value="precision" />
 					<mstrlayout:argument type="string" value="" />
-					<mstrlayout:argument type="string" value="" />
+					<mstrlayout:argument type="string" value="1" />
 				</mstrlayout:render>
 			</td>
 		</tr>
