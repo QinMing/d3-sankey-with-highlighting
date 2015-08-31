@@ -331,10 +331,10 @@ d3.sankey = function() {
 
       //normalize nodes in f.thru
       f.thru = f.thru.map(function (n) {
-        if (typeof n === "number"){
-          return nodes[n];
-        } else if (typeof n === "object"){
+        if (typeof n === "object") {
           return n;
+        } else if (typeof n === "number") {
+          return nodes[n];
         } else if (typeof n === "string"){
           return nodes.filter(function(node){
             return node.name === n;
