@@ -5,8 +5,8 @@ var data = {
       "name": "third class"
     },
     {
-      "disp": "Female",
-      "name": "female"
+      "disp": "Survived",
+      "name": "survived"
     },
     {
       "disp": "Second Class",
@@ -25,8 +25,8 @@ var data = {
       "name": "adult"
     },
     {
-      "disp": "Survived",
-      "name": "survived"
+      "disp": "Female",
+      "name": "female"
     },
     {
       "disp": "Child",
@@ -44,219 +44,219 @@ var data = {
   "flows": [
     {
       "thru": [
-        "second class",
-        "adult",
-        "female",
-        "survived"
-      ],
-      "value": 80
-    },
-    {
-      "thru": [
-        "crew",
-        "adult",
-        "female",
-        "survived"
-      ],
-      "value": 20
-    },
-    {
-      "thru": [
-        "first class",
-        "adult",
-        "female",
-        "perished"
-      ],
-      "value": 4
-    },
-    {
-      "thru": [
-        "second class",
-        "child",
+        "perished",
         "male",
-        "survived"
-      ],
-      "value": 11
-    },
-    {
-      "thru": [
-        "third class",
-        "child",
-        "male",
-        "survived"
-      ],
-      "value": 13
-    },
-    {
-      "thru": [
-        "first class",
         "adult",
-        "male",
-        "survived"
-      ],
-      "value": 57
-    },
-    {
-      "thru": [
-        "third class",
-        "adult",
-        "female",
-        "survived"
-      ],
-      "value": 76
-    },
-    {
-      "thru": [
-        "second class",
-        "child",
-        "female",
-        "survived"
-      ],
-      "value": 13
-    },
-    {
-      "thru": [
-        "crew",
-        "adult",
-        "male",
-        "survived"
-      ],
-      "value": 192
-    },
-    {
-      "thru": [
-        "third class",
-        "child",
-        "male",
-        "perished"
-      ],
-      "value": 35
-    },
-    {
-      "thru": [
-        "third class",
-        "child",
-        "female",
-        "survived"
-      ],
-      "value": 14
-    },
-    {
-      "thru": [
-        "first class",
-        "child",
-        "female",
-        "survived"
-      ],
-      "value": 1
-    },
-    {
-      "thru": [
-        "first class",
-        "adult",
-        "female",
-        "survived"
-      ],
-      "value": 140
-    },
-    {
-      "thru": [
-        "crew",
-        "adult",
-        "female",
-        "perished"
-      ],
-      "value": 3
-    },
-    {
-      "thru": [
-        "third class",
-        "child",
-        "female",
-        "perished"
-      ],
-      "value": 17
-    },
-    {
-      "thru": [
-        "crew",
-        "adult",
-        "male",
-        "perished"
-      ],
-      "value": 670
-    },
-    {
-      "thru": [
-        "third class",
-        "adult",
-        "female",
-        "perished"
-      ],
-      "value": 89
-    },
-    {
-      "thru": [
-        "third class",
-        "adult",
-        "male",
-        "perished"
-      ],
-      "value": 387
-    },
-    {
-      "thru": [
-        "first class",
-        "adult",
-        "male",
-        "perished"
+        "first class"
       ],
       "value": 118
     },
     {
       "thru": [
-        "first class",
+        "perished",
+        "female",
+        "adult",
+        "third class"
+      ],
+      "value": 89
+    },
+    {
+      "thru": [
+        "survived",
+        "male",
         "child",
-        "male",
-        "survived"
+        "second class"
       ],
-      "value": 5
+      "value": 11
     },
     {
       "thru": [
-        "second class",
-        "adult",
-        "male",
-        "perished"
-      ],
-      "value": 154
-    },
-    {
-      "thru": [
-        "second class",
-        "adult",
-        "male",
-        "survived"
+        "survived",
+        "female",
+        "child",
+        "third class"
       ],
       "value": 14
     },
     {
       "thru": [
-        "second class",
-        "adult",
+        "perished",
         "female",
-        "perished"
+        "child",
+        "third class"
+      ],
+      "value": 17
+    },
+    {
+      "thru": [
+        "survived",
+        "female",
+        "child",
+        "first class"
+      ],
+      "value": 1
+    },
+    {
+      "thru": [
+        "perished",
+        "female",
+        "adult",
+        "second class"
       ],
       "value": 13
     },
     {
       "thru": [
-        "third class",
+        "survived",
+        "female",
         "adult",
+        "first class"
+      ],
+      "value": 140
+    },
+    {
+      "thru": [
+        "survived",
         "male",
-        "survived"
+        "adult",
+        "crew"
+      ],
+      "value": 192
+    },
+    {
+      "thru": [
+        "perished",
+        "male",
+        "adult",
+        "crew"
+      ],
+      "value": 670
+    },
+    {
+      "thru": [
+        "survived",
+        "female",
+        "child",
+        "second class"
+      ],
+      "value": 13
+    },
+    {
+      "thru": [
+        "perished",
+        "female",
+        "adult",
+        "crew"
+      ],
+      "value": 3
+    },
+    {
+      "thru": [
+        "perished",
+        "male",
+        "adult",
+        "third class"
+      ],
+      "value": 387
+    },
+    {
+      "thru": [
+        "survived",
+        "female",
+        "adult",
+        "crew"
+      ],
+      "value": 20
+    },
+    {
+      "thru": [
+        "perished",
+        "female",
+        "adult",
+        "first class"
+      ],
+      "value": 4
+    },
+    {
+      "thru": [
+        "survived",
+        "female",
+        "adult",
+        "third class"
+      ],
+      "value": 76
+    },
+    {
+      "thru": [
+        "perished",
+        "male",
+        "child",
+        "third class"
+      ],
+      "value": 35
+    },
+    {
+      "thru": [
+        "survived",
+        "male",
+        "child",
+        "first class"
+      ],
+      "value": 5
+    },
+    {
+      "thru": [
+        "perished",
+        "male",
+        "adult",
+        "second class"
+      ],
+      "value": 154
+    },
+    {
+      "thru": [
+        "survived",
+        "male",
+        "child",
+        "third class"
+      ],
+      "value": 13
+    },
+    {
+      "thru": [
+        "survived",
+        "male",
+        "adult",
+        "first class"
+      ],
+      "value": 57
+    },
+    {
+      "thru": [
+        "survived",
+        "female",
+        "adult",
+        "second class"
+      ],
+      "value": 80
+    },
+    {
+      "thru": [
+        "survived",
+        "male",
+        "adult",
+        "third class"
       ],
       "value": 75
+    },
+    {
+      "thru": [
+        "survived",
+        "male",
+        "adult",
+        "second class"
+      ],
+      "value": 14
     }
   ]
 }
