@@ -25,7 +25,7 @@ Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.micr
 ![Alt text][screenshot]
 [screenshot]: ./style/images/screenshot.png?raw=true
 
-Titanic Survivors. [data source](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
+Titanic Survivors. Data: [Robert J. MacG. Dawson](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
 
 **Description:**
 
