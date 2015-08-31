@@ -80,7 +80,7 @@
         };
 
         for (var i = 0; i < gridData.getTotalRows(); i++) {
-          var value = gridData.getMetricValue(i, 0).getRawValue();//getValue()
+          var value = gridData.getMetricValue(i, 0).getRawValue(); //getValue()
           if (value <= 0) {
             console.error(
               'Warning: negative value(s) in the metric. Assuming zero.'
@@ -115,6 +115,35 @@
           }
           data.flows.push(f);
         }
+
+        //data finally look like this
+        // {
+        //   nodes: [
+        //     {
+        //       "name": "node0",
+        //       "disp": "A",
+        //     }, {
+        //       "name": "node1",
+        //       "disp": "B",
+        //     }
+        //
+        //     ......
+        //
+        //   ],
+        //
+        //   flows: [
+        //     {
+        //       value: 50,
+        //       thru: [ 0, 3 ] //indices of nodes, or 'name' of nodes, or node objects.
+        //     }, {
+        //       value: 30,
+        //       thru: [ 1, 2, 3 ]
+        //     }
+        //
+        //     ......
+        //
+        //   ]
+        // }
 
         var sz = {
           width: parseInt(this.domNode.style.width, 10),
