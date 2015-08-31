@@ -9,12 +9,8 @@
   mstrmojo.plugins.d3flow941.d3flow941 = mstrmojo.declare(
     mstrmojo.Vis, [mstrmojo._LoadsScript], {
       scriptClass: 'mstrmojo.plugins.d3flow941.d3flow941',
-      //HTML to render in place of widget
-      //ming commented
-      // markupString: '<div id="{@id}" style="top:{@top};left:{@left};position:absolute;overflow:hidden;">' +
-      // '<div id="chartdiv -{@id}" style="height: 100%;width: 100%;font-size:10pt"></div>	' +
-      // '</div>',
-      markupString: '<div id="{@id}" style="top:{@top};left:{@left};position:absolute;overflow:scroll;"></div>', //ming
+
+      markupString: '<div id="{@id}" style="top:{@top};left:{@left};position:absolute;overflow:hidden;"></div>',
 
       properties: {},
 
@@ -30,7 +26,7 @@
           this.domNode.innerHTML = this.model.eg;
         } else {
           //parsing properties
-          // this.properties = this.getProperties();
+          this.properties = this.getProperties();
           this.loadScripts();
         }
       },
@@ -39,7 +35,6 @@
         var externalLibraries = [
           {
             url: "http://d3js.org/d3.v3.min.js"
-              // url: "https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"
           },
           {
             url: "../plugins/d3flow941/javascript/mojo/js/source/sankey.js"
@@ -47,16 +42,10 @@
           {
             url: "../plugins/d3flow941/javascript/mojo/js/source/sankey-driver.js"
           },
-          // {
-          //   url: "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"
-          // }
-                ];
+        ];
         var me = this;
         // load required external JS files and after that run renderGraph method
         this.requiresExternalScripts(externalLibraries, function () {
-          // $(document).ready(function () {
-          //     $('head').append('<link href="../plugins/d3flow941/style/global.css" rel="stylesheet" id="styleSheet" />');
-          // });
           me.renderGraph();
         });
       },
@@ -67,25 +56,16 @@
        */
       getProperties: function () {
         var prop = {};
-        prop.title = prop.defTitle = 'd3flow Integration for 9.4.1';
-        prop.type = prop.defType = 'serial';
-        prop.theme = prop.defTheme = 'none';
         if (this.model && this.model.vp) {
-          if (this.model.vp.graphTitle) {
-            prop.title = this.model.vp.graphTitle;
-          }
-          if (this.model.vp.graphType) {
-            prop.type = this.model.vp.graphType;
-          }
-          if (this.model.vp.graphTheme) {
-            prop.theme = this.model.vp.graphTheme;
-          }
+          prop.tooltipStyle = this.model.vp.tooltipStyle;
+          prop.numFormat = this.model.vp.numFormat;
+          prop.precision = this.model.vp.precision;
         }
         return prop;
       },
 
-      useRichTooltip: true,
-      reuseDOMNode: true,
+      // useRichTooltip: true,
+      // reuseDOMNode: true,
       errorDetails: "This visualization requires one or more attributes and one metric.",
 
       renderGraph: function (type) {
@@ -146,7 +126,7 @@
           right: 25,
         };
         var driver = new SankeyDriver();
-        driver.prepare(d3.select(this.domNode), sz, margin);
+        driver.prepare(d3.select(this.domNode), sz, margin, this.properties);
         driver.draw(data);
       }
     }

@@ -3,16 +3,16 @@
 
 var SankeyDriver = function (){
   var sankey = d3.sankey();
-  var formatNumber = d3.format(',d');//(",.3s");//d3.format(",.2f");
+  var formatNumber;// = d3.format(',d');//(",.3s");//d3.format(",.2f");
   var color = d3.scale.category20c();
   var graph, width, height;
   //Caution: width and height must be kept outside of function draw()
   //to avoid closure issues in drag event handler
   var tooltips = [];
-  var tooltipsEnable = true;
+  var tooltipEnable = true;
   var tooltipContainer, tbody;
 
-  this.prepare = function (canvas, sz, margin) {
+  this.prepare = function (canvas, sz, margin, props) {
     width = sz.width - margin.left - margin.right;
     height= sz.height - margin.top - margin.bottom;
 
@@ -32,6 +32,23 @@ var SankeyDriver = function (){
       .append('table')
         .attr('class', 'tooltip')
       .append('tbody');
+
+    if (props){
+      if (props.tooltipStyle === 'simple'){
+        tooltipEnable = false;
+      }
+  
+      if (!props.numFormat){
+        props.numFormat = '';
+      }
+
+      if (props.precision){
+        props.precision = '.' + props.precision;
+      } else {
+        props.precision = '';
+      }
+    }
+    formatNumber = d3.format(',' + props.precision + props.numFormat);
   };
 
   this.draw = function (inputdata) {
@@ -190,7 +207,7 @@ var SankeyDriver = function (){
         .style('left', d3.event.pageX + 'px');
     }
     function funcTooltipToggle(d){
-      tooltipsEnable = !tooltipsEnable;
+      tooltipEnable = !tooltipEnable;
       updateTooltip(d);
     }
 
@@ -232,7 +249,7 @@ var SankeyDriver = function (){
     function updateTooltip(d){
 
       tooltips = [d.tooltip];
-      if (tooltipsEnable){
+      if (tooltipEnable){
         d.flows.forEach(function(f){
           tooltips.push(f.tooltip);
         });
