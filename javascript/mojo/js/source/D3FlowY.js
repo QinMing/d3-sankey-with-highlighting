@@ -121,10 +121,10 @@
         //     nodes: [
         //       {
         //         "name": "node0",
-        //         "disp": "A",
+        //         "disp": "Node Zero",
         //       }, {
         //         "name": "node1",
-        //         "disp": "B",
+        //         "disp": "Node One",
         //       }
         //
         //       ......
@@ -134,10 +134,10 @@
         //     flows: [
         //       {
         //         value: 50,
-        //         thru: [ "node0", "node1"]
+        //         thru: [ "node0", "node1"] //name, or objects references
         //       }, {
         //         value: 30,
-        //         thru: [ 0, 1, 2 ]
+        //         thru: [ 0, 1, 2 ] //or even indices in the `nodes` array
         //       }
         //
         //       ......
