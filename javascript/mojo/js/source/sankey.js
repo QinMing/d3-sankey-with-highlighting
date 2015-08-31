@@ -315,7 +315,7 @@ d3.sankey = function() {
   }
 
   //////////////////////////////
-  // Ming : for the dynamic links
+  // The Dynamically Highlighted Links
   ////////////////////////////
 
   //will modify linkDict, links, flows
@@ -335,6 +335,10 @@ d3.sankey = function() {
           return nodes[n];
         } else if (typeof n === "object"){
           return n;
+        } else if (typeof n === "string"){
+          return nodes.filter(function(node){
+            return node.name === n;
+          })[0];
         } else {
           console.error('not supported node type');
           return null;

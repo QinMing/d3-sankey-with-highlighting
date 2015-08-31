@@ -4,7 +4,7 @@
 var SankeyDriver = function (){
   var sankey = d3.sankey();
   var formatNumber = d3.format(",.3s");//d3.format(",.2f");
-  var color = d3.scale.category20c(); //color function
+  var color = d3.scale.category20c();
   var graph, width, height;
   //Caution: width and height must be kept outside of function draw()
   //to avoid closure issues in drag event handler
@@ -95,7 +95,7 @@ var SankeyDriver = function (){
         .attr("width", sankey.nodeWidth())
         .style("fill", function (d) {
           if (!d.color){
-            d.color = color(d.disp);// = color(d.name.replace(/ .*/, ""));
+            d.color = color(d.disp);
           }
           return d.color;
         })
