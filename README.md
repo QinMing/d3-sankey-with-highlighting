@@ -15,7 +15,9 @@ The original visualization is developed on top of [D3’s Sankey plugin](http://
 
 Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.microstrategy.com/t5/user/viewprofilepage/user-id/19497) for inspiration to build the mstr plugin!
 
-**Usage:** This visualization needs 2 or more attributes and 1 or more metrics.
+**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server. 
+
+This visualization needs 2 or more attributes and 1 or more metrics.
 
 **Screenshot:**
 
@@ -72,6 +74,3 @@ Double click on the diagram to switch between the rich and the simple modes. The
 
 _3. Settings_
 You can customize the default tooltip style and number formats in the "visualization properties"
-
-### Usage 
-Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
