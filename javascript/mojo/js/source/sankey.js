@@ -357,13 +357,13 @@ d3.sankey = function() {
       for (var i = 0; i < f.thru.length - 1; i++) {
         var key = stPair(f.thru[i], f.thru[i + 1]);
         if (linkDict[key]) {
-          linkDict[key].value += ( + f.value);
+          linkDict[key].value += Number(f.value);
           linkDict[key].flows.push(f);
         } else {
           linkDict[key] = {
             source: f.thru[i],
             target: f.thru[i + 1],
-            value: ( + f.value),
+            value: Number(f.value),
             flows: [f],
           };
         }
@@ -398,12 +398,12 @@ d3.sankey = function() {
       for (var i = 0; i < f.thru.length - 1; i++) {
         var key = stPair(f.thru[i], f.thru[i + 1]);
         if (dlinkDict[key]) {
-          dlinkDict[key].value += ( + f.value);
+          dlinkDict[key].value += Number(f.value);
         } else {
           dlinkDict[key] = {
             source: f.thru[i],
             target: f.thru[i + 1],
-            value: ( + f.value),
+            value: Number(f.value),
             sy: linkDict[key].sy,
             ty: linkDict[key].ty,
           };
