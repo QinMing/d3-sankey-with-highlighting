@@ -72,3 +72,6 @@ Double click on the diagram to switch between the rich and the simple modes. The
 
 _3. Settings_
 You can customize the default tooltip style and number formats in the "visualization properties"
+
+### Usage 
+Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
