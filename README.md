@@ -3,15 +3,15 @@
 
 **Contributor:** [Ming Qin](http://github.com/QinMing)
 
-**Contributor's Orgnization:** Yahoo Inc
+**Contributor's Orgnization:** Yahoo Inc.
 
-**Original visualization** is developed by [Ming Qin](http://github.com/QinMing), based on [D3’s Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](http://github.com/mbostock) (<mike@ocks.org>) at The New York Times.
+**The original visualization** is developed by [Ming Qin](http://github.com/QinMing), based on [D3 Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](http://github.com/mbostock) (<mike@ocks.org>) at The New York Times.
 
 Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.microstrategy.com/t5/user/viewprofilepage/user-id/19497) for inspiration to build the mstr plugin!
 
-**Original Visualization Source Link:** <a href = "" target = "blank">Not published yet</a>
+**Original Visualization Source Link:** <a href = "" target = "blank">Will publish later</a>
 
-**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server. 
+**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
 
 This visualization needs 2 or more attributes and 1 or more metrics.
 
@@ -26,11 +26,12 @@ Titanic Survivors. Data: [Robert J. MacG. Dawson](http://www.amstat.org/publicat
 
 Sankey diagrams visualize the magnitude of flow between nodes in a network.
 
-In addition to [the original visualization](http://bost.ocks.org/mike/sankey/), this plugin has following features:
+In addition to [the original Sankey Diagram](http://bost.ocks.org/mike/sankey/), this plugin has following new features:
 
 _1. Flow-based API and End-to-end highlighting_
 
-The [original plugin](http://bost.ocks.org/mike/sankey/) take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which has a single weight but multiple nodes in a chain. The attribute `thru` specify the array of these node objects (it can be object references, indices in `nodes` or node `name`). Here's an example of input data
+The original diagram take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which has a single weight but multiple nodes in a chain. The attribute `thru` specify the array of these node objects. Here's an example of input data
+<!--   (in `thru`, things can be object references, indices in `nodes` or node `name`) -->
 ```
 {
     nodes: [
@@ -60,13 +61,13 @@ The [original plugin](http://bost.ocks.org/mike/sankey/) take `nodes` and `links
     ]
 }
 ```
-Compared to the link structure, flows are easier to construct because our raw data are in a multi-attribute table, where each row corresponds to a `flow`. Besides flows retain more information than links, so that the end-to-end highlighting is made possible. Whenever the mouse hover over an element, there is a certain subset of `flows` going through it. Then some new links (called `dlinks`) are dynamically computed from this flow subset, and placed on the canvas. The `dlinks` are positioned so as to make the highlighted flows look visually consistent. Although the positioning algorithm is coarse and can be improved.
+Compared to the link API, the flows are easier to construct because our raw data are in a multi-attribute table, where each row corresponds to a `flow`. Moreover, flows retain more information than links so that the end-to-end highlighting is made possible. Whenever the mouse hover over an element, there is a certain subset of `flows` going through it. Then some new links (called `dlinks`) are dynamically computed from this flow subset, and rendered in highlight. The `dlinks` are positioned so as to make the highlighted flows look visually consistent. Though the positioning algorithm is coarse and can be improved.
 
-The plugin is also very suitable for visualizing parallel sets. The data in the screenshot come from this [parallel set visualization](https://www.jasondavies.com/parallel-sets/), but note that their highlighting are very different.
+The plugin is also very suitable for visualizing parallel sets. The data in the screenshot come from [parallel set visualization](https://www.jasondavies.com/parallel-sets/), but notice that their highlighting are very different.
 
 _2. Rich tooltips_
 
-Double click on the diagram to switch between the rich and the simple modes. The rich mode shows the subset of flows under your mouse.
+The rich tooltip shows the subset of flows under your mouse. Double click on the diagram to switch between the rich and the simple modes.
 
 _3. Settings_
 You can customize the default tooltip style and number formats in the "visualization properties"
