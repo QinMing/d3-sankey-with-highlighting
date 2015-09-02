@@ -1,6 +1,6 @@
-//Author: Ming Qin (https://github.com/QinMing)
-//Copyright 2015 Yahoo Inc.
-//Licensed under the MIT license. See LICENSE in the project root for terms.
+// Author: Ming Qin (https://github.com/QinMing)
+// Copyright 2015 Yahoo Inc.
+// This file is licensed under the MIT License. See LICENSE in the project root for terms
 
 /*global d3*/
 

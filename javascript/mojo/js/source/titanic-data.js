@@ -1,3 +1,4 @@
+// Data source: [Robert J. MacG. Dawson](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
 var titanicData = {
   "nodes": [
     {

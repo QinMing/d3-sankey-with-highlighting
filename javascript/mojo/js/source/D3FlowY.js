@@ -1,3 +1,6 @@
+//Author: Ming Qin (https://github.com/QinMing) at Yahoo Inc.
+//This file was based on Pradyut's code here: http://community.microstrategy.com/t5/MicroStrategy-Software/Integrating-3rd-party-javascript-visualizations-into-a/td-p/224128
+
 /* global d3 */
 /* global mstrmojo */
 (function () {
