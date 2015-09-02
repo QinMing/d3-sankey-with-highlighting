@@ -1,6 +1,6 @@
-//Author: Ming Qin at Yahoo! Inc.
-//Forked from Mike Bostock's [D3 Sankey plugin](https://github.com/d3/d3-plugins/tree/master/sankey)
-//with is licensed under the BSD License at https://github.com/mbostock/d3/blob/master/LICENSE
+//Author: Ming Qin (https://github.com/QinMing) at Yahoo Inc.
+//This file was forked from Mike Bostock's [D3 Sankey plugin](https://github.com/d3/d3-plugins/tree/master/sankey)
+//which is licensed under the BSD License at https://github.com/mbostock/d3/blob/master/LICENSE
 
 d3.sankey = function() {
   var sankey = {},
