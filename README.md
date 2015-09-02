@@ -1,7 +1,7 @@
 ### Sankey Flow Chart Enhanced at Yahoo!
 #### with Flow-Based API and End-to-End Highlighting
 
-**Contributor:** [Ming Qin](http://github.com/QinMing)
+**Contributor:** Ming Qin [github.com/QinMing](http://github.com/QinMing)
 
 **Contributor's Orgnization:** Yahoo Inc
 
@@ -11,7 +11,7 @@ Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.micr
 
 **Original Visualization Source Link:** <a href = "" target = "blank">Not published yet</a>
 
-**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server. 
+**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
 
 This visualization needs 2 or more attributes and 1 or more metrics.
 
