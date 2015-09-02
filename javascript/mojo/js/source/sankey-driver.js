@@ -1,7 +1,7 @@
+//Author: Ming Qin (https://github.com/QinMing)
 //Copyright 2015 Yahoo Inc.
-//License Under the MIT license. See the LICENSE in the project root for terms.
+//Licensed under the MIT license. See LICENSE in the project root for terms.
 
-//Author: Ming Qin at Yahoo Inc.
 /*global d3*/
 
 var SankeyDriver = function (){
