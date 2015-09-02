@@ -3,15 +3,11 @@
 
 **Contributor:** [Ming Qin](http://github.com/QinMing)
 
-**Contributor's Orgnization:** Yahoo! Inc
-
-**Original Authors:** [Ming Qin](http://github.com/QinMing) and [Mike Bostock](http://github.com/mbostock)
-
-**Original Authors' Orgnizations:** Yahoo! Inc. and The New York Times
+**Contributor's Orgnization:** Yahoo Inc
 
 **Original Visualization Source Link:** <a href = "" target = "blank">Not published yet</a>
 
-The original visualization is developed on top of [D3’s Sankey plugin](http://bost.ocks.org/mike/sankey/) by [Mike Bostock](http://github.com/mbostock) (<mike@ocks.org>) at The New York Times.
+**Original visualization** is developed by [Ming Qin](http://github.com/QinMing), based on [D3’s Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](http://github.com/mbostock) (<mike@ocks.org>) at The New York Times.
 
 Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.microstrategy.com/t5/user/viewprofilepage/user-id/19497) for inspiration to build the mstr plugin!
 
