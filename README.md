@@ -70,6 +70,7 @@ _2. Rich tooltips_
 The rich tooltip shows the subset of flows under your mouse. Double click on the diagram to switch between the rich and the simple modes.
 
 _3. Settings_
+
 You can customize the default tooltip style and number formats in the "visualization properties"
 
 ------------------------
