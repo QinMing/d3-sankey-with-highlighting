@@ -71,3 +71,7 @@ The rich tooltip shows the subset of flows under your mouse. Double click on the
 
 _3. Settings_
 You can customize the default tooltip style and number formats in the "visualization properties"
+
+------------------------
+
+Licensed under the MIT License. See LICENSE in the project root for terms
