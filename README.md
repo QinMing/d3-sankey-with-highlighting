@@ -18,7 +18,7 @@ This visualization needs 2 or more attributes and 1 or more metrics.
 **Screenshot:**
 
 ![Alt text][screenshot]
-[screenshot]: ./style/images/screenshot.png?raw=true
+[screenshot]: ./asset/screenshot.png?raw=true
 
 Titanic Survivors. Data: [Robert J. MacG. Dawson](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
 
