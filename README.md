@@ -75,4 +75,4 @@ You can customize the default tooltip style and number formats in the "visualiza
 
 ------------------------
 
-Licensed under the MIT License. See LICENSE in the project root for terms
+Under the MIT License. See LICENSE in the project root for terms
