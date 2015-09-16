@@ -53,7 +53,7 @@ path.highlight {
 }
 
 /*Tooltips */
-/*Credit: style sheets based on c3js.org with MIT license*/
+/*Credit: tooltip style sheets are based on c3js.org with MIT license (https://github.com/masayuki0812/c3/blob/master/LICENSE)*/
 #tooltip-container {
   position: fixed;
   pointer-events: none;
