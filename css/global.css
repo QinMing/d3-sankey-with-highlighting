@@ -23,7 +23,7 @@ path.link {
 path.highlight {
     stroke: #45699f;
     stroke-opacity: .8;
-    z-index: 1000;
+    /*z-index: 1000;*/
 }
 
 /*Tooltips */
@@ -54,7 +54,7 @@ path.highlight {
   color:#000;
 }
 .tooltip td {
-  font-size:11px;
+  font: 11px sans-serif;
   padding: 3px 6px;
   text-align:left;
   background-color:#fff;

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+Author: Ming Qin (https://github.com/QinMing)
+Copyright 2015 Yahoo Inc.
+This file is licensed under the MIT License. See LICENSE in the project root for terms
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sankey Diagram with Flow-Based API</title>
+<script src="js/d3.v3.min.js"></script>
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+<script src="js/sankey.js"></script>
+<script src="js/sankey-driver.js"></script>
+<script src="asset/titanic-data.js"></script>
+<link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<div id='canvas'></div>
+
+<script>
+
+var margin = {
+  top: 0,
+  bottom: 10,
+  left: 0,
+  right: 10,
+};
+var size = {
+  width: 1000,
+  height: 500,
+}
+
+var driver = new SankeyDriver();
+driver.prepare(d3.select("#canvas"), size, margin);
+driver.draw(titanicData);
+
+</script>
+Class,Age,Sex,Survived
+</body>
+</html>
