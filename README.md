@@ -30,8 +30,11 @@ In addition to [the original Sankey Diagram](http://bost.ocks.org/mike/sankey/),
 
 _1. Flow-based API and End-to-end highlighting_
 
-The original diagram take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which have a single weight but multiple nodes in a chain. The attribute `thru` specify the array of these nodes. Here's an example of input data
+The original diagram take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which have a single weight but multiple nodes in a chain. Here's an example of input data
+
+<!-- The attribute `thru` specify the array of these nodes. -->
 <!--   (in `thru`, things can be object references, indices in `nodes` or node `name`) -->
+
 ```
 {
     nodes: [

@@ -31,10 +31,13 @@ a:not(:hover) {
   text-decoration: none;
 }
 
+img {
+  max-width: 960px;
+}
 
 /*Diagram*/
 text {
-    font: 10px sans-serif;
+    font: 12px sans-serif;
 }
 
 .node rect {
