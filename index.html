@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8">
 <title>Sankey Diagram with Highlighting</title>
+
 <script src="js/d3.v3.min.js"></script>
 <script src="js/showdown.min.js"></script>
 <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 <!-- <script src="https://cdn.rawgit.com/showdownjs/showdown/1.2.3/dist/showdown.min.js"></script> -->
+
 <script src="js/sankey.js"></script>
 <script src="js/sankey-driver.js"></script>
 <script src="asset/titanic-data.js"></script>
@@ -16,7 +18,7 @@
 <body>
 
 <header>
-  Sep. 16, 2015 / <a href="../" rel="author">Ming Qin</a>
+  Sep. 16, 2015 / <a href="//github.com/QinMing" rel="author">Ming Qin</a>
 </header>
 
 <h1>Sankey Diagram with Highlighting</h1>
@@ -39,7 +41,6 @@ var margin = {
 var size = {
   width: 960, height: 400,
 }
-
 var driver = new SankeyDriver();
 driver.prepare(d3.select("#canvas"), size, margin);
 driver.draw(titanicData);
@@ -48,7 +49,7 @@ driver.draw(titanicData);
 Class,Age,Sex,Survived
 
 <footer>
-  Sep. 16, 2015 / <a href="../" rel="author">Ming Qin</a>
+  Sep. 16, 2015 / <a href="//github.com/QinMing" rel="author">Ming Qin</a>
 </footer>
 </body>
 </html>
