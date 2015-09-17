@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sankey Diagram with Highlighting</title>
+<script src="js/d3.v3.min.js"></script>
+<script src="js/showdown.min.js"></script>
+<!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
+<!-- <script src="https://cdn.rawgit.com/showdownjs/showdown/1.2.3/dist/showdown.min.js"></script> -->
+<script src="js/sankey.js"></script>
+<script src="js/sankey-driver.js"></script>
+<script src="asset/titanic-data.js"></script>
+<link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+<header>
+  Sep. 16, 2015 / <a href="../" rel="author">Ming Qin</a>
+</header>
+
+<h1>Sankey Diagram with Highlighting</h1>
+
+<div id='canvas'></div>
+<div id='readme'></div>
+
+
+<script>
+d3.text('README.md', function(text){
+  var converter = new showdown.Converter();
+  var html = converter.makeHtml(text);
+  d3.select('#readme').html(html);
+})
+
+
+var margin = {
+  top: 0, bottom: 10, left: 0, right: 10,
+};
+var size = {
+  width: 960, height: 400,
+}
+
+var driver = new SankeyDriver();
+driver.prepare(d3.select("#canvas"), size, margin);
+driver.draw(titanicData);
+
+</script>
+Class,Age,Sex,Survived
+
+<footer>
+  Sep. 16, 2015 / <a href="../" rel="author">Ming Qin</a>
+</footer>
+</body>
+</html>
