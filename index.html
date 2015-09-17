@@ -4,10 +4,17 @@
 <meta charset="utf-8">
 <title>Sankey Diagram with Highlighting</title>
 
-<script src="js/d3.v3.min.js"></script>
-<script src="js/showdown.min.js"></script>
+<script src="asset/d3.v3.min.js"></script>
+<script src="asset/showdown.min.js"></script>
 <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 <!-- <script src="https://cdn.rawgit.com/showdownjs/showdown/1.2.3/dist/showdown.min.js"></script> -->
+
+
+<link rel="stylesheet" href="css/default.css">
+<script src="asset/highlight.pack.js"></script>
+
+<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css"> -->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script> -->
 
 <script src="js/sankey.js"></script>
 <script src="js/sankey-driver.js"></script>
@@ -26,15 +33,7 @@
 <div id='canvas'></div>
 <div id='readme'></div>
 
-
 <script>
-d3.text('README.md', function(text){
-  var converter = new showdown.Converter();
-  var html = converter.makeHtml(text);
-  d3.select('#readme').html(html);
-})
-
-
 var margin = {
   top: 0, bottom: 10, left: 0, right: 10,
 };
@@ -45,8 +44,18 @@ var driver = new SankeyDriver();
 driver.prepare(d3.select("#canvas"), size, margin);
 driver.draw(titanicData);
 
+d3.text('README.md', function(text){
+  var converter = new showdown.Converter({
+    ghCodeBlocks: 'true',
+  });
+  var html = converter.makeHtml(text);
+  d3.select('#readme').html(html);
+  hljs.initHighlightingOnLoad();
+})
 </script>
 Class,Age,Sex,Survived
+
+<!-- <script>hljs.initHighlightingOnLoad();</script> -->
 
 <footer>
   Sep. 16, 2015 / <a href="//github.com/QinMing" rel="author">Ming Qin</a>

@@ -4,13 +4,13 @@
 
 This diagram shows the survival statistics of the Titanic disaster. The thickness of ribbons (links) represents the number of people. When you move the mouse over nodes or links, the specific portion of data will be highlighted from end to end, and the data can be read from the tooltips. Double click on the diagram to turn off rich tooltips. This visualization was developed by [Ming Qin](//github.com/QinMing), based on [D3 Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](//github.com/mbostock) (<mike@ocks.org>).
 
-In addition to [the original d3 Sankey Diagram](http://bost.ocks.org/mike/sankey/), this plugin has following **new features**:
+# Features
 
-_1. Flow-based API and End-to-end highlighting_
+## 1. Flow-based API and End-to-end highlighting
 
-The original diagram take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which have a single weight but multiple nodes in a chain. Here's an example of input data
+The original plugin take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which have a single weight but multiple nodes in a chain. Here's an example of input data
 
-```
+```javascript
 {
     nodes: [
       {
@@ -21,7 +21,7 @@ The original diagram take `nodes` and `links` as input, while this one has a dif
         "disp": "B",
       }
 
-      ......
+      // ......
 
     ],
 
@@ -34,7 +34,7 @@ The original diagram take `nodes` and `links` as input, while this one has a dif
         thru: [ 0, 1, 2 ]
       }
 
-      ......
+      // ......
 
     ]
 }
@@ -43,7 +43,7 @@ Compared to the link API, the flows are easier to construct because our raw data
 
 The plugin is also very suitable for visualizing parallel sets. The demo shows the same data as [parallel set visualization](https://www.jasondavies.com/parallel-sets/), but notice that their highlighting is very different.
 
-_2. Rich tooltips_
+## 2. Rich tooltips
 
 The rich tooltip shows the subset of flows under your mouse. Double click on the diagram to switch between the rich and the simple modes.
 
