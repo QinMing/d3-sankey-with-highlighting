@@ -206,8 +206,8 @@ var SankeyDriver = function (){
     }
     function funcMousemove() {
       tooltipContainer
-        .style('top', d3.event.pageY + 'px')
-        .style('left', d3.event.pageX + 'px');
+        .style('top', d3.event.clientY + 'px')
+        .style('left', d3.event.clientX + 'px');
     }
     function funcTooltipToggle(d){
       tooltipEnable = !tooltipEnable;
