@@ -12,7 +12,7 @@
 
 <script src="js/sankey.js"></script>
 <script src="js/sankey-driver.js"></script>
-<script src="asset/titanic-data.js"></script>
+<!-- <script src="asset/titanic-data.js"></script> -->
 <link rel="stylesheet" href="css/global.css">
 </head>
 
@@ -36,15 +36,18 @@
 <div id='readme'></div>
 
 <script>
-var margin = {
-  top: 0, bottom: 10, left: 0, right: 10,
-};
-var size = {
-  width: 960, height: 400,
-}
+
 var driver = new SankeyDriver();
-driver.prepare(d3.select("#canvas"), size, margin);
-driver.draw(titanicData);
+d3.json('asset/titanic-data.json', function(titanicData){
+  var margin = {
+    top: 0, bottom: 10, left: 0, right: 10,
+  };
+  var size = {
+    width: 960, height: 400,
+  }
+  driver.prepare(d3.select("#canvas"), size, margin);
+  driver.draw(titanicData);
+});
 
 d3.text('README.md', function(text){
   var converter = new showdown.Converter({
