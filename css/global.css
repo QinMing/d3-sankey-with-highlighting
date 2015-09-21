@@ -37,18 +37,14 @@ img {
   max-width: 960px;
 }
 
-div.legend {
-  width: 960px;
-}
 div.legend-item {
-  display: block;
-  width: 24%;
+  display: inline-block;
 }
 
 
 /*Diagram*/
 text {
-    font: 12px sans-serif;
+  font-family: "PT Sans", sans-serif;
 }
 
 .node rect {

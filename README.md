@@ -1,6 +1,6 @@
 <!-- ### Sankey Diagram with End-to-End Highlighting -->
 
-Titanic Survivors. Data source: [Robert J. MacG. Dawson](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
+<!-- Titanic Survivors. Data source: [Robert J. MacG. Dawson](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html) -->
 
 ------------------------
 
