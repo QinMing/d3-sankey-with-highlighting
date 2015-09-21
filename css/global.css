@@ -13,8 +13,8 @@ body {
 
 div#readme {
   width: 950px;
-  /*margin: 0em auto 0em auto;*/
 }
+
 h1, h2, h3, h4, header, footer{
   color: #000;
   font-family: "PT Sans", sans-serif;
@@ -36,6 +36,15 @@ a:not(:hover) {
 img {
   max-width: 960px;
 }
+
+div.legend {
+  width: 960px;
+}
+div.legend-item {
+  display: block;
+  width: 24%;
+}
+
 
 /*Diagram*/
 text {

@@ -25,6 +25,14 @@
 <h1>Sankey Diagram with Highlighting</h1>
 
 <div id='canvas'></div>
+<div class="legend">
+<div class="legend-item">Class</div>
+<div class="legend-item">Class</div>
+<div class="legend-item">Class</div>
+<div class="legend-item">Class</div>
+</div>
+Class,Age,Sex,Survived
+
 <div id='readme'></div>
 
 <script>
@@ -40,14 +48,13 @@ driver.draw(titanicData);
 
 d3.text('README.md', function(text){
   var converter = new showdown.Converter({
-    ghCodeBlocks: 'true',
+    ghCodeBlocks: 'true', // can delete
   });
   var html = converter.makeHtml(text);
   d3.select('#readme').html(html);
   hljs.initHighlightingOnLoad();
 })
 </script>
-Class,Age,Sex,Survived
 
 <footer>
   Sep. 16, 2015 / <a href="//github.com/QinMing" rel="author">Ming Qin</a>
