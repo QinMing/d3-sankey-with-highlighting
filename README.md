@@ -1,7 +1,8 @@
 ### Sankey Flow Chart at Yahoo
 #### with Flow-Based API and End-to-End Highlighting
 
-**Contributor:** Ming Qin ([github.com/QinMing](http://github.com/QinMing))
+**Contributor:** Ming Qin ([QinMing]([1]))
+, Thukaram Katare ([sntrao](//github.com/sntrao))
 
 **Contributor's Email:** mingqin at ucsd dot edu
 
@@ -11,70 +12,25 @@
 
 Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.microstrategy.com/t5/user/viewprofilepage/user-id/19497) for inspiration to build the mstr plugin!
 
-**Original Visualization Source Link:** <a href = "" target = "blank">Will publish later</a>
-
-**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
-
-This visualization needs 2 or more attributes and 1 or more metrics.
+**Original Visualization Source Link:** [Source]([3]), [demo]([2])
 
 **Screenshot:**
 
 ![Alt text][screenshot]
 [screenshot]: ./style/images/screenshot.png?raw=true
 
-Titanic Survivors. Data: [Robert J. MacG. Dawson](http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
-
 **Description:**
 
-Sankey diagrams visualize the magnitude of flows between nodes in a network.
+Compared to Mike's Sankey Plugin, this visualization has a flow-based data API and supports end-to-end highlighting feature. It shows rich tooltips when mouseover. [See the original page for detailed introduction]([2]).
 
-In addition to [the original Sankey Diagram](http://bost.ocks.org/mike/sankey/), this plugin has following new features:
+**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
 
-_1. Flow-based API and End-to-end highlighting_
-
-The original diagram take `nodes` and `links` as input, while this one has a different API. Instead of `links`, the input data contain `flows`, which have a single weight but multiple nodes in a chain. The attribute `thru` specify the array of these nodes. Here's an example of input data
-<!--   (in `thru`, things can be object references, indices in `nodes` or node `name`) -->
-```
-{
-    nodes: [
-      {
-        "name": "node0",
-        "disp": "A",
-      }, {
-        "name": "node1",
-        "disp": "B",
-      }
-
-      ......
-
-    ],
-
-    flows: [
-      {
-        value: 50,
-        thru: [ "node0", "node1"]
-      }, {
-        value: 30,
-        thru: [ 0, 1, 2 ]
-      }
-
-      ......
-
-    ]
-}
-```
-Compared to the link API, the flows are easier to construct because our raw data are in a multi-attribute table, where each row corresponds to a `flow`. Moreover, flows retain more information than links. It knows where the flow is coming from at any given place. Thus the end-to-end highlighting is made possible. Whenever the mouse hover over an element, there is a certain subset of `flows` going through it. Then some new links (called `dlinks`) are dynamically computed from this flow subset, and rendered in highlight. The endpoints of `dlinks` are positioned so as to make the highlighted flows look visually consistent. Though the positioning algorithm is coarse and can be improved.
-
-The plugin is also very suitable for visualizing parallel sets. The screenshot shows the same data as [parallel set visualization](https://www.jasondavies.com/parallel-sets/), but notice that their highlighting is very different.
-
-_2. Rich tooltips_
-
-The rich tooltip shows the subset of flows under your mouse. Double click on the diagram to switch between the rich and the simple modes.
-
-_3. Visualization Properties_
-
-You can customize the default tooltip style and number formats in the "visualization properties"
+This visualization needs 2 or more attributes and 1 or more metrics. You can customize the default tooltip style and number formats in the "visualization properties"
 
 ------------------------
 
 Under the MIT License. See LICENSE in the project root for terms
+
+[1]: http://github.com/QinMing
+[2]: http://qinming.github.io/sankey
+[3]: http://github.com/qinming/d3-sankey-with-highlighting
