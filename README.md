@@ -1,7 +1,6 @@
 # Sankey Diagram with End-to-End Highlighting
 
-![Screenshoot](//github.com/QinMing/d3-sankey-with-highlighting/asset/screenshoot.png?raw=true)
-
+![Screenshoot](//github.com/QinMing/d3-sankey-with-highlighting/blob/master/asset/screenshot.png?raw=true)
 Titanic Survivors. Data source: [Robert J. MacG. Dawson](//www.amstat.org/publications/jse/v3n3/datasets.dawson.html)
 
 ------------------------
