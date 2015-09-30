@@ -58,4 +58,6 @@ The rich tooltip shows the subset of flows under your mouse. Double click on the
 
 [Source code](//github.com/QinMing/d3-sankey-with-highlighting)
 
-Licensed under the MIT License. See [LICENSE](//github.com/QinMing/d3-sankey-with-highlighting/blob/gh-pages/LICENSE) in the project root for terms
+Licensed under the MIT License. See [LICENSE](./LICENSE) in the project root for terms
+
+
