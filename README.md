@@ -6,7 +6,7 @@
 
 This diagram shows the survival statistics of the Titanic disaster. The thickness of ribbons (links) represents the number of people. When you move the mouse over nodes or links, the specific portion of data will be highlighted from end to end, and the data can be read from the tooltips. Double click on the diagram to turn off rich tooltips. This visualization was developed by [Ming Qin](//github.com/QinMing), based on [D3 Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](//github.com/mbostock) (<mike@ocks.org>).
 
-# Features
+# Features of the Visualization
 
 ## 1. Flow-based API and End-to-end highlighting
 

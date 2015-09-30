@@ -21,6 +21,10 @@ h1, h2, h3, h4, header, footer{
   font-weight: normal;
 }
 
+h1#title {
+  font-size: 42px;
+}
+
 header, footer {
   font-size: small;
 }
