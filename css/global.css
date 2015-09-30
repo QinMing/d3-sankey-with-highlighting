@@ -25,6 +25,10 @@ h1#title {
   font-size: 42px;
 }
 
+div#readme h1 {
+  display: none;
+}
+
 header, footer {
   font-size: small;
 }
