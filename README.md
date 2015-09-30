@@ -1,5 +1,5 @@
 ### Sankey Flow Chart at Yahoo
-#### with Flow-Based API and End-to-End Highlighting
+#### with End-to-End Highlighting
 
 **Contributor:** Ming Qin ([QinMing](//github.com/QinMing))
 , Thukaram Katare ([sntrao](//github.com/sntrao))
