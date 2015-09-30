@@ -1,7 +1,7 @@
 ### Sankey Flow Chart at Yahoo
 #### with Flow-Based API and End-to-End Highlighting
 
-**Contributor:** Ming Qin ([QinMing]([1]))
+**Contributor:** Ming Qin ([QinMing](1))
 , Thukaram Katare ([sntrao](//github.com/sntrao))
 
 **Contributor's Email:** mingqin at ucsd dot edu
@@ -12,7 +12,7 @@
 
 Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.microstrategy.com/t5/user/viewprofilepage/user-id/19497) for inspiration to build the mstr plugin!
 
-**Original Visualization Source Link:** [Source]([3]), [demo]([2])
+**Original Visualization Source Link:** [Source](http://github.com/qinming/d3-sankey-with-highlighting), [demo](http://qinming.github.io/sankey)
 
 **Screenshot:**
 
@@ -21,7 +21,7 @@ Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.micr
 
 **Description:**
 
-This Sankey visualization has a flow-based data API and provides end-to-end highlighting feature. It shows rich tooltips when mouseover. **[Learn more at the demo page ... ]([2])**
+This Sankey visualization has a flow-based data API and provides end-to-end highlighting feature. It shows rich tooltips when mouseover. **[Learn more at the demo page ... ](http://qinming.github.io/sankey)**
 
 **Compatibility:** It's originally developed for mstr Web v9.4.1. Also works fine in mstr Web v10. But is not fully tested in desktop v10.
 
@@ -32,7 +32,3 @@ This visualization needs 2 or more attributes and 1 or more metrics. You can cus
 ------------------------
 
 Under the MIT License. See LICENSE in the project root for terms
-
-[1]: http://github.com/QinMing
-[2]: http://qinming.github.io/sankey
-[3]: http://github.com/qinming/d3-sankey-with-highlighting
