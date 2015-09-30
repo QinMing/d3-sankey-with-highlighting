@@ -21,7 +21,7 @@ Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.micr
 
 **Description:**
 
-This Sankey visualization has a flow-based data API and provides end-to-end highlighting feature. It shows rich tooltips when mouseover. [*Learn more at the demo page ... *]([2])
+This Sankey visualization has a flow-based data API and provides end-to-end highlighting feature. It shows rich tooltips when mouseover. **[Learn more at the demo page ... ]([2])**
 
 **Compatibility:** It's originally developed for mstr Web v9.4.1. Also works fine in mstr Web v10. But is not fully tested in desktop v10.
 
