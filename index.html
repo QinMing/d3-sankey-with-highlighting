@@ -53,12 +53,10 @@ d3.json('asset/titanic-data.json', function(titanicData){
 });
 
 d3.text('README.md', function(text){
-  var converter = new showdown.Converter({
-    ghCodeBlocks: 'true', // can delete
-  });
+  var converter = new showdown.Converter();
   var html = converter.makeHtml(text);
   d3.select('#readme').html(html);
-  hljs.initHighlightingOnLoad(); //highlight.js sym high
+  hljs.initHighlightingOnLoad(); //highlight.js symbol high
 });
 </script>
 
