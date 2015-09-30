@@ -4,14 +4,14 @@
 /* global d3 */
 /* global mstrmojo */
 (function () {
-  if (!mstrmojo.plugins.D3FlowY) {
-    mstrmojo.plugins.D3FlowY = {};
+  if (!mstrmojo.plugins.D3FlowHighlight) {
+    mstrmojo.plugins.D3FlowHighlight = {};
   }
   mstrmojo.requiresCls("mstrmojo.Vis", "mstrmojo._LoadsScript");
 
-  mstrmojo.plugins.D3FlowY.D3FlowY = mstrmojo.declare(
+  mstrmojo.plugins.D3FlowHighlight.D3FlowHighlight = mstrmojo.declare(
     mstrmojo.Vis, [mstrmojo._LoadsScript], {
-      scriptClass: 'mstrmojo.plugins.D3FlowY.D3FlowY',
+      scriptClass: 'mstrmojo.plugins.D3FlowHighlight.D3FlowHighlight',
 
       markupString: '<div id="{@id}" style="top:{@top};left:{@left};position:absolute;overflow:hidden;"></div>',
 
@@ -40,10 +40,10 @@
             url: "http://d3js.org/d3.v3.min.js"
           },
           {
-            url: "../plugins/D3FlowY/javascript/mojo/js/source/sankey.js"
+            url: "../plugins/D3FlowHighlight/javascript/mojo/js/source/sankey.js"
           },
           {
-            url: "../plugins/D3FlowY/javascript/mojo/js/source/sankey-driver.js"
+            url: "../plugins/D3FlowHighlight/javascript/mojo/js/source/sankey-driver.js"
           },
         ];
         var me = this;

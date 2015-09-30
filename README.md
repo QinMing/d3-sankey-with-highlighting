@@ -25,7 +25,7 @@ This Sankey visualization has a flow-based data API and provides end-to-end high
 
 **Compatibility:** It's originally developed for mstr Web v9.4.1. Also works fine in mstr Web v10. But is not fully tested in desktop v10.
 
-**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
+**Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowHighlight`. Finally restart the tomcat server.
 
 This visualization needs 2 or more attributes and 1 or more metrics. You can customize the default tooltip style and number formats in the "visualization properties"
 

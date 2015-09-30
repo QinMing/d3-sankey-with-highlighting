@@ -2,10 +2,10 @@
 <!DOCTYPE StyleCatalog SYSTEM "styleCatalog.dtd">
 <StyleCatalog version="2.0">
     <Styles>
-        <Style name="D3FlowYVisualizationStyle" description="Style to render D3FlowY visualization"
+        <Style name="D3FlowHighlightVisualizationStyle" description="Style to render D3FlowHighlight visualization"
                transform="ReportAjaxMojoVisualizationTransform">
             <ActualParameters>
-                <ActualParameter name="mojoClassName" type="1" value="plugins.D3FlowY.D3FlowY"/>
+                <ActualParameter name="mojoClassName" type="1" value="plugins.D3FlowHighlight.D3FlowHighlight"/>
                 <ActualParameter name="reportXMLStyle" type="1" value="VisualizationDataStyle"/>
                 <ActualParameter name="documentStyle" type="1" value="RWGridJsonStyle" />
             </ActualParameters>
@@ -15,11 +15,11 @@
                 </Layout>
             </Layouts>
         </Style>
-        <Style name="D3FlowYPropertiesStyle" transform="VisualizationPropertiesTransform"
+        <Style name="D3FlowHighlightPropertiesStyle" transform="VisualizationPropertiesTransform"
                description="" >
             <Layouts>
                 <Layout layout_source="AppLayoutSourceFile">
-                    <![CDATA[@D3FlowY:/WEB-INF/xml/layouts/D3FlowYProperties.xml]]>
+                    <![CDATA[@D3FlowHighlight:/WEB-INF/xml/layouts/D3FlowHighlightProperties.xml]]>
                 </Layout>
             </Layouts>
         </Style>
