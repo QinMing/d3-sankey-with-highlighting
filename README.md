@@ -21,7 +21,9 @@ Thanks David Ureña (at MicroStrategy, Inc.) and [Pradyut](http://community.micr
 
 **Description:**
 
-Compared to Mike's Sankey Plugin, this visualization has a flow-based data API and supports end-to-end highlighting feature. It shows rich tooltips when mouseover. [See the original page for detailed introduction]([2]).
+This Sankey visualization has a flow-based data API and provides end-to-end highlighting feature. It shows rich tooltips when mouseover. [**Learn more at the demo page ... **]([2])
+
+**Compatibility:** It's originally developed for mstr Web v9.4.1. Also works fine in mstr Web v10. But is not fully tested in desktop v10.
 
 **Usage:** Under the MicroStrategy servlet directory, go to `webapps/<app name>/plugins/`. Clone this repo. Make sure everything is in a new folder named `D3FlowY`. Finally restart the tomcat server.
 
