@@ -2,7 +2,7 @@
 
 ------------------------
 
-<!-- ![Screenshoot](//github.com/QinMing/d3-sankey-with-highlighting/blob/master/asset/screenshot.png?raw=true) -->
+<!-- ![Screenshoot](//github.com/QinMing/d3-sankey-with-highlighting/blob/gh-pages/asset/screenshot.png?raw=true) -->
 <!-- Titanic Survivors. Data source: [Robert J. MacG. Dawson](//www.amstat.org/publications/jse/v3n3/datasets.dawson.html) -->
 
 ## Live Demo
@@ -58,4 +58,4 @@ The rich tooltip shows the subset of flows under your mouse. Double click on the
 
 [Source code](//github.com/QinMing/d3-sankey-with-highlighting)
 
-Licensed under the MIT License. See [LICENSE](//github.com/QinMing/d3-sankey-with-highlighting/blob/master/LICENSE) in the project root for terms
+Licensed under the MIT License. See [LICENSE](//github.com/QinMing/d3-sankey-with-highlighting/blob/gh-pages/LICENSE) in the project root for terms
