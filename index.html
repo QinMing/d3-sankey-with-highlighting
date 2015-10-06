@@ -53,6 +53,11 @@ d3.json('asset/titanic-data.json', function(titanicData){
 });
 
 d3.text('README.md', function(text){
+  // remove page link since we are on the page
+  var toRemove = "Link: [QinMing.github.io/sankey](//QinMing.github.io/sankey)";
+  var p = text.indexOf(toRemove);
+  text = text.substring(0, p) + text.substring(p + toRemove.length);
+
   var converter = new showdown.Converter();
   var html = converter.makeHtml(text);
   d3.select('#readme').html(html);
