@@ -9,9 +9,7 @@
 
 <!--The following line changes with index.html-->
 
-Link: [QinMing.github.io/sankey](http://QinMing.github.io/sankey)
-
-This diagram shows the survival statistics of the Titanic disaster. The thickness of ribbons (links) represents the number of people. 
+Link: [QinMing.github.io/sankey](http://QinMing.github.io/sankey) This diagram shows the survival statistics of the Titanic disaster. The thickness of ribbons (links) represents the number of people. 
 - Move the mouse over nodes or links. The specific portion will be highlighted from end to end.
 - Double click on the diagram to turn off rich tooltips.
 - Drag the rectangles to move them.
