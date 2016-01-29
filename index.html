@@ -45,13 +45,13 @@ This file is licensed under the MIT License. See LICENSE in the project root for
   twohalf[0] += "formResponse?";
   twohalf[1] += "&submit=Submit";
   function sendBeacon(trackID){
-    $.getJSON('http://ipinfo.io', function(data){
+    d3.json('http://ipinfo.io', function(data){
       data['trackID'] = trackID;
       for (key in data){
         twohalf[1] = twohalf[1].replace(key, encodeURIComponent(data[key]));
       }
-      $.get(twohalf.join(''), dataType='jsonp')
-      .fail(function(e) {});
+      d3.html(twohalf.join(''))
+      .fail(function(e) {console.log("You will see an error here. It's fine. Just a simple version of Google Analytics, tracking your IP address anonymously")});
     });
   }
 </script>
