@@ -51,7 +51,8 @@ This file is licensed under the MIT License. See LICENSE in the project root for
         twohalf[1] = twohalf[1].replace(key, encodeURIComponent(data[key]));
       }
       //console.log("You will see an error here. It's fine. Just a simple version of Google Analytics, tracking your IP address anonymously");
-      d3.html(twohalf.join(''));
+      console.log(twohalf.join(''))
+      d3.html(twohalf.join(''),function(){console.log('succ')});
     });
   }
 </script>
