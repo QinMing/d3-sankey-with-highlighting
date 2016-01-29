@@ -50,7 +50,7 @@ This file is licensed under the MIT License. See LICENSE in the project root for
       for (key in data){
         twohalf[1] = twohalf[1].replace(key, encodeURIComponent(data[key]));
       }
-      console.log("You will see an error here. It's fine. Just a simple version of Google Analytics, tracking your IP address anonymously");
+      //console.log("You will see an error here. It's fine. Just a simple version of Google Analytics, tracking your IP address anonymously");
       d3.html(twohalf.join(''));
     });
   }
@@ -69,6 +69,7 @@ d3.json('asset/titanic-data.json', function(titanicData){
   driver.prepare(d3.select("#canvas"), size, margin);
   driver.draw(titanicData);
   sendBeacon("sankey.draw");
+  console.log('debug');
 });
 
 d3.text('README.md', function(text){
