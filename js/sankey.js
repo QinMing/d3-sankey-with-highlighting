@@ -2,7 +2,7 @@
 //This file was forked from Mike Bostock's [D3 Sankey plugin](https://github.com/d3/d3-plugins/tree/master/sankey)
 //which is licensed under the BSD License at https://github.com/mbostock/d3/blob/master/LICENSE
 
-d3.sankey = function() {
+d3.sankeyFlows = function() {
   var sankey = {},
       nodeWidth = 24,
       nodePadding = 8,
