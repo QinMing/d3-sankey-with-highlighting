@@ -57,7 +57,7 @@ d3.json('asset/titanic-data.json', function(titanicData){
 
 d3.text('README.md', function(text){
   // remove page link since we are on the page
-  var toRemove = "Link: [QinMing.github.io/sankey](http://qinming.github.io/d3-sankey-with-highlighting/)";
+  var toRemove = "Link: [ryancatalani.github.io/d3-sankey-with-highlighting/](https://ryancatalani.github.io/d3-sankey-with-highlighting/)";
   var p = text.indexOf(toRemove);
   text = text.substring(0, p) + text.substring(p + toRemove.length);
 
