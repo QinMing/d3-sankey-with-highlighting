@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--
 Author: Ming Qin (https://github.com/QinMing)
+Updated by: Ryan Catalani (https://github.com/ryancatalani)
 This file is licensed under the MIT License. See LICENSE in the project root for terms
 -->
 <html>
@@ -8,7 +9,7 @@ This file is licensed under the MIT License. See LICENSE in the project root for
 <meta charset="utf-8">
 <title>Sankey Diagram with Highlighting</title>
 
-<script src="asset/d3.v3.min.js"></script>
+<script src="asset/d3.v4.min.js"></script>
 <script src="asset/showdown.min.js"></script>
 
 <link rel="stylesheet" href="css/highlightjs.css">
@@ -23,6 +24,7 @@ This file is licensed under the MIT License. See LICENSE in the project root for
 
 <header>
   <a href="//github.com/QinMing" rel="author">Ming Qin</a> updated on Sep. 16, 2015
+  <br><a href="//github.com/ryancatalani" rel="author">Ryan Catalani</a> updated for D3 v4.0 on July 11, 2017
 </header>
 
 <h1 id="title">Sankey Diagram with Highlighting</h1>
@@ -37,26 +39,6 @@ This file is licensed under the MIT License. See LICENSE in the project root for
 <p style="text-align:end">Titanic Survivors. Data source: <a href="http://www.amstat.org/publications/jse/v3n3/datasets.dawson.html">Robert J. MacG. Dawson</a></p>
 
 <div id='readme'></div>
-
-<script type="text/javascript">
-  //This is my simple version of Google Analytics, tracking your IP address anonymously.
-  var pre_filled_google_form_url = "https://docs.google.com/forms/d/14JwaHBvJEGQHVHE6MDBifPwDuhK0Nu1qxjR1eHn9oOU/viewform?entry.1210918600=trackID&entry.1145607281=ip&entry.833940562=hostname&entry.1616940506=city&entry.768400234=region&entry.626288021=country&entry.916117704=loc&entry.1292697802=org&entry.2103705445=postal";
-  twohalf = pre_filled_google_form_url.split('viewform?');
-  twohalf[0] += "formResponse?";
-  twohalf[1] += "&submit=Submit";
-  function sendBeacon(trackID){
-    d3.json('http://ipinfo.io', function(data){
-      data['trackID'] = trackID;
-      for (key in data){
-        twohalf[1] = twohalf[1].replace(key, encodeURIComponent(data[key]));
-      }
-      console.log("You will see an error here. It's fine. Just a simple version of Google Analytics, tracking your IP address anonymously");
-      d3.html(twohalf.join(''), function(resp){
-        //this function has to be here otherwise the request won't send
-      });
-    });
-  }
-</script>
 
 <script>
 
@@ -75,7 +57,7 @@ d3.json('asset/titanic-data.json', function(titanicData){
 
 d3.text('README.md', function(text){
   // remove page link since we are on the page
-  var toRemove = "Link: [QinMing.github.io/sankey](http://qinming.github.io/d3-sankey-with-highlighting/)";
+  var toRemove = "Link: [ryancatalani.github.io/d3-sankey-with-highlighting/](https://ryancatalani.github.io/d3-sankey-with-highlighting/)";
   var p = text.indexOf(toRemove);
   text = text.substring(0, p) + text.substring(p + toRemove.length);
 
@@ -88,6 +70,7 @@ d3.text('README.md', function(text){
 
 <footer>
   <a href="//github.com/QinMing" rel="author">Ming Qin</a> updated on Sep. 16, 2015
+  <br><a href="//github.com/ryancatalani" rel="author">Ryan Catalani</a> updated for D3 v4.0 on July 11, 2017
 </footer>
 </body>
 </html>

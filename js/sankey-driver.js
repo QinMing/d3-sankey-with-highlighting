@@ -1,13 +1,14 @@
 // Author: Ming Qin (https://github.com/QinMing)
-// Copyright 2015 Yahoo Inc.
+// Updated by: Ryan Catalani (https://github.com/ryancatalani)
+// Original copyright 2015 Yahoo Inc. Updates copyright 2017 Ryan Catalani.
 // This file is licensed under the MIT License. See LICENSE in the project root for terms
 
 /*global d3*/
 
 var SankeyDriver = function (){
-  var sankey = d3.sankey();
+  var sankey = d3.sankeyFlows();
   var formatNumber = d3.format(","); //(",.2f");
-  var color = d3.scale.category20c();
+  var color = d3.scaleOrdinal(d3.schemeCategory20);
   var graph, width, height;
   var tooltips = [];
   var tooltipEnable = true;
@@ -50,112 +51,84 @@ var SankeyDriver = function (){
     drawLink(sankey.links());
 
     function drawNode(nodes) {
-      var group = graph.selectAll('g#node-group').data([0]);
-      group.enter().append('g').attr("id", "node-group");
-      var node = group.selectAll("g.node").data(nodes);
-      node.exit().remove();
+      var node = graph.append("g")
+                .attr("class", "nodes")
+                .selectAll("g");
 
-      var nodeEnter = node.enter().append("g")
-        .attr("class", "node")
-        .on("mouseover", funcMouseover)
-        .on("mouseout", funcMouseout)
-        .on('mousemove', funcMousemove)
-        .on('dblclick', funcTooltipToggle)
-        .call(d3.behavior.drag()
-          .origin(function (d) {
+      node = node
+        .data(nodes)
+        .enter()
+        .append("g")
+        .call(d3.drag()
+          .subject(function (d) {
             return d;
           })
-          .on("dragstart", function () {
+          .on("start", function () {
             d3.event.sourceEvent.stopPropagation();
             this.parentNode.appendChild(this);
           })
           .on("drag", function dragmove(d) {
+
             d3.select(this).attr("transform",
               "translate(" + (
                 d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
               ) + "," + (
                 d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
               ) + ")");
+            
             sankey.relayout();
-            graph.select('g#normal').selectAll('path').attr("d", sankey.link());
+            graph.select('.links').selectAll('path').attr("d", sankey.link());
             graph.select('g#highlight').selectAll('path').attr("d", sankey.link());
           })
         );
-      nodeEnter.append("rect");//.append('title');
-      nodeEnter.append("text");
 
-      node
-        .attr("transform", function (d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        });
+      node.attr("transform", function(d) {
+        return "translate(" + d.x + "," + d.y + ")";
+      });
+      
+      node.append("rect")
+          .attr("height", function(d) { return d.dy; })
+          .attr("width", function(d) { return sankey.nodeWidth(); })
+          .attr("fill", function(d) {
+            if (!d.color)
+              d.color = color(d.disp.replace(/ .*/, ""));
+            return d.color;
+          })
+          .attr("stroke", "#000")
+          .on("mouseover", funcMouseover)
+          .on("mouseout", funcMouseout)
+          .on('mousemove', funcMousemove)
+          .on('dblclick', funcTooltipToggle);
 
-      node.select('rect')
-        .attr("height", function (d) {
-          return d.dy;
-        })
-        .attr("width", sankey.nodeWidth())
-        .style("fill", function (d) {
-          if (!d.color){
-            d.color = color(d.disp);
-          }
-          return d.color;
-        })
-        .style("stroke", function (d) {
-          return d3.rgb(d.color).darker(2);
-        });
-        // .select("title")
-        // .text(function (d) {
-        //   var text = formatNumber(d.value) + '\t' + d.disp;
-        //   return text;
-        // });
-
-      node.select("text")
-        .attr("x", -6)
-        .attr("y", function (d) {
-          return d.dy / 2;
-        })
-        .attr("dy", ".35em")
-        .attr("text-anchor", "end")
-        .attr("transform", null)
-        .text(function (d) {
-          return d.disp;
-        })
-        .filter(function (d) {
-          return d.x < width / 2;
-        })
-        .attr("x", 6 + sankey.nodeWidth())
-        .attr("text-anchor", "start");
+      node.append("text")
+          .attr("x", -6)
+          .attr("y", function(d) { return (d.dy/2); })
+          .attr("dy", "0.35em")
+          .attr("text-anchor", "end")
+          .text(function(d) { return d.disp; })
+        .filter(function(d) { return d.x < width / 2; })
+          .attr("x", function(d) { return 6 + sankey.nodeWidth(); })
+          .attr("text-anchor", "start");
     }
 
     function drawLink(data) {
-      var group = graph.selectAll('g#normal').data([0]);
-      group.enter().insert("g", ":first-child").attr('id', 'normal');
-      var link = group.selectAll('path.link').data(data);
-      link.exit().remove();
+      var link = graph.append("g")
+          .attr("class", "links")
+          .attr("fill", "none")
+          .attr("stroke", "#000")
+          .attr("stroke-opacity", 0.2)
+        .selectAll("path");
 
-      link.enter().append("path")
-        .attr("class", "link")
-        .on("mouseover", funcMouseover)
-        .on("mouseout", funcMouseout)
-        .on('mousemove', funcMousemove)
-        .on('dblclick', funcTooltipToggle);
-        // .append("title");
-
-      link
-        .attr("d", sankey.link())
-        .style("stroke-width", function (d) {
-          return Math.max(1, d.dy);
-        })
-        .sort(function (a, b) {
-          return b.dy - a.dy;
-        });
-
-      // link.select('title')
-      //   .text(function (d) {
-      //     var text = formatNumber(d.value) + '\t' +
-      //       d.source.disp + " → " + d.target.disp;
-      //     return text;
-      //   });
+      link = link
+        .data(data)
+        .enter().append("path")
+          .attr("class", "link")
+          .attr("d", sankey.link())
+          .attr("stroke-width", function(d) { return Math.max(1, d.dy); })
+          .on("mouseover", funcMouseover)
+          .on("mouseout", funcMouseout)
+          .on('mousemove', funcMousemove)
+          .on('dblclick', funcTooltipToggle);
     }
 
     function drawDLink(data) {

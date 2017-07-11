@@ -55,13 +55,13 @@ text {
   font-family: "PT Sans", sans-serif;
 }
 
-.node rect {
+.nodes rect {
   cursor: move;
   fill-opacity: .9;
   shape-rendering: crispEdges;
 }
 
-.node text {
+.nodes text {
   pointer-events: none;
   text-shadow: 0 1px 0 #fff;
 }
