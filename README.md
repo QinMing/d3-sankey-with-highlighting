@@ -16,7 +16,7 @@ This diagram shows the survival statistics of the Titanic disaster. The thicknes
 - Double click on the diagram to turn off rich tooltips.
 - Drag the rectangles to move them.
 
-This visualization was developed by [Ming Qin](//github.com/QinMing), based on [D3 Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](//github.com/mbostock) (<mike@ocks.org>).
+This visualization was developed by [Ming Qin](//github.com/QinMing), based on [D3 Sankey plugin](http://bost.ocks.org/mike/sankey/) wrote by [Mike Bostock](//github.com/mbostock) (<mike@ocks.org>). Updated for D3 v4.0 by [Ryan Catalani](//github.com/ryancatalani).
 
 ## Features of the Visualization
 
@@ -63,6 +63,6 @@ The rich tooltip shows the subset of flows under your mouse. Double click on the
 
 ------------------------
 
-[Source code](//github.com/QinMing/d3-sankey-with-highlighting)
+[Source code](//github.com/ryancatalani/d3-sankey-with-highlighting)
 
-Licensed under the MIT License. See [LICENSE](//github.com/QinMing/d3-sankey-with-highlighting/blob/gh-pages/LICENSE) in the project root for terms
+Licensed under the MIT License. See [LICENSE](//github.com/ryancatalani/d3-sankey-with-highlighting/blob/gh-pages/LICENSE) in the project root for terms

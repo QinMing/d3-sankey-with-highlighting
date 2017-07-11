@@ -1,5 +1,6 @@
 // Author: Ming Qin (https://github.com/QinMing)
-// Copyright 2015 Yahoo Inc.
+// Updated by: Ryan Catalani (https://github.com/ryancatalani)
+// Original copyright 2015 Yahoo Inc. Updates copyright 2017 Ryan Catalani.
 // This file is licensed under the MIT License. See LICENSE in the project root for terms
 
 /*global d3*/
@@ -67,7 +68,7 @@ var SankeyDriver = function (){
             this.parentNode.appendChild(this);
           })
           .on("drag", function dragmove(d) {
-            
+
             d3.select(this).attr("transform",
               "translate(" + (
                 d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
